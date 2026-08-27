@@ -42,16 +42,16 @@ export function LocalizationMenu({
   useLayoutEffect(() => {
     if (!open) return;
 
-    const root = rootRef.current;
-    const menu = menuRef.current;
-    if (!root || !menu) return;
-
     const margin = 16;
     const gap = 8;
 
     function place() {
+      const root = rootRef.current;
+      const menu = menuRef.current;
+      if (!root || !menu) return;
+
       const trigger = root.querySelector("[aria-haspopup='dialog']");
-      if (!(trigger instanceof HTMLElement) || !menu) return;
+      if (!(trigger instanceof HTMLElement)) return;
 
       const rect = trigger.getBoundingClientRect();
       const visual = window.visualViewport;
