@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { usePrefs } from "@/components/locale-provider";
+import { interpolate } from "@/lib/i18n/messages";
 
 export function ShareActions({
   ticketCode,
@@ -11,8 +13,9 @@ export function ShareActions({
   shareUrl: string;
   name: string;
 }) {
+  const { t } = usePrefs();
   const [copied, setCopied] = useState(false);
-  const text = `¡Adopté mi pato en Pato Race 2026! Ticket ${ticketCode}. Sumate vos también:`;
+  const text = interpolate(t.share.text, { ticket: ticketCode });
   const full = `${text} ${shareUrl}`;
   const wa = `https://wa.me/?text=${encodeURIComponent(full)}`;
   const x = `https://twitter.com/intent/tweet?text=${encodeURIComponent(full)}`;
@@ -36,7 +39,7 @@ export function ShareActions({
     try {
       await navigator.share({ title: "Pato Race 2026", text, url: shareUrl });
     } catch {
-      /* cancelado */
+      /* cancelled */
     }
   }
 
@@ -74,21 +77,21 @@ export function ShareActions({
           onClick={copy}
           className="inline-flex flex-1 items-center justify-center rounded-full border border-duck/50 bg-duck/10 px-5 py-3 text-sm font-semibold text-duck transition hover:bg-duck/20"
         >
-          {copied ? "¡Enlace copiado!" : "Copiar enlace"}
+          {copied ? t.share.copied : t.share.copy}
         </button>
         <button
           type="button"
           onClick={nativeShare}
           className="inline-flex flex-1 items-center justify-center rounded-full border border-line px-5 py-3 text-sm font-semibold text-ink transition hover:border-ink/40"
         >
-          Más opciones
+          {t.share.more}
         </button>
       </div>
       <p className="break-all rounded-2xl border border-dashed border-line bg-bg/30 px-4 py-3 font-mono text-xs text-ink-muted">
         {shareUrl}
       </p>
       <p className="sr-only">
-        {name}, compartí tu participación {ticketCode}
+        {name}, {ticketCode}
       </p>
     </div>
   );

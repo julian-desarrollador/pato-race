@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 import { getParticipantByTicket, getPaymentByParticipantId } from "@/lib/db/store";
+import { getServerPrefs } from "@/lib/i18n/server";
 
 export async function POST(request: Request) {
+  const { t } = await getServerPrefs();
   let body: { ticketCode?: string; email?: string };
   try {
     body = (await request.json()) as { ticketCode?: string; email?: string };
   } catch {
     return NextResponse.json(
-      { ok: false, error: "Pedido inválido" },
+      { ok: false, error: t.errors.lookupGeneric },
       { status: 400 },
     );
   }
@@ -22,7 +24,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        error: "Ingresá tu número de ticket y el email del registro.",
+        error: t.errors.lookupMissing,
       },
       { status: 400 },
     );
@@ -36,8 +38,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        error:
-          "No encontramos ese perfil. Revisá el ticket y el email usados al adoptar.",
+        error: t.errors.lookupNotFound,
       },
       { status: 404 },
     );

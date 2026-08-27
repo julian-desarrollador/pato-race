@@ -1,5 +1,6 @@
 import { MercadoPagoConfig, Preference } from "mercadopago";
-import { campaign } from "@/lib/campaign";
+import { ticketAmount } from "@/lib/campaign";
+import type { Currency } from "@/lib/i18n/config";
 
 const accessToken = process.env.MP_ACCESS_TOKEN?.trim();
 
@@ -18,7 +19,9 @@ export async function createCheckoutPreference(input: {
   ticketCode: string;
   payerEmail: string;
   payerName: string;
+  currency?: Currency;
 }): Promise<{ id: string; initPoint: string; mock: boolean }> {
+  const currency: Currency = input.currency === "USD" ? "USD" : "ARS";
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
     "http://localhost:6632";
@@ -40,8 +43,8 @@ export async function createCheckoutPreference(input: {
           id: input.ticketCode,
           title: `Pato Race 2026 — Ticket ${input.ticketCode}`,
           quantity: 1,
-          unit_price: campaign.ticketPrice,
-          currency_id: "ARS",
+          unit_price: ticketAmount(currency),
+          currency_id: currency,
         },
       ],
       payer: {

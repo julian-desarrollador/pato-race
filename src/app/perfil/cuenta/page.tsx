@@ -1,11 +1,15 @@
+import type { Metadata } from "next";
 import { AccountDashboard } from "@/components/account-dashboard";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { getServerPrefs } from "@/lib/i18n/server";
 
-export const metadata = {
-  title: "Mi cuenta | Pato Race 2026",
-  description:
-    "Tu cuenta de Pato Race: patos adoptados, tickets y accesos a la carrera.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getServerPrefs();
+  return {
+    title: t.meta.cuentaTitle,
+    description: t.meta.cuentaDesc,
+  };
+}
 
 export default function CuentaPage() {
   return (

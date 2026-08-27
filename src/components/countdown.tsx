@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePrefs } from "@/components/locale-provider";
 
 type Parts = {
   days: number;
@@ -19,19 +20,24 @@ function getParts(target: Date): Parts {
 }
 
 export function Countdown({ targetIso }: { targetIso: string }) {
+  const { t } = usePrefs();
   const target = new Date(targetIso);
-  const [parts, setParts] = useState<Parts>(() => getParts(target));
+  const [parts, setParts] = useState<Parts | null>(null);
 
   useEffect(() => {
-    const id = setInterval(() => setParts(getParts(target)), 1000);
+    const tick = () => setParts(getParts(target));
+    tick();
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, [targetIso]);
 
+  const display = parts ?? { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
   const items = [
-    { label: "días", value: parts.days },
-    { label: "horas", value: parts.hours },
-    { label: "min", value: parts.minutes },
-    { label: "seg", value: parts.seconds },
+    { label: t.hero.countdownDays, value: display.days },
+    { label: t.hero.countdownHours, value: display.hours },
+    { label: t.hero.countdownMin, value: display.minutes },
+    { label: t.hero.countdownSec, value: display.seconds },
   ];
 
   return (

@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { Bebas_Neue, DM_Sans } from "next/font/google";
+import { LocaleProvider } from "@/components/locale-provider";
+import {
+  CURRENCY_COOKIE,
+  LOCALE_COOKIE,
+  parseCurrency,
+  parseLocale,
+} from "@/lib/i18n/config";
+import { getServerPrefs } from "@/lib/i18n/server";
 import "./globals.css";
 
 const display = Bebas_Neue({
@@ -13,26 +22,35 @@ const body = DM_Sans({
   variable: "--font-body",
 });
 
-export const metadata: Metadata = {
-  title: "Pato Race 2026 | Carrera de patos solidaria",
-  description:
-    "La carrera de patos solidaria más grande de Argentina. Dique 3, Puerto Madero. 70% a beneficio. Adoptá tu pato y participá.",
-  openGraph: {
-    title: "Pato Race 2026",
-    description:
-      "Carrera de patos solidaria en Puerto Madero. 70% a beneficio de Garrahan y Fundación Gardel.",
-    locale: "es_AR",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { locale, t } = await getServerPrefs();
+  return {
+    title: t.meta.homeTitle,
+    description: t.meta.homeDesc,
+    openGraph: {
+      title: "Pato Race 2026",
+      description: t.meta.ogDesc,
+      locale: locale === "en" ? "en_US" : "es_AR",
+      type: "website",
+    },
+  };
+}
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const jar = await cookies();
+  const locale = parseLocale(jar.get(LOCALE_COOKIE)?.value);
+  const currency = parseCurrency(jar.get(CURRENCY_COOKIE)?.value);
+
   return (
     <html
-      lang="es"
+      lang={locale}
       className={`${display.variable} ${body.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-bg text-ink">{children}</body>
+      <body className="min-h-full flex flex-col bg-bg text-ink">
+        <LocaleProvider initialLocale={locale} initialCurrency={currency}>
+          {children}
+        </LocaleProvider>
+      </body>
     </html>
   );
 }

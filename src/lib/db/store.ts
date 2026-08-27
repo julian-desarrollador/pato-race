@@ -2,7 +2,8 @@ import { randomUUID } from "crypto";
 import { eq } from "drizzle-orm";
 import { promises as fs } from "fs";
 import path from "path";
-import { campaign } from "@/lib/campaign";
+import { campaign, ticketAmount, toArs } from "@/lib/campaign";
+import type { Currency } from "@/lib/i18n/config";
 import { getNeonDb } from "@/lib/db/neon";
 import { participants, payments, type PaymentStatus } from "@/lib/db/schema";
 
@@ -23,6 +24,7 @@ export type StoredPayment = {
   mpPreferenceId: string | null;
   status: PaymentStatus;
   amount: number;
+  currency: Currency;
   createdAt: string;
   updatedAt: string;
 };
@@ -71,6 +73,7 @@ function mapPayment(row: typeof payments.$inferSelect): StoredPayment {
     mpPreferenceId: row.mpPreferenceId,
     status: row.status as PaymentStatus,
     amount: row.amount,
+    currency: (row.currency === "USD" ? "USD" : "ARS") as Currency,
     createdAt: toIso(row.createdAt),
     updatedAt: toIso(row.updatedAt),
   };
@@ -82,6 +85,10 @@ async function ensureStore(): Promise<StoreData> {
   try {
     const raw = await fs.readFile(STORE_PATH, "utf8");
     const data = JSON.parse(raw) as StoreData;
+    data.payments = (data.payments ?? []).map((p) => ({
+      ...p,
+      currency: p.currency === "USD" ? "USD" : "ARS",
+    }));
     memoryStore = data;
     return data;
   } catch {
@@ -117,8 +124,10 @@ export async function createParticipant(input: {
   dni: string;
   email: string;
   phone: string;
+  currency?: Currency;
 }): Promise<{ participant: StoredParticipant; payment: StoredPayment }> {
   const now = new Date();
+  const currency: Currency = input.currency === "USD" ? "USD" : "ARS";
   const participant: StoredParticipant = {
     id: randomUUID(),
     name: input.name,
@@ -134,7 +143,8 @@ export async function createParticipant(input: {
     mpPaymentId: null,
     mpPreferenceId: null,
     status: "pending",
-    amount: campaign.ticketPrice,
+    amount: ticketAmount(currency),
+    currency,
     createdAt: now.toISOString(),
     updatedAt: now.toISOString(),
   };
@@ -158,6 +168,7 @@ export async function createParticipant(input: {
       mpPreferenceId: null,
       status: payment.status,
       amount: payment.amount,
+      currency: payment.currency,
       createdAt: now,
       updatedAt: now,
     });
@@ -369,6 +380,17 @@ export type PublicStats = {
 export async function getPublicStats(): Promise<PublicStats> {
   const goal = campaign.goalAmount;
 
+  const sumRaisedArs = (
+    rows: { status: string; amount: number; currency?: string }[],
+  ) =>
+    rows
+      .filter((p) => p.status === "approved")
+      .reduce(
+        (sum, p) =>
+          sum + toArs(p.amount, p.currency === "USD" ? "USD" : "ARS"),
+        0,
+      );
+
   if (usesNeon()) {
     const db = getNeonDb();
     if (!db) {
@@ -382,7 +404,7 @@ export async function getPublicStats(): Promise<PublicStats> {
     }
     const rows = await db.select().from(payments);
     const approved = rows.filter((p) => p.status === "approved");
-    const raised = approved.reduce((sum, p) => sum + p.amount, 0);
+    const raised = sumRaisedArs(rows);
     return {
       participants: approved.length,
       raised,
@@ -394,7 +416,7 @@ export async function getPublicStats(): Promise<PublicStats> {
 
   const data = await ensureStore();
   const approved = data.payments.filter((p) => p.status === "approved");
-  const raised = approved.reduce((sum, p) => sum + p.amount, 0);
+  const raised = sumRaisedArs(data.payments);
   return {
     participants: approved.length,
     raised,

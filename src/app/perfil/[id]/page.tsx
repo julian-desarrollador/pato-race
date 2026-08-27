@@ -5,24 +5,27 @@ import { PrintReceiptButton } from "@/components/print-receipt-button";
 import { ProfileRemember } from "@/components/profile-access";
 import { ShareActions } from "@/components/share-actions";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { campaign, formatARS } from "@/lib/campaign";
+import { campaign, formatMoney, ticketAmount } from "@/lib/campaign";
 import {
   getParticipantById,
   getPaymentByParticipantId,
 } from "@/lib/db/store";
 import { getDuckPersona } from "@/lib/duck-persona";
+import { interpolate, type Messages } from "@/lib/i18n/messages";
+import { getServerPrefs } from "@/lib/i18n/server";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const { t } = await getServerPrefs();
   const { id } = await params;
   const participant = await getParticipantById(id);
-  if (!participant) return { title: "Perfil | Pato Race" };
+  if (!participant) return { title: t.meta.perfilFallbackTitle };
   return {
     title: `${participant.name.split(" ")[0]} · ${participant.ticketCode} | Pato Race`,
-    description: `Perfil de participación de ${participant.name} en Pato Race 2026.`,
+    description: interpolate(t.meta.perfilOgDesc, { name: participant.name }),
   };
 }
 
@@ -35,6 +38,7 @@ export default async function ProfilePage({
 }) {
   const { id } = await params;
   const { status, mock } = await searchParams;
+  const { locale, t } = await getServerPrefs();
   const participant = await getParticipantById(id);
   if (!participant) notFound();
 
@@ -43,22 +47,27 @@ export default async function ProfilePage({
   const paymentStatus = approved
     ? "approved"
     : (payment?.status ?? "pending");
-  const duck = getDuckPersona(participant.ticketCode);
+  const duck = getDuckPersona(participant.ticketCode, locale);
   const firstName = participant.name.trim().split(/\s+/)[0] ?? participant.name;
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
     "http://localhost:6632";
   const shareUrl = `${siteUrl}/perfil/${participant.id}`;
+  const dateLocale = locale === "en" ? "en-US" : "es-AR";
   const paidAt = payment?.updatedAt
-    ? new Date(payment.updatedAt).toLocaleString("es-AR", {
+    ? new Date(payment.updatedAt).toLocaleString(dateLocale, {
         dateStyle: "medium",
         timeStyle: "short",
       })
     : "—";
-  const registeredAt = new Date(participant.createdAt).toLocaleString("es-AR", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+  const registeredAt = new Date(participant.createdAt).toLocaleString(
+    dateLocale,
+    {
+      dateStyle: "medium",
+      timeStyle: "short",
+    },
+  );
+  const paymentLabel = statusLabel(paymentStatus, t);
 
   return (
     <>
@@ -79,28 +88,27 @@ export default async function ProfilePage({
                     approved ? "bg-[#25D366]" : "bg-duck"
                   }`}
                 />
-                {approved ? "Participación activa" : "Pago pendiente"}
+                {approved ? t.ticket.active : t.ticket.pendingPay}
               </div>
               <h1 className="mt-4 font-[family-name:var(--font-display)] text-[clamp(2.8rem,8vw,5.5rem)] leading-[0.9] tracking-wide text-ink">
-                HOLA,{" "}
+                {t.perfil.hello}{" "}
                 <span className="text-duck">{firstName.toUpperCase()}</span>
               </h1>
               <p className="mt-4 max-w-lg text-base text-ink-muted md:text-lg">
-                Este es tu centro de carrera. Acá tenés tu pato, el ticket y el
-                comprobante listo para compartir o imprimir.
+                {t.ticket.intro}
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <a
                   href="#comprobante"
                   className="fun-button rounded-full bg-duck px-5 py-3 text-sm font-black text-bg"
                 >
-                  Ver comprobante
+                  {t.ticket.seeReceipt}
                 </a>
                 <a
                   href="#compartir"
                   className="rounded-full border border-line px-5 py-3 text-sm font-semibold text-ink transition hover:border-ink/40"
                 >
-                  Compartir
+                  {t.ticket.shareCta}
                 </a>
               </div>
             </div>
@@ -143,8 +151,7 @@ export default async function ProfilePage({
                   {duck.trait}
                 </p>
                 <p className="mt-2 rounded-2xl border border-dashed border-line bg-bg/40 px-3 py-2 text-center text-xs text-ink-muted">
-                  El pato oficial se confirma 48 hs antes de la carrera. Esta es
-                  tu identidad de carrera mientras tanto.
+                  {t.ticket.duckPending}
                 </p>
               </div>
             </div>
@@ -155,31 +162,31 @@ export default async function ProfilePage({
           {/* Ticket */}
           <section className="animate-rise print:hidden">
             <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
-              Tu ticket
+              {t.ticket.yourTicket}
             </p>
             <h2 className="mt-2 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
-              ENTRADA DIGITAL
+              {t.ticket.digitalEntry}
             </h2>
             <div className="mt-6 overflow-hidden rounded-[2rem] border border-line bg-bg-elevated/85 shadow-[var(--shadow)]">
               <div className="grid md:grid-cols-[1.2fr_0.8fr]">
                 <div className="border-b border-line p-6 md:border-b-0 md:border-r md:p-8">
                   <p className="text-xs uppercase tracking-[0.2em] text-ink-muted">
-                    Número de ticket
+                    {t.ticket.ticketNumber}
                   </p>
                   <p className="mt-2 font-[family-name:var(--font-display)] text-5xl tracking-wide text-duck md:text-6xl">
                     {participant.ticketCode}
                   </p>
                   <dl className="mt-8 grid gap-4 sm:grid-cols-2">
-                    <Meta label="Participante" value={participant.name} />
-                    <Meta label="DNI" value={participant.dni} />
-                    <Meta label="Email" value={participant.email} />
-                    <Meta label="Teléfono" value={participant.phone} />
+                    <Meta label={t.ticket.participant} value={participant.name} />
+                    <Meta label={t.ticket.dni} value={participant.dni} />
+                    <Meta label={t.ticket.email} value={participant.email} />
+                    <Meta label={t.ticket.phone} value={participant.phone} />
                   </dl>
                 </div>
                 <div className="flex flex-col justify-between gap-6 bg-bg/40 p-6 md:p-8">
                   <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-ink-muted">
-                      Evento
+                      {t.ticket.event}
                     </p>
                     <p className="mt-2 font-[family-name:var(--font-display)] text-3xl tracking-wide text-ink">
                       PATO RACE {campaign.year}
@@ -187,17 +194,17 @@ export default async function ProfilePage({
                     <p className="mt-2 text-sm text-ink-muted">
                       {campaign.location}
                       <br />
-                      {campaign.eventDateLabel}
+                      {t.hero.date}
                       <br />
-                      {campaign.eventTimeLabel}
+                      {t.hero.time}
                     </p>
                   </div>
                   <div className="rounded-2xl border border-duck/30 bg-duck/10 px-4 py-3">
                     <p className="text-xs font-black uppercase tracking-[0.18em] text-duck">
-                      Estado
+                      {t.ticket.status}
                     </p>
                     <p className="mt-1 text-lg font-semibold text-ink">
-                      {statusLabel(paymentStatus)}
+                      {paymentLabel}
                     </p>
                   </div>
                 </div>
@@ -210,10 +217,10 @@ export default async function ProfilePage({
             <div className="flex flex-wrap items-end justify-between gap-4 print:hidden">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
-                  Comprobante de pago
+                  {t.ticket.receiptKicker}
                 </p>
                 <h2 className="mt-2 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
-                  RECIBO OFICIAL
+                  {t.ticket.receiptTitle}
                 </h2>
               </div>
               <PrintReceiptButton />
@@ -229,7 +236,7 @@ export default async function ProfilePage({
                     PATO RACE {campaign.year}
                   </p>
                   <p className="mt-1 text-sm text-ink-muted print:text-neutral-600">
-                    Comprobante digital de adopción solidaria
+                    {t.ticket.digitalProof}
                   </p>
                 </div>
                 <div className="text-right">
@@ -243,31 +250,40 @@ export default async function ProfilePage({
               </div>
 
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                <ReceiptRow label="Titular" value={participant.name} />
-                <ReceiptRow label="DNI" value={participant.dni} />
-                <ReceiptRow label="Email" value={participant.email} />
-                <ReceiptRow label="Teléfono" value={participant.phone} />
+                <ReceiptRow label={t.ticket.holder} value={participant.name} />
+                <ReceiptRow label={t.ticket.dni} value={participant.dni} />
+                <ReceiptRow label={t.ticket.email} value={participant.email} />
+                <ReceiptRow label={t.ticket.phone} value={participant.phone} />
                 <ReceiptRow
-                  label="Concepto"
-                  value={`Adopción de pato — ${campaign.name} ${campaign.year}`}
+                  label={t.ticket.concept}
+                  value={interpolate(t.ticket.conceptValue, {
+                    name: campaign.name,
+                    year: campaign.year,
+                  })}
                 />
                 <ReceiptRow
-                  label="Monto"
-                  value={formatARS(payment?.amount ?? campaign.ticketPrice)}
+                  label={t.ticket.amount}
+                  value={formatMoney(
+                    payment?.amount ??
+                      ticketAmount(
+                        payment?.currency === "USD" ? "USD" : "ARS",
+                      ),
+                    payment?.currency === "USD" ? "USD" : "ARS",
+                  )}
                 />
-                <ReceiptRow label="Estado" value={statusLabel(paymentStatus)} />
-                <ReceiptRow label="Fecha de registro" value={registeredAt} />
+                <ReceiptRow label={t.ticket.status} value={paymentLabel} />
+                <ReceiptRow label={t.ticket.registeredAt} value={registeredAt} />
                 <ReceiptRow
-                  label="Última actualización de pago"
+                  label={t.ticket.lastPaymentUpdate}
                   value={paidAt}
                 />
                 <ReceiptRow
-                  label="Referencia interna"
+                  label={t.ticket.internalRef}
                   value={payment?.id?.slice(0, 8).toUpperCase() ?? "—"}
                 />
                 {payment?.mpPaymentId ? (
                   <ReceiptRow
-                    label="ID Mercado Pago"
+                    label={t.ticket.mpId}
                     value={payment.mpPaymentId}
                   />
                 ) : null}
@@ -275,16 +291,18 @@ export default async function ProfilePage({
 
               {mock === "1" ? (
                 <p className="mt-6 rounded-2xl border border-water/30 bg-water/10 px-4 py-3 text-sm text-ink-muted print:border-neutral-300 print:bg-neutral-50 print:text-neutral-700">
-                  Modo demo: pago simulado (sin Mercado Pago configurado).
+                  {t.ticket.demoMode}
                 </p>
               ) : null}
 
               <p className="mt-8 text-xs leading-relaxed text-ink-muted print:text-neutral-600">
-                El {campaign.benefitPercent}% de lo recaudado se destina a
-                causas solidarias ({campaign.beneficiaries.map((b) => b.name).join(", ")}
-                ). Conservá este comprobante como constancia de tu participación.
-                Evento: {campaign.location} · {campaign.eventDateLabel} ·{" "}
-                {campaign.eventTimeLabel}.
+                {interpolate(t.ticket.receiptLegal, {
+                  percent: campaign.benefitPercent,
+                  names: campaign.beneficiaries.map((b) => b.name).join(", "),
+                  location: campaign.location,
+                  date: t.hero.date,
+                  time: t.hero.time,
+                })}
               </p>
             </div>
           </section>
@@ -295,14 +313,13 @@ export default async function ProfilePage({
             className="scroll-mt-28 animate-rise rounded-[2rem] border border-duck/35 bg-gradient-to-br from-duck/15 via-bg-elevated/80 to-water/10 p-6 md:p-8 print:hidden"
           >
             <p className="text-xs font-black uppercase tracking-[0.25em] text-duck">
-              Viralizá la causa
+              {t.ticket.viralKicker}
             </p>
             <h2 className="mt-2 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
-              COMPARTÍ TU PERFIL
+              {t.ticket.shareTitle}
             </h2>
             <p className="mt-3 max-w-xl text-sm text-ink-muted md:text-base">
-              Mandá tu vínculo a amigos y redes. Cada adopción suma a la
-              recaudación solidaria.
+              {t.ticket.shareBody}
             </p>
             <div className="mt-6">
               <ShareActions
@@ -318,13 +335,13 @@ export default async function ProfilePage({
               href="/"
               className="rounded-full border border-line px-5 py-2.5 text-sm transition hover:border-ink/40"
             >
-              Volver al inicio
+              {t.ticket.backHome}
             </Link>
             <Link
               href="/participar"
               className="rounded-full bg-duck px-5 py-2.5 text-sm font-semibold text-bg transition hover:bg-duck-deep"
             >
-              Adoptar otro pato
+              {t.perfil.adoptAnother}
             </Link>
           </div>
         </div>
@@ -336,16 +353,16 @@ export default async function ProfilePage({
   );
 }
 
-function statusLabel(status: string) {
+function statusLabel(status: string, t: Messages) {
   switch (status) {
     case "approved":
-      return "Pago aprobado";
+      return t.ticket.payApproved;
     case "pending":
-      return "Pago pendiente";
+      return t.ticket.payPending;
     case "rejected":
-      return "Pago rechazado";
+      return t.ticket.payRejected;
     case "cancelled":
-      return "Pago cancelado";
+      return t.ticket.payCancelled;
     default:
       return status;
   }

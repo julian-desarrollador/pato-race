@@ -17,6 +17,7 @@ export const payments = pgTable("payments", {
     .references(() => participants.id),
   mpPaymentId: text("mp_payment_id"),
   mpPreferenceId: text("mp_preference_id"),
+  currency: text("currency").notNull().default("ARS"),
   status: text("status").notNull().default("pending"),
   amount: integer("amount").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),

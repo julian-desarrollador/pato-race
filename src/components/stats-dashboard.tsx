@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { formatARS } from "@/lib/campaign";
+import { usePrefs } from "@/components/locale-provider";
+import { useMoney } from "@/components/use-money";
 import type { PublicStats } from "@/lib/db/store";
 
 function useCountUp(target: number, duration = 1400) {
@@ -38,6 +39,8 @@ export function StatsDashboard({
   initial: PublicStats;
   compact?: boolean;
 }) {
+  const { t, locale } = usePrefs();
+  const money = useMoney();
   const [stats, setStats] = useState(initial);
   const [bump, setBump] = useState(false);
   const raised = useCountUp(stats.raised);
@@ -82,24 +85,24 @@ export function StatsDashboard({
             </span>
             <div>
               <p className="font-[family-name:var(--font-display)] text-xl leading-none tracking-wide text-ink sm:text-2xl">
-                EN VIVO
+                {t.live.title}
               </p>
               <p className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-water-bright">
-                La carrera ya suma
+                {t.live.subtitle}
               </p>
             </div>
           </div>
           <span className="-rotate-2 rounded-md bg-coral px-2.5 py-1 text-[10px] font-black uppercase tracking-wide text-white shadow-[3px_3px_0_rgba(0,0,0,0.35)]">
-            Meta {formatARS(stats.goal)}
+            {t.live.goal} {money.goal()}
           </span>
         </div>
 
         <div className={`relative mt-4 ${bump ? "live-bump" : ""}`}>
           <p className="text-[10px] font-black uppercase tracking-[0.22em] text-ink-muted">
-            Recaudado
+            {t.live.raised}
           </p>
           <p className="live-amount mt-1 font-[family-name:var(--font-display)] text-[clamp(2.6rem,8vw,3.6rem)] leading-none tracking-wide text-duck">
-            {formatARS(raised)}
+            {money.fromRaisedArs(raised)}
           </p>
         </div>
 
@@ -128,24 +131,26 @@ export function StatsDashboard({
             </div>
           </div>
           <div className="mt-2 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.16em] text-ink-muted">
-            <span>Salida</span>
-            <span className="text-duck">{progressShown}% a meta</span>
-            <span>Meta</span>
+            <span>{t.live.start}</span>
+            <span className="text-duck">
+              {progressShown}% {t.live.toGoal}
+            </span>
+            <span>{t.live.goalEnd}</span>
           </div>
         </div>
 
         <div className="relative mt-4 grid grid-cols-[1.1fr_0.9fr] gap-3">
           <div className="rounded-2xl border-2 border-line bg-[#102830] px-3 py-3">
             <p className="text-[10px] font-black uppercase tracking-[0.16em] text-water-bright">
-              Patos adoptados
+              {t.live.ducks}
             </p>
             <p className="mt-1 font-[family-name:var(--font-display)] text-4xl leading-none tracking-wide text-ink">
-              {participants.toLocaleString("es-AR")}
+              {participants.toLocaleString(locale === "en" ? "en-US" : "es-AR")}
             </p>
           </div>
           <div className="relative overflow-hidden rounded-2xl border-2 border-duck/50 bg-duck px-3 py-3 text-bg shadow-[4px_4px_0_#9a7400]">
             <p className="text-[10px] font-black uppercase tracking-[0.16em] text-bg/70">
-              Avance
+              {t.live.progress}
             </p>
             <p className="mt-1 font-[family-name:var(--font-display)] text-4xl leading-none tracking-wide">
               {progressShown}%
@@ -161,15 +166,14 @@ export function StatsDashboard({
       <div className="mb-8 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.25em] text-water-bright">
-            En vivo
+            {t.live.title}
           </p>
           <h2 className="font-[family-name:var(--font-display)] text-4xl tracking-wide text-ink md:text-5xl">
-            Impacto de la campaña
+            {t.live.subtitle}
           </h2>
         </div>
         <p className="max-w-sm text-sm text-ink-muted">
-          Números públicos que también pueden mostrar socios y sponsors.
-          Actualización automática.
+          {t.live.publicNote}
         </p>
       </div>
 
@@ -182,20 +186,20 @@ export function StatsDashboard({
 
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard
-          label="Participaciones"
-          value={participants.toLocaleString("es-AR")}
-          hint="Patos adoptados"
+          label={t.live.ducks}
+          value={participants.toLocaleString(locale === "en" ? "en-US" : "es-AR")}
+          hint={t.live.ducks}
         />
         <StatCard
-          label="Recaudado"
-          value={formatARS(raised)}
-          hint={`Meta ${formatARS(stats.goal)}`}
+          label={t.live.raised}
+          value={money.fromRaisedArs(raised)}
+          hint={`${t.live.goal} ${money.goal()}`}
           glow
         />
         <StatCard
-          label="Avance"
+          label={t.live.progress}
           value={`${progressShown}%`}
-          hint="Del objetivo de campaña"
+          hint={t.live.toGoal}
         />
       </div>
     </div>

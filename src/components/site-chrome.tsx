@@ -3,10 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { LocalizationMenu } from "@/components/localization-menu";
+import { usePrefs } from "@/components/locale-provider";
 import { readSession } from "@/components/profile-access";
 
 export function SiteHeader() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const { t } = usePrefs();
 
   useEffect(() => {
     setLoggedIn(Boolean(readSession()));
@@ -14,54 +17,55 @@ export function SiteHeader() {
 
   return (
     <header className="absolute inset-x-0 top-0 z-20">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 md:px-8">
-        <Link href="/" className="group flex items-center gap-3">
-          <span className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-duck shadow-[0_0_0_3px_rgba(245,197,24,0.22)] transition group-hover:scale-105">
+      <div className="mx-auto flex max-w-6xl flex-nowrap items-center justify-between gap-3 px-5 py-4 md:px-8">
+        <Link href="/" className="group flex shrink-0 flex-nowrap items-center gap-2.5">
+          <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full border-2 border-duck shadow-[0_0_0_3px_rgba(245,197,24,0.22)] transition group-hover:scale-105">
             <Image
               src="/foto_pato2.webp"
               alt="Pato Race"
               fill
-              sizes="40px"
+              sizes="36px"
               className="object-cover object-center"
               priority
             />
           </span>
-          <span className="font-[family-name:var(--font-display)] text-2xl tracking-wide text-ink">
-            PATO RACE
+          <span className="shrink-0 whitespace-nowrap font-[family-name:var(--font-display)] text-2xl leading-none tracking-normal text-ink sm:text-[1.75rem]">
+            PATO&nbsp;RACE
           </span>
         </Link>
-        <nav className="hidden items-center gap-8 text-sm text-ink-muted md:flex">
+        <nav className="hidden items-center gap-8 text-sm text-ink-muted lg:flex">
           <a href="/#que-es" className="hover:text-ink transition">
-            Qué es
+            {t.nav.what}
           </a>
           <a href="/#sponsors" className="hover:text-ink transition">
-            Sponsors
+            {t.nav.sponsors}
           </a>
           <a href="/#beneficio" className="hover:text-ink transition">
-            Beneficio
+            {t.nav.benefit}
           </a>
           <a href="/#como" className="hover:text-ink transition">
-            Cómo participar
+            {t.nav.how}
           </a>
           <Link
             href={loggedIn ? "/perfil/cuenta" : "/perfil"}
             className="hover:text-ink transition"
           >
-            {loggedIn ? "Mi cuenta" : "Ingresar"}
+            {loggedIn ? t.nav.account : t.nav.login}
           </Link>
         </nav>
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <LocalizationMenu align="right" compactOnMobile />
           <Link
             href={loggedIn ? "/perfil/cuenta" : "/perfil"}
-            className="rounded-full border border-line px-3 py-2 text-sm font-semibold text-ink transition hover:border-ink/40 md:hidden"
+            className="hidden rounded-full border border-line px-3 py-2 text-sm font-semibold text-ink transition hover:border-ink/40 md:inline-flex lg:hidden"
           >
-            {loggedIn ? "Cuenta" : "Ingresar"}
+            {loggedIn ? t.nav.account : t.nav.loginShort}
           </Link>
           <Link
             href="/participar"
-            className="rounded-full bg-duck px-4 py-2 text-sm font-semibold text-bg transition hover:bg-duck-deep"
+            className="inline-flex h-12 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-water-bright px-5 text-center text-sm font-black text-bg transition hover:brightness-110 sm:px-6 sm:text-base"
           >
-            Adoptá tu pato
+            {t.nav.adoptLine1} {t.nav.adoptLine2}
           </Link>
         </div>
       </div>
@@ -87,19 +91,20 @@ export function DuckMark({ className = "h-6 w-6" }: { className?: string }) {
 }
 
 export function SiteFooter() {
+  const { t } = usePrefs();
   return (
     <footer className="border-t border-line bg-bg-elevated">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-10 text-sm text-ink-muted md:flex-row md:items-center md:justify-between md:px-8">
+      <div className="mx-auto flex max-w-6xl flex-col gap-5 px-5 py-10 text-sm text-ink-muted md:flex-row md:items-center md:justify-between md:px-8">
         <div>
-          <p className="font-[family-name:var(--font-display)] text-xl tracking-wide text-ink">
+          <p className="font-[family-name:var(--font-display)] text-xl leading-none tracking-wide text-ink">
             PATO RACE 2026
           </p>
-          <p>Evento a beneficio · Buenos Aires · Dique 3, Puerto Madero</p>
+          <p className="mt-2">{t.footer.event}</p>
         </div>
-        <p className="max-w-md md:text-right">
-          El 70% de lo recaudado se destina a causas solidarias. Participás con
-          tu ticket aunque no asistas al dique.
-        </p>
+        <div className="flex flex-col gap-4 md:items-end">
+          <LocalizationMenu align="right" />
+          <p className="max-w-md md:text-right">{t.footer.note}</p>
+        </div>
       </div>
     </footer>
   );

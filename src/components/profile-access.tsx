@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { usePrefs } from "@/components/locale-provider";
 import { useEffect, useState } from "react";
 
 const SESSION_KEY = "pato-race-user-session";
@@ -64,6 +65,7 @@ type Mode = "login" | "ticket";
 
 /** Acceso: login (principal) o ticket + email (alternativa). Sin backend real aún. */
 export function ProfileAccessPanel() {
+  const { t } = usePrefs();
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("login");
   const [error, setError] = useState<string | null>(null);
@@ -88,7 +90,7 @@ export function ProfileAccessPanel() {
     const password = String(form.get("password") ?? "");
 
     if (!email || password.length < 4) {
-      setError("Completá email y una contraseña de al menos 4 caracteres.");
+      setError(t.errors.loginFields);
       setLoading(false);
       return;
     }
@@ -97,7 +99,7 @@ export function ProfileAccessPanel() {
     await new Promise((r) => setTimeout(r, 450));
     writeSession({
       email,
-      name: name || email.split("@")[0] || "Participante",
+      name: name || email.split("@")[0] || t.perfil.guestName,
       duckIds: [],
       createdAt: new Date().toISOString(),
     });
@@ -125,7 +127,7 @@ export function ProfileAccessPanel() {
       };
 
       if (!res.ok || !data.profileId) {
-        setError(data.error ?? "No se pudo abrir el perfil");
+        setError(data.error ?? t.errors.lookupGeneric);
         setLoading(false);
         return;
       }
@@ -140,7 +142,7 @@ export function ProfileAccessPanel() {
       }
       router.push(`/perfil/${data.profileId}`);
     } catch {
-      setError("Error de conexión. Intentá de nuevo.");
+      setError(t.errors.connection);
       setLoading(false);
     }
   }
@@ -160,7 +162,7 @@ export function ProfileAccessPanel() {
               : "text-ink-muted hover:text-ink"
           }`}
         >
-          Iniciar sesión
+          {t.perfil.login}
         </button>
         <button
           type="button"
@@ -174,61 +176,51 @@ export function ProfileAccessPanel() {
               : "text-ink-muted hover:text-ink"
           }`}
         >
-          Tengo un ticket
+          {t.perfil.ticket}
         </button>
       </div>
 
       {mode === "login" ? (
         <form onSubmit={onLogin} className="mt-6 space-y-4">
-          <p className="text-sm text-ink-muted">
-            Entrá con tu cuenta. Si todavía no adoptaste, vas a ver{" "}
-            <span className="font-semibold text-ink">0 patos</span> y el botón
-            para adoptar. Cuando Mercado Pago confirme el pago, el pato y el
-            ticket aparecen acá.
-          </p>
+          <p className="text-sm text-ink-muted">{t.perfil.loginHelp}</p>
           <Field
-            label="Nombre"
+            label={t.perfil.name}
             name="name"
             autoComplete="name"
-            placeholder="Tu nombre"
+            placeholder={t.perfil.name}
           />
           <Field
-            label="Email"
+            label={t.perfil.email}
             name="email"
             type="email"
             autoComplete="email"
-            placeholder="tu@email.com"
+            placeholder={t.perfil.emailPlaceholder}
             required
           />
           <Field
-            label="Contraseña"
+            label={t.perfil.password}
             name="password"
             type="password"
             autoComplete="current-password"
             placeholder="••••••••"
             required
           />
-          <p className="text-[11px] text-ink-muted">
-            Demo UI: el login se guarda en este dispositivo. El backend de
-            autenticación llega después.
-          </p>
+          <p className="text-[11px] text-ink-muted">{t.perfil.demo}</p>
           {error ? <ErrorBox>{error}</ErrorBox> : null}
           <button
             type="submit"
             disabled={loading}
             className="fun-button w-full rounded-full bg-duck px-6 py-3.5 text-base font-black text-bg disabled:opacity-60"
           >
-            {loading ? "Entrando…" : "Entrar a mi cuenta"}
+            {loading ? t.perfil.entering : t.perfil.enterAccount}
           </button>
         </form>
       ) : (
         <form onSubmit={onTicketLookup} className="mt-6 space-y-4">
-          <p className="text-sm text-ink-muted">
-            Si ya adoptaste y tenés el número, abrí el comprobante directo.
-          </p>
+          <p className="text-sm text-ink-muted">{t.perfil.ticketHelp}</p>
           <label className="block space-y-1.5">
             <span className="text-xs font-black uppercase tracking-[0.18em] text-ink-muted">
-              Número de ticket
+              {t.perfil.ticketNumber}
             </span>
             <input
               name="ticketCode"
@@ -239,11 +231,11 @@ export function ProfileAccessPanel() {
             />
           </label>
           <Field
-            label="Email del registro"
+            label={t.perfil.registerEmail}
             name="email"
             type="email"
             autoComplete="email"
-            placeholder="tu@email.com"
+            placeholder={t.perfil.emailPlaceholder}
             required
           />
           {error ? <ErrorBox>{error}</ErrorBox> : null}
@@ -252,7 +244,7 @@ export function ProfileAccessPanel() {
             disabled={loading}
             className="fun-button w-full rounded-full bg-duck px-6 py-3.5 text-base font-black text-bg disabled:opacity-60"
           >
-            {loading ? "Buscando…" : "Ver mi ticket"}
+            {loading ? t.perfil.searching : t.perfil.seeTicket}
           </button>
         </form>
       )}
@@ -262,7 +254,7 @@ export function ProfileAccessPanel() {
           href={`/perfil/${rememberedId}`}
           className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-water/40 bg-water/10 px-5 py-3 text-sm font-semibold text-water-bright transition hover:border-water-bright"
         >
-          Continuar con el ticket guardado
+          {t.perfil.continueSaved}
         </Link>
       ) : null}
     </div>

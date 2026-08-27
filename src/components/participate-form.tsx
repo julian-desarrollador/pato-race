@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { campaign, formatARS } from "@/lib/campaign";
+import { usePrefs } from "@/components/locale-provider";
+import { useMoney } from "@/components/use-money";
+import { interpolate } from "@/lib/i18n/messages";
 
 type FieldErrors = Partial<
   Record<"name" | "dni" | "email" | "phone" | "form", string>
 >;
 
 export function ParticipateForm() {
+  const { t, currency } = usePrefs();
+  const money = useMoney();
   const [errors, setErrors] = useState<FieldErrors>({});
   const [loading, setLoading] = useState(false);
 
@@ -21,6 +25,7 @@ export function ParticipateForm() {
       dni: String(form.get("dni") ?? ""),
       email: String(form.get("email") ?? ""),
       phone: String(form.get("phone") ?? ""),
+      currency,
     };
 
     try {
@@ -39,7 +44,7 @@ export function ParticipateForm() {
       if (!res.ok || !data.initPoint) {
         setErrors(
           data.fieldErrors ?? {
-            form: data.error ?? "No se pudo iniciar el pago",
+            form: data.error ?? t.errors.checkoutStart,
           },
         );
         setLoading(false);
@@ -48,7 +53,7 @@ export function ParticipateForm() {
 
       window.location.href = data.initPoint;
     } catch {
-      setErrors({ form: "Error de conexión. Intentá de nuevo." });
+      setErrors({ form: t.errors.connection });
       setLoading(false);
     }
   }
@@ -56,27 +61,27 @@ export function ParticipateForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       <Field
-        label="Nombre y apellido"
+        label={t.participar.name}
         name="name"
         autoComplete="name"
         error={errors.name}
       />
       <Field
-        label="DNI"
+        label={t.participar.dni}
         name="dni"
         inputMode="numeric"
         placeholder="12345678"
         error={errors.dni}
       />
       <Field
-        label="Email"
+        label={t.participar.email}
         name="email"
         type="email"
         autoComplete="email"
         error={errors.email}
       />
       <Field
-        label="Teléfono"
+        label={t.participar.phone}
         name="phone"
         type="tel"
         autoComplete="tel"
@@ -92,27 +97,29 @@ export function ParticipateForm() {
 
       <div className="rounded-2xl border-2 border-duck/60 bg-duck/10 p-4">
         <p className="font-[family-name:var(--font-display)] text-2xl tracking-wide text-duck">
-          70% de tu aporte va a beneficio
+          {t.participar.benefitTitle}
         </p>
         <p className="mt-1 text-sm leading-relaxed text-ink-muted">
-          50% al Hospital Garrahan, 10% a Fundación Gardel y 10% a otra causa
-          solidaria que será anunciada por la organización.
+          {t.participar.benefitBody}
         </p>
       </div>
 
       <div className="rounded-2xl border border-line bg-bg/40 p-4 text-sm text-ink-muted">
-        Vas a pagar{" "}
-        <strong className="text-duck">{formatARS(campaign.ticketPrice)}</strong>{" "}
-        por Mercado Pago. Pagás online, recibís tu ticket digital y podés
-        participar aunque no estés presente en el evento.
+        {interpolate(t.participar.payNote, { price: money.ticket() })}
       </div>
+
+      {currency === "USD" ? (
+        <p className="rounded-2xl border border-water/40 bg-water/10 px-4 py-3 text-sm text-water-bright">
+          {t.participar.payUsdNote}
+        </p>
+      ) : null}
 
       <button
         type="submit"
         disabled={loading}
         className="w-full rounded-full bg-duck px-6 py-3.5 text-base font-semibold text-bg transition hover:bg-duck-deep disabled:opacity-60"
       >
-        {loading ? "Redirigiendo al pago…" : "Continuar al pago"}
+        {loading ? t.participar.submitting : t.participar.submit}
       </button>
     </form>
   );
