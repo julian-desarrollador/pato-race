@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { usePrefs } from "@/components/locale-provider";
-import type { Currency, Locale } from "@/lib/i18n/config";
+import type { Locale } from "@/lib/i18n/config";
 
 export function LocalizationMenu({
   align = "right",
@@ -11,13 +11,12 @@ export function LocalizationMenu({
   align?: "left" | "right";
   compactOnMobile?: boolean;
 }) {
-  const { t, locale, currency, setLocale, setCurrency } = usePrefs();
+  const { t, locale, setLocale } = usePrefs();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
   const langName = locale === "en" ? t.loc.triggerLangEn : t.loc.triggerLangEs;
-  const moneyLabel = currency === "USD" ? "USD $" : "ARS $";
 
   useEffect(() => {
     if (!open) return;
@@ -91,10 +90,6 @@ export function LocalizationMenu({
     setLocale(next);
   }
 
-  function chooseMarket(next: Currency) {
-    setCurrency(next);
-  }
-
   return (
     <div ref={rootRef} className="relative shrink-0">
       <button
@@ -102,7 +97,7 @@ export function LocalizationMenu({
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={menuId}
-        aria-label={t.loc.open}
+        aria-label={t.loc.language}
         onClick={() => setOpen((value) => !value)}
         className={`inline-flex items-center justify-center gap-1.5 rounded-full border border-line bg-bg/40 font-semibold leading-tight text-ink transition hover:border-ink/40 ${
           compactOnMobile
@@ -116,7 +111,7 @@ export function LocalizationMenu({
             compactOnMobile ? "hidden md:inline" : ""
           }`}
         >
-          {langName} · {moneyLabel}
+          {langName}
         </span>
       </button>
 
@@ -125,7 +120,7 @@ export function LocalizationMenu({
           ref={menuRef}
           id={menuId}
           role="dialog"
-          aria-label={t.loc.open}
+          aria-label={t.loc.language}
           className="absolute top-[calc(100%+8px)] z-50 w-[min(18.5rem,calc(100vw-2rem))] rounded-2xl border border-line bg-bg-elevated p-3 shadow-[var(--shadow)]"
         >
           <p className="px-2 pb-2 text-[10px] font-black uppercase tracking-[0.18em] text-ink-muted">
@@ -141,24 +136,6 @@ export function LocalizationMenu({
               selected={locale === "en"}
               title={t.loc.english}
               onClick={() => chooseLocale("en")}
-            />
-          </div>
-
-          <p className="mt-4 px-2 pb-2 text-[10px] font-black uppercase tracking-[0.18em] text-ink-muted">
-            {t.loc.payIn}
-          </p>
-          <div className="grid gap-1">
-            <Choice
-              selected={currency === "ARS"}
-              title={t.loc.argentina}
-              hint={t.loc.argentinaHint}
-              onClick={() => chooseMarket("ARS")}
-            />
-            <Choice
-              selected={currency === "USD"}
-              title={t.loc.international}
-              hint={t.loc.internationalHint}
-              onClick={() => chooseMarket("USD")}
             />
           </div>
         </div>
