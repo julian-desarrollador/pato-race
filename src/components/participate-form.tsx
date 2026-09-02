@@ -1,12 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { usePrefs } from "@/components/locale-provider";
 import { useMoney } from "@/components/use-money";
 import { interpolate } from "@/lib/i18n/messages";
 
 type FieldErrors = Partial<
-  Record<"name" | "dni" | "email" | "phone" | "form", string>
+  Record<
+    "name" | "dni" | "email" | "phone" | "form" | "acceptedBases" | "ageConfirmed",
+    string
+  >
 >;
 
 export function ParticipateForm() {
@@ -14,18 +18,25 @@ export function ParticipateForm() {
   const money = useMoney();
   const [errors, setErrors] = useState<FieldErrors>({});
   const [loading, setLoading] = useState(false);
+  const [acceptedBases, setAcceptedBases] = useState(false);
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
+  const [marketingOptIn, setMarketingOptIn] = useState(false);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErrors({});
     setLoading(true);
-    const form = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const data = new FormData(form);
     const payload = {
-      name: String(form.get("name") ?? ""),
-      dni: String(form.get("dni") ?? ""),
-      email: String(form.get("email") ?? ""),
-      phone: String(form.get("phone") ?? ""),
+      name: String(data.get("name") ?? ""),
+      dni: String(data.get("dni") ?? ""),
+      email: String(data.get("email") ?? ""),
+      phone: String(data.get("phone") ?? ""),
       currency,
+      acceptedBases,
+      ageConfirmed,
+      marketingOptIn,
     };
 
     try {
@@ -34,24 +45,24 @@ export function ParticipateForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = (await res.json()) as {
+      const json = (await res.json()) as {
         ok?: boolean;
         initPoint?: string;
         error?: string;
         fieldErrors?: FieldErrors;
       };
 
-      if (!res.ok || !data.initPoint) {
+      if (!res.ok || !json.initPoint) {
         setErrors(
-          data.fieldErrors ?? {
-            form: data.error ?? t.errors.checkoutStart,
+          json.fieldErrors ?? {
+            form: json.error ?? t.errors.checkoutStart,
           },
         );
         setLoading(false);
         return;
       }
 
-      window.location.href = data.initPoint;
+      window.location.href = json.initPoint;
     } catch {
       setErrors({ form: t.errors.connection });
       setLoading(false);
@@ -113,6 +124,50 @@ export function ParticipateForm() {
           {t.participar.payUsdNote}
         </p>
       ) : null}
+
+      <label className="flex items-start gap-3 text-sm text-ink">
+        <input
+          type="checkbox"
+          className="mt-1 h-4 w-4 shrink-0 accent-duck"
+          checked={acceptedBases}
+          onChange={(e) => setAcceptedBases(e.target.checked)}
+        />
+        <span>
+          {t.participar.acceptBases}{" "}
+          <Link href="/legal/bases" className="font-semibold text-duck underline underline-offset-2">
+            {t.participar.acceptBasesLink}
+          </Link>
+          .
+          {errors.acceptedBases ? (
+            <span className="mt-1 block text-coral">{errors.acceptedBases}</span>
+          ) : null}
+        </span>
+      </label>
+
+      <label className="flex items-start gap-3 text-sm text-ink">
+        <input
+          type="checkbox"
+          className="mt-1 h-4 w-4 shrink-0 accent-duck"
+          checked={ageConfirmed}
+          onChange={(e) => setAgeConfirmed(e.target.checked)}
+        />
+        <span>
+          {t.participar.ageConfirm}
+          {errors.ageConfirmed ? (
+            <span className="mt-1 block text-coral">{errors.ageConfirmed}</span>
+          ) : null}
+        </span>
+      </label>
+
+      <label className="flex items-start gap-3 text-sm text-ink-muted">
+        <input
+          type="checkbox"
+          className="mt-1 h-4 w-4 shrink-0 accent-duck"
+          checked={marketingOptIn}
+          onChange={(e) => setMarketingOptIn(e.target.checked)}
+        />
+        <span>{t.participar.marketing}</span>
+      </label>
 
       <button
         type="submit"

@@ -14,6 +14,13 @@ export const registerSchema = z.object({
     .max(20)
     .regex(/^[+\d\s()-]+$/, "phone"),
   currency: z.enum(["ARS", "USD"]).optional(),
+  acceptedBases: z.boolean().refine((value) => value === true, {
+    message: "acceptedBases",
+  }),
+  ageConfirmed: z.boolean().refine((value) => value === true, {
+    message: "ageConfirmed",
+  }),
+  marketingOptIn: z.boolean().optional(),
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;

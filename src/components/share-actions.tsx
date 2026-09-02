@@ -14,26 +14,26 @@ export function ShareActions({
   name: string;
 }) {
   const { t } = usePrefs();
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<"link" | "ig" | null>(null);
   const text = interpolate(t.share.text, { ticket: ticketCode });
   const full = `${text} ${shareUrl}`;
   const wa = `https://wa.me/?text=${encodeURIComponent(full)}`;
   const x = `https://twitter.com/intent/tweet?text=${encodeURIComponent(full)}`;
   const fb = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
 
-  async function copy() {
+  async function copy(which: "link" | "ig") {
     try {
-      await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(which === "ig" ? full : shareUrl);
+      setCopied(which);
+      setTimeout(() => setCopied(null), 2000);
     } catch {
-      setCopied(false);
+      setCopied(null);
     }
   }
 
   async function nativeShare() {
     if (!navigator.share) {
-      await copy();
+      await copy("link");
       return;
     }
     try {
@@ -54,6 +54,13 @@ export function ShareActions({
         >
           WhatsApp
         </a>
+        <button
+          type="button"
+          onClick={() => copy("ig")}
+          className="inline-flex flex-1 items-center justify-center rounded-full border border-line bg-bg/40 px-5 py-3 text-sm font-semibold text-ink transition hover:border-ink/40"
+        >
+          {copied === "ig" ? t.share.copied : t.share.instagram}
+        </button>
         <a
           href={x}
           target="_blank"
@@ -74,10 +81,10 @@ export function ShareActions({
       <div className="flex flex-col gap-3 sm:flex-row">
         <button
           type="button"
-          onClick={copy}
+          onClick={() => copy("link")}
           className="inline-flex flex-1 items-center justify-center rounded-full border border-duck/50 bg-duck/10 px-5 py-3 text-sm font-semibold text-duck transition hover:bg-duck/20"
         >
-          {copied ? t.share.copied : t.share.copy}
+          {copied === "link" ? t.share.copied : t.share.copy}
         </button>
         <button
           type="button"

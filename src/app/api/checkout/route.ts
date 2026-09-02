@@ -23,8 +23,12 @@ export async function POST(request: Request) {
     }
 
     const currency = parsed.data.currency === "USD" ? "USD" : "ARS";
+    const { name, dni, email, phone } = parsed.data;
     const { participant, payment } = await createParticipant({
-      ...parsed.data,
+      name,
+      dni,
+      email,
+      phone,
       currency,
     });
     const preference = await createCheckoutPreference({

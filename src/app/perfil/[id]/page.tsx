@@ -316,8 +316,11 @@ export default async function ProfilePage({
               {t.ticket.viralKicker}
             </p>
             <h2 className="mt-2 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
-              {t.ticket.shareTitle}
+              {t.ticket.doneTitle}
             </h2>
+            <p className="mt-3 max-w-xl text-sm font-semibold uppercase tracking-[0.12em] text-duck md:text-base">
+              {t.ticket.shareTitle}
+            </p>
             <p className="mt-3 max-w-xl text-sm text-ink-muted md:text-base">
               {t.ticket.shareBody}
             </p>

@@ -2,24 +2,32 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { AwaitingSlot } from "@/components/awaiting-slot";
 import { Countdown } from "@/components/countdown";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { usePrefs } from "@/components/locale-provider";
 import { StatsDashboard } from "@/components/stats-dashboard";
 import { useMoney } from "@/components/use-money";
-import { campaign } from "@/lib/campaign";
+import { campaign, type BeneficiaryId } from "@/lib/campaign";
 import type { PublicStats } from "@/lib/db/store";
-import { interpolate } from "@/lib/i18n/messages";
+import { faqHomeItems, interpolate } from "@/lib/i18n/messages";
 
 export function LandingPage({ stats }: { stats: PublicStats }) {
   return (
     <>
       <Hero stats={stats} />
+      <VideoTeaser />
       <QueEs />
+      <Experience />
       <Sponsors />
       <Impacto />
       <ComoFunciona />
+      <Remote />
+      <MerchTeaser />
       <Faq />
+      <Transparency />
+      <Where />
+      <Contact />
       <FinalCta />
     </>
   );
@@ -52,6 +60,9 @@ function Hero({ stats }: { stats: PublicStats }) {
                 <p className="font-[family-name:var(--font-display)] text-xl leading-none tracking-wide sm:text-2xl">
                   {campaign.city}
                 </p>
+                <p className="mt-1 text-[10px] font-bold uppercase tracking-wide text-bg/75">
+                  {campaign.location}
+                </p>
               </div>
               <div className="hidden w-px self-stretch bg-bg/20 sm:block" aria-hidden />
               <div className="border-t-2 border-bg/15 px-3.5 py-2.5 sm:border-t-0 sm:px-4 sm:py-3">
@@ -78,8 +89,11 @@ function Hero({ stats }: { stats: PublicStats }) {
               </span>
             </h1>
 
-            <p className="mt-4 max-w-md text-sm text-ink-muted sm:mt-6 sm:text-lg md:text-xl">
+            <p className="mt-4 max-w-md text-sm font-semibold uppercase tracking-[0.08em] text-ink sm:mt-6 sm:text-base md:text-lg">
               {t.hero.tagline}
+            </p>
+            <p className="mt-2 max-w-md text-sm text-ink-muted sm:text-lg md:text-xl">
+              {t.hero.lead}
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-3 sm:mt-8 sm:gap-4">
@@ -96,6 +110,10 @@ function Hero({ stats }: { stats: PublicStats }) {
                 {t.hero.how}
               </a>
             </div>
+            <p className="mt-3 text-xs font-black uppercase tracking-[0.16em] text-ink-muted">
+              {interpolate(t.hero.priceContext, { price: money.ticket() })}
+            </p>
+            <p className="mt-1 text-sm text-ink-muted">{t.hero.anywhere}</p>
           </div>
 
           <div
@@ -141,6 +159,9 @@ function Hero({ stats }: { stats: PublicStats }) {
               </span>
             </div>
             <Countdown targetIso={campaign.eventDate.toISOString()} />
+            <p className="mt-3 text-[11px] font-black uppercase tracking-[0.16em] text-duck">
+              {t.hero.adoptionsOpen}
+            </p>
           </div>
 
           <div id="stats" className="min-w-0">
@@ -155,20 +176,19 @@ function Hero({ stats }: { stats: PublicStats }) {
 
 function QueEs() {
   const { t } = usePrefs();
-  const money = useMoney();
   const highlights = [
     {
-      value: `${campaign.races}`,
-      label: t.queEs.racesLabel,
-      detail: t.queEs.racesDetail,
+      value: t.queEs.adoptLabel,
+      label: t.queEs.adoptLabel,
+      detail: t.queEs.adoptDetail,
     },
     {
-      value: campaign.peoplePerDuck,
-      label: t.queEs.peopleLabel,
-      detail: t.queEs.peopleDetail,
+      value: t.queEs.shareLabel,
+      label: t.queEs.shareLabel,
+      detail: t.queEs.shareDetail,
     },
     {
-      value: money.prize(),
+      value: t.queEs.prizeLabel,
       label: t.queEs.prizeLabel,
       detail: t.queEs.prizeDetail,
     },
@@ -187,10 +207,9 @@ function QueEs() {
               <span className="text-duck">{t.queEs.titleAccent}</span>
             </h2>
           </div>
-          <div className="space-y-4 text-base leading-relaxed text-ink-muted md:text-lg">
+          <div className="space-y-4 text-base leading-relaxed text-ink/85 md:text-lg">
             <p>{t.queEs.p1}</p>
             <p>{t.queEs.p2}</p>
-            <p>{t.queEs.p3}</p>
           </div>
         </div>
 
@@ -200,11 +219,8 @@ function QueEs() {
               key={item.label}
               className="fun-card rounded-3xl border border-line bg-bg/45 p-6"
             >
-              <p className="font-[family-name:var(--font-display)] text-4xl tracking-wide text-duck">
+              <h3 className="font-[family-name:var(--font-display)] text-2xl tracking-wide text-duck md:text-3xl">
                 {item.value}
-              </p>
-              <h3 className="mt-1 text-sm font-black uppercase tracking-[0.14em]">
-                {item.label}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-ink-muted">
                 {item.detail}
@@ -219,22 +235,15 @@ function QueEs() {
 
 function Impacto() {
   const { t } = usePrefs();
-  const cards = [
-    {
-      name: "Hospital Garrahan",
-      share: "50%",
-      description: t.impacto.descGarrahan,
-    },
-    {
-      name: "Fundación Gardel",
-      share: "10%",
-      description: t.impacto.descGardel,
-    },
-    {
-      name: t.impacto.otherName,
-      share: "10%",
-      description: t.impacto.descOther,
-    },
+  const descriptions: Record<BeneficiaryId, string> = {
+    garrahan: t.impacto.descGarrahan,
+    tandil: t.impacto.descTandil,
+    gardel: t.impacto.descGardel,
+  };
+  const lines = [
+    t.impacto.lineGarrahan,
+    t.impacto.lineGardel,
+    t.impacto.lineTandil,
   ];
 
   return (
@@ -250,25 +259,26 @@ function Impacto() {
           </h2>
           <p className="mt-5 max-w-md text-ink-muted">{t.impacto.lead}</p>
           <div className="mt-4 space-y-2 text-sm text-ink-muted">
-            <p>{t.impacto.lineGarrahan}</p>
-            <p>{t.impacto.lineGardel}</p>
-            <p>{t.impacto.lineOther}</p>
+            {lines.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
           </div>
           <p className="mt-4 max-w-md rounded-2xl border border-line bg-bg-elevated/70 px-4 py-3 text-sm text-ink-muted">
-            {t.impacto.costs}
+            {t.impacto.prizes}
           </p>
+          <p className="mt-3 max-w-md text-sm text-ink-muted">{t.impacto.costs}</p>
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
-          {cards.map((b) => (
+          {campaign.beneficiaries.map((b) => (
             <article
-              key={b.name}
+              key={b.id}
               className="fun-card rounded-3xl border border-line bg-bg/40 p-6"
             >
               <p className="font-[family-name:var(--font-display)] text-4xl text-duck">
                 {b.share}
               </p>
               <h3 className="mt-2 text-xl font-semibold">{b.name}</h3>
-              <p className="mt-2 text-sm text-ink-muted">{b.description}</p>
+              <p className="mt-2 text-sm text-ink-muted">{descriptions[b.id]}</p>
             </article>
           ))}
           <article className="fun-card rounded-3xl border border-line bg-gradient-to-br from-water/20 to-duck/10 p-6 sm:col-span-3">
@@ -294,11 +304,7 @@ function ComoFunciona() {
     },
     { n: "02", title: t.como.s2t, body: t.como.s2b },
     { n: "03", title: t.como.s3t, body: t.como.s3b },
-    {
-      n: "04",
-      title: t.como.s4t,
-      body: interpolate(t.como.s4b, { prize: money.prize() }),
-    },
+    { n: "04", title: t.como.s4t, body: t.como.s4b },
   ];
 
   return (
@@ -334,9 +340,25 @@ function ComoFunciona() {
   );
 }
 
+function Remote() {
+  const { t } = usePrefs();
+  return (
+    <section id="desde-donde-estes" className="section-pad pt-0">
+      <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-line bg-bg-elevated/80 px-6 py-10 md:px-12">
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
+          {t.remote.kicker}
+        </p>
+        <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
+          {t.remote.title}
+        </h2>
+        <p className="mt-4 max-w-2xl text-ink-muted">{t.remote.body}</p>
+      </div>
+    </section>
+  );
+}
+
 function Sponsors() {
   const { t } = usePrefs();
-  const names = [t.sponsors.gold, t.sponsors.silver, t.sponsors.bronze];
 
   return (
     <section id="sponsors" className="section-pad border-y border-line bg-bg">
@@ -352,18 +374,23 @@ function Sponsors() {
           </div>
           <p className="max-w-sm text-sm text-ink-muted">{t.sponsors.intro}</p>
         </div>
-        <p className="mb-8 max-w-3xl text-ink-muted">{t.sponsors.body}</p>
+        <p className="mb-8 max-w-3xl text-ink/85">{t.sponsors.body}</p>
         <div className="grid gap-4 sm:grid-cols-3">
-          {names.map((name) => (
-            <div
-              key={name}
-              className="flex h-28 items-center justify-center rounded-3xl border border-dashed border-line bg-bg/30"
-            >
-              <span className="text-sm uppercase tracking-[0.2em] text-ink-muted">
-                {name}
-              </span>
-            </div>
+          {campaign.sponsors.map((sponsor, index) => (
+            <AwaitingSlot
+              key={`${sponsor.name}-${index}`}
+              title={t.fill.logo}
+              hint={t.fill.logoHint}
+            />
           ))}
+        </div>
+        <div className="mt-8 text-center">
+          <Link
+            href="/sponsors"
+            className="inline-flex rounded-full bg-duck px-7 py-3 text-sm font-black text-bg"
+          >
+            {t.sponsors.cta}
+          </Link>
         </div>
       </div>
     </section>
@@ -372,23 +399,6 @@ function Sponsors() {
 
 function Faq() {
   const { t } = usePrefs();
-  const money = useMoney();
-  const items = [
-    { q: t.faq.q1, a: t.faq.a1 },
-    { q: t.faq.q2, a: t.faq.a2 },
-    {
-      q: t.faq.q3,
-      a: interpolate(t.faq.a3, {
-        people: campaign.peoplePerDuck,
-        prize: money.prize(),
-      }),
-    },
-    { q: t.faq.q4, a: t.faq.a4 },
-    {
-      q: t.faq.q5,
-      a: interpolate(t.faq.a5, { price: money.ticket() }),
-    },
-  ];
 
   return (
     <section id="faq" className="section-pad">
@@ -396,7 +406,15 @@ function Faq() {
         <h2 className="font-[family-name:var(--font-display)] text-5xl tracking-wide">
           {t.faq.title}
         </h2>
-        <FaqAccordion items={items} />
+        <FaqAccordion items={faqHomeItems(t)} />
+        <div className="mt-8 text-center">
+          <Link
+            href="/faq"
+            className="inline-flex rounded-full border border-line px-6 py-3 text-sm font-semibold text-ink transition hover:border-ink/40"
+          >
+            {t.faq.seeAll}
+          </Link>
+        </div>
       </div>
     </section>
   );
@@ -411,12 +429,198 @@ function FinalCta() {
           {t.finalCta.title}
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-ink-muted">{t.finalCta.body}</p>
+        <p className="mx-auto mt-3 max-w-xl text-sm font-black uppercase tracking-[0.14em] text-duck">
+          {t.finalCta.motto}
+        </p>
         <Link
           href="/participar"
           className="mt-8 inline-flex rounded-full bg-duck px-8 py-3.5 text-base font-semibold text-bg transition hover:bg-duck-deep"
         >
           {t.finalCta.button}
         </Link>
+      </div>
+    </section>
+  );
+}
+
+function VideoTeaser() {
+  const { t } = usePrefs();
+  return (
+    <section id="video" className="section-pad border-t border-line pt-12 md:pt-16">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
+          {t.video.kicker}
+        </p>
+        <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
+          {t.video.title}
+        </h2>
+        <AwaitingSlot
+          className="mt-8 aspect-video min-h-0 w-full"
+          tall
+          title={t.fill.video}
+          hint={t.fill.videoHint}
+        />
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  const { t } = usePrefs();
+  return (
+    <section id="experiencia" className="section-pad border-t border-line">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
+          {t.experience.kicker}
+        </p>
+        <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
+          {t.experience.title}
+        </h2>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <article className="rounded-3xl border border-line bg-bg-elevated p-6">
+            <h3 className="font-[family-name:var(--font-display)] text-2xl text-duck">
+              {t.experience.twoRaces}
+            </h3>
+          </article>
+          <article className="rounded-3xl border border-line bg-bg-elevated p-6">
+            <h3 className="font-[family-name:var(--font-display)] text-2xl text-duck">
+              {t.experience.race}
+            </h3>
+          </article>
+          <article className="rounded-3xl border border-line bg-bg-elevated p-6">
+            <h3 className="font-[family-name:var(--font-display)] text-2xl text-duck">
+              {t.experience.music}
+            </h3>
+            <AwaitingSlot className="mt-4 min-h-24" title={t.fill.artist} hint={t.fill.artistHint} />
+          </article>
+          <article className="rounded-3xl border border-line bg-bg-elevated p-6">
+            <h3 className="font-[family-name:var(--font-display)] text-2xl text-duck">
+              {t.experience.dj}
+            </h3>
+            <AwaitingSlot className="mt-4 min-h-24" title={t.fill.artist} hint={t.fill.artistHint} />
+          </article>
+          <AwaitingSlot tall title={t.fill.artist} hint={t.fill.artistHint} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MerchTeaser() {
+  const { t } = usePrefs();
+  const items = [
+    { href: "/merch/remeras", name: t.merch.tees },
+    { href: "/merch/gorras", name: t.merch.caps },
+    { href: "/merch/stickers", name: t.merch.stickers },
+  ];
+  return (
+    <section id="merch" className="section-pad border-t border-line">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
+          {t.merch.kicker}
+        </p>
+        <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
+          {t.merch.title}
+        </h2>
+        <p className="mt-4 max-w-2xl text-ink/85">{t.merch.lead}</p>
+        <p className="mt-2 text-xs font-black uppercase tracking-[0.16em] text-duck">
+          {t.merch.limited}
+        </p>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {items.map((item) => (
+            <Link key={item.href} href={item.href} className="block">
+              <article className="fun-card h-full rounded-3xl border border-line bg-bg-elevated p-5">
+                <h3 className="font-[family-name:var(--font-display)] text-3xl text-duck">
+                  {item.name}
+                </h3>
+                <AwaitingSlot className="mt-4" title={t.fill.photo} hint={t.fill.photoHint} />
+              </article>
+            </Link>
+          ))}
+        </div>
+        <p className="mt-6 rounded-2xl border border-dashed border-duck/40 bg-duck/5 px-4 py-3 text-sm text-ink">
+          {t.merch.pickup} {t.merch.shipping}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function Transparency() {
+  const { t } = usePrefs();
+  const stamps = [
+    { t: t.transparency.s1t, b: t.transparency.s1b },
+    { t: t.transparency.s2t, b: t.transparency.s2b },
+    { t: t.transparency.s3t, b: t.transparency.s3b },
+    { t: t.transparency.s4t, b: t.transparency.s4b },
+  ];
+  return (
+    <section id="transparencia" className="section-pad border-t border-line">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
+          {t.transparency.kicker}
+        </p>
+        <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
+          {t.transparency.title}
+        </h2>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {stamps.map((item) => (
+            <article
+              key={item.t}
+              className="rounded-3xl border border-line bg-bg-elevated p-6"
+            >
+              <h3 className="text-lg font-black uppercase tracking-[0.08em] text-duck">
+                {item.t}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink/85">{item.b}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Where() {
+  const { t } = usePrefs();
+  return (
+    <section id="donde" className="section-pad pt-0">
+      <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-2">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
+            {t.where.kicker}
+          </p>
+          <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
+            {t.where.title}
+          </h2>
+          <p className="mt-4 text-ink/85">{t.where.body}</p>
+        </div>
+        <AwaitingSlot tall title={t.fill.map} hint={t.fill.mapHint} />
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  const { t } = usePrefs();
+  return (
+    <section id="contacto" className="section-pad pt-0">
+      <div className="mx-auto max-w-6xl rounded-[2rem] border border-line bg-bg-elevated px-6 py-10 md:px-12">
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
+          {t.contactBlock.kicker}
+        </p>
+        <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-wide">
+          {t.contactBlock.title}
+        </h2>
+        <p className="mt-4 text-ink/85">
+          {interpolate(t.contactBlock.body, { email: campaign.contactEmail })}
+        </p>
+        <a
+          href={`mailto:${campaign.contactEmail}`}
+          className="mt-4 inline-block font-semibold text-duck hover:underline"
+        >
+          {campaign.contactEmail}
+        </a>
       </div>
     </section>
   );

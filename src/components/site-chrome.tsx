@@ -2,18 +2,65 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useId, useState, type ReactNode } from "react";
 import { LocalizationMenu } from "@/components/localization-menu";
 import { usePrefs } from "@/components/locale-provider";
+import { useMoney } from "@/components/use-money";
 import { readSession } from "@/components/profile-access";
+import { campaign } from "@/lib/campaign";
+
+type NavItem = { href: string; label: string };
+
+function useNavItems(loggedIn: boolean) {
+  const { t } = usePrefs();
+  return {
+    // Desktop omits Contacto to leave room for Botón de arrepentimiento.
+    primary: [
+      { href: "/#que-es", label: t.nav.event },
+      { href: "/#como", label: t.nav.how },
+      { href: "/#beneficio", label: t.nav.benefit },
+      { href: "/sponsors", label: t.nav.sponsors },
+      { href: "/merch", label: t.nav.merch },
+      { href: "/faq", label: t.nav.questions },
+    ] satisfies NavItem[],
+    contact: {
+      href: "/#contacto",
+      label: t.nav.contact,
+    } satisfies NavItem,
+    account: {
+      href: loggedIn ? "/perfil/cuenta" : "/perfil",
+      label: loggedIn ? t.nav.account : t.nav.login,
+    } satisfies NavItem,
+  };
+}
 
 export function SiteHeader() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [open, setOpen] = useState(false);
   const { t } = usePrefs();
+  const nav = useNavItems(loggedIn);
+  const menuId = useId();
 
   useEffect(() => {
     setLoggedIn(Boolean(readSession()));
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <header className="absolute inset-x-0 top-0 z-20">
@@ -33,31 +80,42 @@ export function SiteHeader() {
             PATO&nbsp;RACE
           </span>
         </Link>
-        <nav className="hidden items-center gap-8 text-sm text-ink-muted lg:flex">
-          <a href="/#que-es" className="hover:text-ink transition">
-            {t.nav.what}
-          </a>
-          <a href="/#sponsors" className="hover:text-ink transition">
-            {t.nav.sponsors}
-          </a>
-          <a href="/#beneficio" className="hover:text-ink transition">
-            {t.nav.benefit}
-          </a>
-          <a href="/#como" className="hover:text-ink transition">
-            {t.nav.how}
-          </a>
+        <nav className="hidden items-center gap-5 text-sm text-ink-muted xl:flex xl:gap-5">
+          {nav.primary.map((item) => (
+            <Link key={item.href} href={item.href} className="transition hover:text-ink">
+              {item.label}
+            </Link>
+          ))}
+          <Link href={nav.account.href} className="transition hover:text-ink">
+            {nav.account.label}
+          </Link>
           <Link
-            href={loggedIn ? "/perfil/cuenta" : "/perfil"}
-            className="hover:text-ink transition"
+            href="/legal/arrepentimiento"
+            className="whitespace-nowrap text-xs text-ink-muted/80 underline decoration-ink-muted/30 underline-offset-4 transition hover:text-ink"
           >
-            {loggedIn ? t.nav.account : t.nav.login}
+            {t.nav.regret}
           </Link>
         </nav>
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-line text-ink xl:hidden"
+            aria-expanded={open}
+            aria-controls={menuId}
+            aria-label={t.nav.menu}
+            onClick={() => setOpen(true)}
+          >
+            <span className="sr-only">{t.nav.menu}</span>
+            <span aria-hidden className="flex flex-col gap-1.5">
+              <span className="block h-0.5 w-5 bg-ink" />
+              <span className="block h-0.5 w-5 bg-ink" />
+              <span className="block h-0.5 w-5 bg-ink" />
+            </span>
+          </button>
           <LocalizationMenu align="right" compactOnMobile />
           <Link
-            href={loggedIn ? "/perfil/cuenta" : "/perfil"}
-            className="hidden rounded-full border border-line px-3 py-2 text-sm font-semibold text-ink transition hover:border-ink/40 md:inline-flex lg:hidden"
+            href={nav.account.href}
+            className="hidden rounded-full border border-line px-3 py-2 text-sm font-semibold text-ink transition hover:border-ink/40 md:inline-flex xl:hidden"
           >
             {loggedIn ? t.nav.account : t.nav.loginShort}
           </Link>
@@ -69,7 +127,100 @@ export function SiteHeader() {
           </Link>
         </div>
       </div>
+
+      {open ? (
+        <div
+          id={menuId}
+          className="fixed inset-0 z-50 flex flex-col bg-bg-elevated xl:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label={t.nav.menu}
+        >
+          <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-4">
+            <span className="font-[family-name:var(--font-display)] text-2xl tracking-normal text-ink">
+              PATO&nbsp;RACE
+            </span>
+            <button
+              type="button"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-line text-ink transition hover:border-ink/50"
+              aria-label={t.nav.close}
+              onClick={() => setOpen(false)}
+            >
+              <span className="sr-only">{t.nav.close}</span>
+              <svg
+                aria-hidden
+                viewBox="0 0 24 24"
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.25"
+                strokeLinecap="round"
+              >
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            </button>
+          </div>
+          <nav className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-1 overflow-y-auto px-5 py-6">
+            {nav.primary.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-2xl px-3 py-3 text-lg font-semibold text-ink hover:bg-bg/60"
+                onClick={() => setOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href={nav.contact.href}
+              className="rounded-2xl px-3 py-3 text-lg font-semibold text-ink hover:bg-bg/60"
+              onClick={() => setOpen(false)}
+            >
+              {nav.contact.label}
+            </Link>
+            <Link
+              href={nav.account.href}
+              className="rounded-2xl px-3 py-3 text-lg font-semibold text-ink hover:bg-bg/60"
+              onClick={() => setOpen(false)}
+            >
+              {nav.account.label}
+            </Link>
+            <Link
+              href="/legal/arrepentimiento"
+              className="rounded-2xl px-3 py-3 text-lg font-semibold text-ink hover:bg-bg/60"
+              onClick={() => setOpen(false)}
+            >
+              {t.nav.regret}
+            </Link>
+          </nav>
+        </div>
+      ) : null}
     </header>
+  );
+}
+
+export function StickyAdoptBar() {
+  const pathname = usePathname();
+  const { t } = usePrefs();
+  const money = useMoney();
+
+  if (pathname === "/participar") return null;
+
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-duck/40 bg-bg-elevated/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur xl:hidden">
+      <Link
+        href="/participar"
+        className="flex h-12 w-full items-center justify-center rounded-full bg-duck text-sm font-black text-bg"
+      >
+        {t.sticky.adopt} · {money.ticket()}
+      </Link>
+      <Link
+        href="/legal/arrepentimiento"
+        className="mt-2 block text-center text-[11px] text-ink-muted underline decoration-ink-muted/30 underline-offset-2 transition hover:text-ink"
+      >
+        {t.nav.regret}
+      </Link>
+    </div>
   );
 }
 
@@ -90,22 +241,134 @@ export function DuckMark({ className = "h-6 w-6" }: { className?: string }) {
   );
 }
 
+function FooterAccordion({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-line md:border-0">
+      <button
+        type="button"
+        className="flex w-full items-center justify-between py-4 text-left text-sm font-black uppercase tracking-[0.16em] text-water-bright md:pointer-events-none md:py-0"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+      >
+        {title}
+        <span className="md:hidden">{open ? "−" : "+"}</span>
+      </button>
+      <div className={`${open ? "block pb-4" : "hidden"} md:mt-4 md:block md:pb-0`}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export function SiteFooter() {
   const { t } = usePrefs();
+  const year = campaign.year;
+
   return (
-    <footer className="border-t border-line bg-bg-elevated">
-      <div className="mx-auto flex max-w-6xl flex-col gap-5 px-5 py-10 text-sm text-ink-muted md:flex-row md:items-center md:justify-between md:px-8">
-        <div>
-          <p className="font-[family-name:var(--font-display)] text-xl leading-none tracking-wide text-ink">
-            PATO RACE 2026
-          </p>
-          <p className="mt-2">{t.footer.event}</p>
+    <>
+      <footer className="border-t border-line bg-bg-elevated pb-32 xl:pb-0">
+        <div className="mx-auto grid max-w-6xl gap-2 px-5 py-10 text-sm text-ink-muted md:grid-cols-4 md:gap-8 md:px-8">
+          <FooterAccordion title={t.footer.brandCol}>
+            <p className="font-[family-name:var(--font-display)] text-xl leading-none tracking-wide text-ink">
+              PATO RACE {year}
+            </p>
+            <p className="mt-2">{t.footer.event}</p>
+            <p className="mt-2">{t.footer.organizer}</p>
+            <p className="mt-2 text-ink">{t.footer.people}</p>
+            <p className="mt-1">{t.footer.taxId}</p>
+            <p className="mt-1">{t.footer.address}</p>
+            <p className="mt-3 rounded-2xl border border-dashed border-duck/40 bg-duck/5 px-3 py-2 text-xs text-ink">
+              {t.footer.hoursNeed}
+            </p>
+          </FooterAccordion>
+          <FooterAccordion title={t.footer.infoCol}>
+            <ul className="space-y-2 text-ink">
+              <li>
+                <Link href="/#que-es" className="hover:text-duck">
+                  {t.nav.event}
+                </Link>
+              </li>
+              <li>
+                <Link href="/#como" className="hover:text-duck">
+                  {t.nav.how}
+                </Link>
+              </li>
+              <li>
+                <Link href="/merch" className="hover:text-duck">
+                  {t.nav.merch}
+                </Link>
+              </li>
+              <li>
+                <Link href="/sponsors" className="hover:text-duck">
+                  {t.nav.sponsors}
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="hover:text-duck">
+                  {t.nav.questions}
+                </Link>
+              </li>
+            </ul>
+          </FooterAccordion>
+          <FooterAccordion title={t.footer.legalCol}>
+            <ul className="space-y-2 text-ink">
+              <li>
+                <Link href="/legal/terminos" className="hover:text-duck">
+                  {t.legal.terms}
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/privacidad" className="hover:text-duck">
+                  {t.legal.privacy}
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/cookies" className="hover:text-duck">
+                  {t.legal.cookies}
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/bases" className="hover:text-duck">
+                  {t.legal.rules}
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/devoluciones" className="hover:text-duck">
+                  {t.legal.returns}
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/arrepentimiento" className="hover:text-duck">
+                  {t.legal.regret}
+                </Link>
+              </li>
+            </ul>
+          </FooterAccordion>
+          <FooterAccordion title={t.footer.contactCol}>
+            <p className="text-ink">{t.footer.note}</p>
+            <a
+              href={`mailto:${campaign.contactEmail}`}
+              className="mt-3 inline-block text-duck hover:underline"
+            >
+              {t.footer.email}
+            </a>
+            <div className="mt-4">
+              <LocalizationMenu align="left" />
+            </div>
+          </FooterAccordion>
         </div>
-        <div className="flex flex-col gap-4 md:items-end">
-          <LocalizationMenu align="right" />
-          <p className="max-w-md md:text-right">{t.footer.note}</p>
-        </div>
-      </div>
-    </footer>
+        <p className="mx-auto max-w-6xl px-5 pb-8 text-xs text-ink-muted md:px-8">
+          {t.footer.copyright}
+        </p>
+      </footer>
+      <StickyAdoptBar />
+    </>
   );
 }

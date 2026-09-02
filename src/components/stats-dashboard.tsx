@@ -93,7 +93,7 @@ export function StatsDashboard({
             </div>
           </div>
           <span className="-rotate-2 rounded-md bg-coral px-2.5 py-1 text-[10px] font-black uppercase tracking-wide text-white shadow-[3px_3px_0_rgba(0,0,0,0.35)]">
-            {t.live.goal} {money.goal()}
+            {progressShown}% {t.live.ofGoal}
           </span>
         </div>
 
@@ -133,9 +133,8 @@ export function StatsDashboard({
           <div className="mt-2 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.16em] text-ink-muted">
             <span>{t.live.start}</span>
             <span className="text-duck">
-              {progressShown}% {t.live.toGoal}
+              {progressShown}% {t.live.ofGoal}
             </span>
-            <span>{t.live.goalEnd}</span>
           </div>
         </div>
 
@@ -150,7 +149,7 @@ export function StatsDashboard({
           </div>
           <div className="relative overflow-hidden rounded-2xl border-2 border-duck/50 bg-duck px-3 py-3 text-bg shadow-[4px_4px_0_#9a7400]">
             <p className="text-[10px] font-black uppercase tracking-[0.16em] text-bg/70">
-              {t.live.progress}
+              {t.live.ofGoal}
             </p>
             <p className="mt-1 font-[family-name:var(--font-display)] text-4xl leading-none tracking-wide">
               {progressShown}%
@@ -193,13 +192,13 @@ export function StatsDashboard({
         <StatCard
           label={t.live.raised}
           value={money.fromRaisedArs(raised)}
-          hint={`${t.live.goal} ${money.goal()}`}
+          hint={t.live.raised}
           glow
         />
         <StatCard
-          label={t.live.progress}
+          label={t.live.ofGoal}
           value={`${progressShown}%`}
-          hint={t.live.toGoal}
+          hint={t.live.ofGoal}
         />
       </div>
     </div>
