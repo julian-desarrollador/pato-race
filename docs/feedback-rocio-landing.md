@@ -18,7 +18,7 @@
 | Horario evento (provisorio) | **APERTURA 19:00 · CARRERA + EXPERIENCIA EN VIVO** (art. 2: horarios definitivos se comunican después) |
 | Cierre de ventas | **22 de noviembre 2026 a las 19:00** |
 | Apertura de ventas | Aprox. **20/09** — fecha exacta pendiente |
-| Beneficio social | **70%**: Garrahan **60%**, Fundación Carlos Gardel **5%**, Hospital de Niños Dr. Debilio Blanco Villegas de Tandil **5%** |
+| Beneficio social | **70%** a causas con impacto social (sin nombrar organizaciones). El 60/5/5 Garrahan/Gardel/Tandil **sale de la web** (pedido 18/09/2026). |
 | Operación | **30%** órdenes de compra (premios, producción, organización, tecnología, servicios, seguridad, logística, comunicación, medios de pago, impuestos y demás costos) |
 | Premios | **2%** de la recaudación computable de participaciones, **después** de comisiones impositivas y bancarias. Vive dentro del 30%, no suma 72%. |
 | Organizador | PATO RACE SOLIDARIO S.R.L., Rocío Bustamante y Luis Ortiz. CUIT **30-71952790-2**. Juncal 2061, piso 9° A, CABA |
@@ -205,7 +205,7 @@
 - **¿Más de una participación?** Sí.
 - **Qué incluye:** Número único + asignación. *No incluye pato físico.*
 - **¿Me llevo el pato?** No; son de producción, reutilizados (ambiente). Coleccionables = merch aparte.
-- **A dónde va el dinero / beneficiarios:** 70% a Garrahan, Gardel, Hospital de Niños de Tandil (detalle %); transparencia pública.
+- **A dónde va el dinero / beneficiarios:** 70% a causas con impacto social (sin nombres). El 30% cubre operación. Premio 2%. Transparencia pública.
 - **Lluvia / reprogramación:** Puede haber cambios; participación válida en nueva fecha.
 - **Menores:** Acompañados; detalle jurídico pendiente.
 - **Merch sin participar / retiro:** Sí se puede comprar merch aparte; métodos de entrega a indicar.
@@ -337,5 +337,7 @@
 Fases 0–7 armadas. Bases + T&C + cambios/devoluciones publicados. Precio **$10.000**, CUIT y 18+ cerrados. Checkbox de Bases obligatorio. Botón de arrepentimiento visible sin romper el header.
 
 **Bloqueado por material / decisión de Rocío:** logos sponsors, Partner Deck, video teaser, fotos merch, mapa/cómo llegar, nombres de artistas, USD internacional vs ARS, fecha exacta de apertura de ventas (~20/09), horario definitivo de la fiesta, y si se promete “seguir en vivo”.
+
+**Beneficiarios (18/09/2026):** la web pública y las Bases art. 3 comunican solo **70% a beneficio**, sin Garrahan/Gardel/Tandil ni 60/5/5, hasta nuevo aviso.
 
 **Tienda (comercial):** opcional +ARS 90.000 según propuesta; no desarrollar hasta ok + 50% inicial. Andreani = ampliación aparte.

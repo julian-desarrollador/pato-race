@@ -8,7 +8,7 @@ import { FaqAccordion } from "@/components/faq-accordion";
 import { usePrefs } from "@/components/locale-provider";
 import { StatsDashboard } from "@/components/stats-dashboard";
 import { useMoney } from "@/components/use-money";
-import { campaign, type BeneficiaryId } from "@/lib/campaign";
+import { campaign } from "@/lib/campaign";
 import type { PublicStats } from "@/lib/db/store";
 import { faqHomeItems, interpolate } from "@/lib/i18n/messages";
 
@@ -235,16 +235,6 @@ function QueEs() {
 
 function Impacto() {
   const { t } = usePrefs();
-  const descriptions: Record<BeneficiaryId, string> = {
-    garrahan: t.impacto.descGarrahan,
-    tandil: t.impacto.descTandil,
-    gardel: t.impacto.descGardel,
-  };
-  const lines = [
-    t.impacto.lineGarrahan,
-    t.impacto.lineGardel,
-    t.impacto.lineTandil,
-  ];
 
   return (
     <section id="beneficio" className="section-pad border-t border-line bg-bg-elevated">
@@ -258,30 +248,20 @@ function Impacto() {
             <span className="text-duck"> {t.impacto.titleAccent}</span>
           </h2>
           <p className="mt-5 max-w-md text-ink-muted">{t.impacto.lead}</p>
-          <div className="mt-4 space-y-2 text-sm text-ink-muted">
-            {lines.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
-          </div>
           <p className="mt-4 max-w-md rounded-2xl border border-line bg-bg-elevated/70 px-4 py-3 text-sm text-ink-muted">
             {t.impacto.prizes}
           </p>
           <p className="mt-3 max-w-md text-sm text-ink-muted">{t.impacto.costs}</p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {campaign.beneficiaries.map((b) => (
-            <article
-              key={b.id}
-              className="fun-card rounded-3xl border border-line bg-bg/40 p-6"
-            >
-              <p className="font-[family-name:var(--font-display)] text-4xl text-duck">
-                {b.share}
-              </p>
-              <h3 className="mt-2 text-xl font-semibold">{b.name}</h3>
-              <p className="mt-2 text-sm text-ink-muted">{descriptions[b.id]}</p>
-            </article>
-          ))}
-          <article className="fun-card rounded-3xl border border-line bg-gradient-to-br from-water/20 to-duck/10 p-6 sm:col-span-3">
+        <div className="grid gap-4">
+          <article className="fun-card rounded-3xl border border-line bg-bg/40 p-6">
+            <p className="font-[family-name:var(--font-display)] text-5xl text-duck md:text-6xl">
+              {t.impacto.share}
+            </p>
+            <h3 className="mt-2 text-xl font-semibold">{t.impacto.shareTitle}</h3>
+            <p className="mt-2 text-sm text-ink-muted">{t.impacto.shareBody}</p>
+          </article>
+          <article className="fun-card rounded-3xl border border-line bg-gradient-to-br from-water/20 to-duck/10 p-6">
             <h3 className="font-[family-name:var(--font-display)] text-3xl tracking-wide">
               {t.impacto.goalTitle}
             </h3>

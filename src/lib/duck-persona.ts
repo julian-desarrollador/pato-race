@@ -15,7 +15,6 @@ const NAMES: Record<Locale, readonly string[]> = {
     "Turbo Cuac",
     "Puerto Flash",
     "Solidario",
-    "Garrahán",
     "Splash",
   ],
   en: [
@@ -29,7 +28,6 @@ const NAMES: Record<Locale, readonly string[]> = {
     "Turbo Quack",
     "Port Flash",
     "Good Cause",
-    "Garrahan",
     "Splash",
   ],
 };

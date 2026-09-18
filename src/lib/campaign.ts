@@ -1,7 +1,5 @@
 import type { Currency } from "@/lib/i18n/config";
 
-export type BeneficiaryId = "garrahan" | "gardel" | "tandil";
-
 export const campaign = {
   name: "Pato Race",
   year: 2026,
@@ -23,23 +21,6 @@ export const campaign = {
   eventDuration: "≈ 2 horas",
   salesOpenNote: "Aprox. 20/09/2026 — fecha exacta pendiente",
   salesCloseLabel: "22 de noviembre de 2026 a las 19:00",
-  beneficiaries: [
-    {
-      id: "garrahan" as const satisfies BeneficiaryId,
-      name: "Hospital Garrahan",
-      share: "60%",
-    },
-    {
-      id: "gardel" as const satisfies BeneficiaryId,
-      name: "Fundación Carlos Gardel",
-      share: "5%",
-    },
-    {
-      id: "tandil" as const satisfies BeneficiaryId,
-      name: "Hospital de Niños Dr. Debilio Blanco Villegas de Tandil",
-      share: "5%",
-    },
-  ],
   sponsors: [{ name: "Alianza" }, { name: "Alianza" }, { name: "Alianza" }, { name: "Alianza" }, { name: "Alianza" }, { name: "Alianza" }],
   organizer: "PATO RACE SOLIDARIO S.R.L.",
   organizers: "Rocío Bustamante y Luis Ortiz",

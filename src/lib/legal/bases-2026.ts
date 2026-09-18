@@ -4,7 +4,7 @@ export const basesDocument: LegalDocument = {
   kicker: "PATO RACE 2026",
   title: "Bases y condiciones",
   versionNote:
-    "Versión y fecha de publicación pendientes de cierre por la Organización. Texto según el documento enviado. La fecha de apertura de ventas es aproximada (20/09) y permanece pendiente.",
+    "Versión actualizada a pedido de la Organización: el 70% se comunica de forma genérica, sin nombrar organizaciones beneficiarias. La fecha de apertura de ventas es aproximada (20/09) y permanece pendiente.",
   articles: [
     {
       num: "1",
@@ -29,10 +29,7 @@ export const basesDocument: LegalDocument = {
       title: "Finalidad solidaria",
       paragraphs: [
         "PATO RACE tiene como propósito generar una experiencia recreativa y solidaria destinada a colaborar con organizaciones beneficiarias.",
-        "De acuerdo con el esquema económico actualmente previsto, de la recaudación computable proveniente de las participaciones:",
-        "60% será destinado al Hospital Garrahan.",
-        "5% será destinado a Fundación Carlos Gardel.",
-        "5% será destinado al Hospital de Niños Dr. Debilio Blanco Villegas de Tandil.",
+        "De acuerdo con el esquema económico actualmente previsto, el 70% de la recaudación computable proveniente de las participaciones se destina a causas con impacto social.",
         "30% será destinado a órdenes de compras para premios, producción, organización, tecnología, servicios, seguridad, logística, comunicación, medios de pago, impuestos y demás costos relacionados con el evento.",
         "Total destinado a causas solidarias: 70%.",
       ],

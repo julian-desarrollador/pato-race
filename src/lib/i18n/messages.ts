@@ -133,15 +133,12 @@ export type Messages = {
     titleBefore: string;
     titleAccent: string;
     lead: string;
-    lineGarrahan: string;
-    lineTandil: string;
-    lineGardel: string;
+    share: string;
+    shareTitle: string;
+    shareBody: string;
     prizes: string;
     costs: string;
     ops: string;
-    descGarrahan: string;
-    descTandil: string;
-    descGardel: string;
     goalTitle: string;
     goalBody: string;
   };
@@ -569,17 +566,15 @@ export const es: Messages = {
     titleBefore: "70% va a",
     titleAccent: "causas con impacto social",
     lead: "El 70% de lo recaudado por las participaciones se destina a beneficio social.",
-    lineGarrahan: "60% para el Hospital Garrahan",
-    lineGardel: "5% para Fundación Carlos Gardel",
-    lineTandil: "5% para el Hospital de Niños Dr. Debilio Blanco Villegas de Tandil",
+    share: "70%",
+    shareTitle: "A causas con impacto social",
+    shareBody:
+      "El 70% de lo recaudado por las participaciones se destina a causas con impacto social. Las organizaciones beneficiarias se informan por los canales oficiales.",
     prizes:
       "El fondo de premios es el 2% de la recaudación computable de participaciones, previa deducción de comisiones impositivas y bancarias.",
     costs:
       "El 30% se destina a órdenes de compra: premios, producción, organización, tecnología, servicios, seguridad, logística, comunicación, medios de pago, impuestos y demás costos del evento.",
     ops: "30% operación y premios",
-    descGarrahan: "Principal destino de la recaudación a beneficio.",
-    descTandil: "Parte del 70% destinado a beneficio social.",
-    descGardel: "Parte del 70% destinado a beneficio social.",
     goalTitle: "Argentina corre junta",
     goalBody: "Miles de personas. Miles de patos. Una misma causa.",
   },
@@ -615,8 +610,8 @@ export const es: Messages = {
   transparency: {
     kicker: "Confianza",
     title: "Una carrera transparente",
-    s1t: "Beneficiarios oficiales",
-    s1b: "Garrahan, Fundación Carlos Gardel y Hospital de Niños Dr. Debilio Blanco Villegas de Tandil.",
+    s1t: "70% a beneficio",
+    s1b: "El 70% de lo recaudado por las participaciones se destina a causas con impacto social.",
     s2t: "Pago seguro",
     s2b: "Pagás online y recibís tu número único de participación.",
     s3t: "Asignación aleatoria",
@@ -677,7 +672,7 @@ export const es: Messages = {
       q5: "¿Cuánto es el premio?",
       a5: "El premio crece con la carrera: el 2% de la recaudación computable de participaciones, después de comisiones impositivas y bancarias. Gana un pato por carrera y, si hay varios adoptantes, se reparte en partes iguales. El detalle está en las Bases.",
       q6: "¿A dónde va el dinero?",
-      a6: "El 70% va a beneficio: 60% al Hospital Garrahan, 5% a Fundación Carlos Gardel y 5% al Hospital de Niños Dr. Debilio Blanco Villegas de Tandil. El 30% cubre órdenes de compra (premios, producción, organización, tecnología, seguridad, logística, impuestos y demás costos). El fondo de premios es el 2% de la recaudación computable de participaciones. La distribución se comunica de forma pública.",
+      a6: "El 70% va a beneficio, a causas con impacto social. El 30% cubre órdenes de compra (premios, producción, organización, tecnología, seguridad, logística, impuestos y demás costos). El fondo de premios es el 2% de la recaudación computable de participaciones. La distribución se comunica de forma pública.",
       q7: "¿Qué pasa si llueve?",
       a7: "Puede haber cambios de fecha u horario. Tu participación sigue válida en la nueva fecha. Si una carrera se interrumpe, puede reanudarse, repetirse o reprogramarse. Ante cancelación definitiva se aplica la normativa de defensa del consumidor y se tratará de realizar en fecha posterior; el lugar podría cambiar con aviso previo.",
       q8: "¿Puedo comprar más de una participación?",
@@ -726,7 +721,7 @@ export const es: Messages = {
     payFail: "El pago no se completó. Podés intentar de nuevo.",
     benefitTitle: "70% de tu aporte va a beneficio",
     benefitBody:
-      "70% a causas: 60% Hospital Garrahan, 5% Fundación Carlos Gardel y 5% Hospital de Niños Dr. Debilio Blanco Villegas de Tandil. El 30% cubre premios, producción y operación. El fondo de premios es el 2% de la recaudación computable de participaciones.",
+      "El 70% de tu aporte va a causas con impacto social. El 30% cubre premios, producción y operación. El fondo de premios es el 2% de la recaudación computable de participaciones.",
     payNote:
       "Vas a pagar {price}. Pagás online, recibís tu ticket digital y podés participar aunque no estés en el Dique 3. Titulares con derecho a premio: mayores de 18 años o personas jurídicas.",
     payUsdNote: "Estás pagando en dólares estadounidenses (USD).",
@@ -849,7 +844,7 @@ export const es: Messages = {
     mpId: "ID Mercado Pago",
     demoMode: "Modo demo: pago simulado (sin Mercado Pago configurado).",
     receiptLegal:
-      "El {percent}% de lo recaudado se destina a causas solidarias ({names}). Conservá este comprobante como constancia de tu participación. Evento: {location} · {date} · {time}.",
+      "El {percent}% de lo recaudado se destina a causas con impacto social. Conservá este comprobante como constancia de tu participación. Evento: {location} · {date} · {time}.",
     viralKicker: "Viralizá la causa",
     shareTitle: "COMPARTÍ TU PERFIL",
     shareBody:
@@ -866,7 +861,7 @@ export const es: Messages = {
     homeDesc:
       "La carrera solidaria de patos más grande de Argentina. Dique 3, Puerto Madero. 22 de noviembre 2026. 70% a beneficio. Adoptá tu pato y participá.",
     ogDesc:
-      "Carrera de patos a beneficio en Puerto Madero. 70% para Garrahan, Fundación Carlos Gardel y Hospital de Niños de Tandil.",
+      "Carrera de patos a beneficio en Puerto Madero. 70% destinado a causas con impacto social.",
     faqTitle: "Preguntas frecuentes | Pato Race 2026",
     faqDesc:
       "Cómo participar, a dónde va el dinero, cómo se asigna tu pato y más sobre Pato Race 2026.",
@@ -1024,17 +1019,15 @@ export const en: Messages = {
     titleBefore: "70% goes to",
     titleAccent: "social impact",
     lead: "70% of entry proceeds go to social causes.",
-    lineGarrahan: "60% to Hospital Garrahan",
-    lineGardel: "5% to Fundación Carlos Gardel",
-    lineTandil: "5% to Hospital de Niños Dr. Debilio Blanco Villegas de Tandil",
+    share: "70%",
+    shareTitle: "To social impact causes",
+    shareBody:
+      "70% of entry proceeds go to social impact causes. Beneficiary organizations are shared through official channels.",
     prizes:
       "The prize fund is 2% of computable entry proceeds, after tax and bank fees.",
     costs:
       "30% goes to purchase orders: prizes, production, organization, technology, services, safety, logistics, communications, payment fees, taxes, and other event costs.",
     ops: "30% operations and prizes",
-    descGarrahan: "The main recipient of funds raised for the cause.",
-    descTandil: "Part of the 70% going to social causes.",
-    descGardel: "Part of the 70% going to social causes.",
     goalTitle: "Argentina runs together",
     goalBody: "Thousands of people. Thousands of ducks. One cause.",
   },
@@ -1070,8 +1063,8 @@ export const en: Messages = {
   transparency: {
     kicker: "Trust",
     title: "A transparent race",
-    s1t: "Official beneficiaries",
-    s1b: "Garrahan, Fundación Carlos Gardel, and Hospital de Niños Dr. Debilio Blanco Villegas de Tandil.",
+    s1t: "70% to the cause",
+    s1b: "70% of entry proceeds go to social impact causes.",
     s2t: "Secure payment",
     s2b: "You pay online and get a unique entry number.",
     s3t: "Random assignment",
@@ -1131,7 +1124,7 @@ export const en: Messages = {
       q5: "How much is the prize?",
       a5: "The prize grows with the race: 2% of computable entry proceeds, after tax and bank fees. One duck wins each race; if that duck has several entries, the prize is split equally. Details are in the official rules.",
       q6: "Where does the money go?",
-      a6: "70% goes to the causes: 60% to Hospital Garrahan, 5% to Fundación Carlos Gardel, and 5% to Hospital de Niños Dr. Debilio Blanco Villegas de Tandil. 30% covers purchase orders (prizes, production, organization, technology, safety, logistics, taxes, and other costs). The prize fund is 2% of computable entry proceeds. The split is shared publicly.",
+      a6: "70% goes to social impact causes. 30% covers purchase orders (prizes, production, organization, technology, safety, logistics, taxes, and other costs). The prize fund is 2% of computable entry proceeds. The split is shared publicly.",
       q7: "What if it rains?",
       a7: "The date or time may change. Your entry stays valid for the new date. If a race is interrupted, it may resume, be rerun, or be rescheduled. If the event is cancelled for good, consumer-protection rules apply and the organizers will try a later date; the venue may change with prior notice.",
       q8: "Can I buy more than one entry?",
@@ -1180,7 +1173,7 @@ export const en: Messages = {
     payFail: "The payment didn't go through. You can try again.",
     benefitTitle: "70% of what you give goes to the causes",
     benefitBody:
-      "70% to causes: 60% Hospital Garrahan, 5% Fundación Carlos Gardel, and 5% Hospital de Niños Dr. Debilio Blanco Villegas de Tandil. 30% covers prizes, production, and operations. The prize fund is 2% of computable entry proceeds.",
+      "70% of what you give goes to social impact causes. 30% covers prizes, production, and operations. The prize fund is 2% of computable entry proceeds.",
     payNote:
       "You'll pay {price}. You pay online, get your digital ticket, and can take part even if you aren't at Dique 3. Prize-eligible holders must be 18+ or a legal entity.",
     payUsdNote: "You'll be charged in US dollars (USD).",
@@ -1303,7 +1296,7 @@ export const en: Messages = {
     mpId: "Mercado Pago ID",
     demoMode: "Demo mode: simulated payment (Mercado Pago is not configured).",
     receiptLegal:
-      "{percent}% of proceeds go to social causes ({names}). Keep this receipt as proof of your entry. Event: {location} · {date} · {time}.",
+      "{percent}% of proceeds go to social impact causes. Keep this receipt as proof of your entry. Event: {location} · {date} · {time}.",
     viralKicker: "Spread the word",
     shareTitle: "SHARE YOUR PROFILE",
     shareBody:
@@ -1320,7 +1313,7 @@ export const en: Messages = {
     homeDesc:
       "Argentina's biggest charity duck race. Dique 3, Puerto Madero. November 22, 2026. 70% to the causes. Adopt your duck and join in.",
     ogDesc:
-      "Charity duck race in Puerto Madero. 70% to Garrahan, Fundación Carlos Gardel, and Hospital de Niños de Tandil.",
+      "Charity duck race in Puerto Madero. 70% goes to social impact causes.",
     faqTitle: "FAQ | Pato Race 2026",
     faqDesc:
       "How to join, where the money goes, how your duck is assigned, and more about Pato Race 2026.",

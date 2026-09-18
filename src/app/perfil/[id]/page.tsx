@@ -298,7 +298,6 @@ export default async function ProfilePage({
               <p className="mt-8 text-xs leading-relaxed text-ink-muted print:text-neutral-600">
                 {interpolate(t.ticket.receiptLegal, {
                   percent: campaign.benefitPercent,
-                  names: campaign.beneficiaries.map((b) => b.name).join(", "),
                   location: campaign.location,
                   date: t.hero.date,
                   time: t.hero.time,
