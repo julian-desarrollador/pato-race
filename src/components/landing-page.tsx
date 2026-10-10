@@ -15,16 +15,17 @@ import { faqHomeItems, interpolate } from "@/lib/i18n/messages";
 export function LandingPage({ stats }: { stats: PublicStats }) {
   return (
     <>
-      <Hero stats={stats} />
-      <VideoTeaser />
+      <Hero />
+      <Counter stats={stats} />
       <QueEs />
-      <Experience />
-      <Sponsors />
-      <Impacto />
       <ComoFunciona />
-      <Remote />
-      <MerchTeaser />
+      <Cinematic />
+      <Experience />
+      <Quienes />
+      <Impacto />
+      <Sponsors />
       <Faq />
+      <MerchTeaser />
       <Transparency />
       <Where />
       <Contact />
@@ -33,7 +34,7 @@ export function LandingPage({ stats }: { stats: PublicStats }) {
   );
 }
 
-function Hero({ stats }: { stats: PublicStats }) {
+function Hero() {
   const { t } = usePrefs();
   const money = useMoney();
 
@@ -49,36 +50,17 @@ function Hero({ stats }: { stats: PublicStats }) {
       <div className="pointer-events-none absolute -left-20 top-28 h-52 w-52 rounded-full bg-coral/25 blur-3xl" />
       <div className="pointer-events-none absolute -right-20 top-20 h-72 w-72 rounded-full bg-duck/25 blur-3xl" />
 
-      <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-5 pb-14 pt-24 md:px-8 md:pb-20 md:pt-28">
+      <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-5 pb-32 pt-24 md:px-8 md:pb-36 md:pt-28 xl:pb-24">
         <div className="grid grid-cols-[1.15fr_0.85fr] items-center gap-3 sm:gap-6 md:gap-10">
           <div className="animate-rise min-w-0">
-            <div className="date-chip mb-4 inline-flex w-fit max-w-full -rotate-1 flex-col overflow-hidden rounded-2xl border-2 border-duck bg-duck text-bg shadow-[5px_5px_0_#9a7400] sm:mb-6 sm:rotate-0 sm:flex-row sm:items-stretch">
-              <div className="px-3.5 py-2.5 sm:px-4 sm:py-3">
-                <p className="text-[9px] font-black uppercase tracking-[0.22em] text-bg/55">
-                  {t.hero.city}
-                </p>
-                <p className="font-[family-name:var(--font-display)] text-xl leading-none tracking-wide sm:text-2xl">
-                  {campaign.city}
-                </p>
-                <p className="mt-1 text-[10px] font-bold uppercase tracking-wide text-bg/75">
-                  {campaign.location}
-                </p>
-              </div>
-              <div className="hidden w-px self-stretch bg-bg/20 sm:block" aria-hidden />
-              <div className="border-t-2 border-bg/15 px-3.5 py-2.5 sm:border-t-0 sm:px-4 sm:py-3">
-                <p className="text-[9px] font-black uppercase tracking-[0.22em] text-bg/55">
-                  {t.hero.dateTime}
-                </p>
-                <p className="text-xs font-black uppercase leading-tight tracking-wide sm:text-sm">
-                  {t.hero.date}
-                </p>
-                <p className="mt-0.5 text-xs font-bold uppercase tracking-wide text-bg/75 sm:text-sm">
-                  {t.hero.time}
-                </p>
-              </div>
-            </div>
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-water-bright sm:text-xs">
+              {campaign.city} · {campaign.location}
+            </p>
+            <p className="mt-2 font-[family-name:var(--font-display)] text-2xl tracking-wide text-duck sm:text-3xl">
+              {campaign.year}
+            </p>
 
-            <h1 className="hero-title font-[family-name:var(--font-display)] text-[clamp(3.4rem,12vw,9.5rem)] leading-[0.78] tracking-wide text-ink">
+            <h1 className="hero-title mt-3 font-[family-name:var(--font-display)] text-[clamp(3.4rem,12vw,9.5rem)] leading-[0.78] tracking-wide text-ink">
               PATO
               <br />
               <span className="relative inline-block text-duck">
@@ -89,37 +71,45 @@ function Hero({ stats }: { stats: PublicStats }) {
               </span>
             </h1>
 
-            <p className="mt-4 max-w-md text-sm font-semibold uppercase tracking-[0.08em] text-ink sm:mt-6 sm:text-base md:text-lg">
+            <p className="mt-4 max-w-md font-[family-name:var(--font-display)] text-3xl leading-none tracking-wide text-ink sm:text-4xl">
               {t.hero.tagline}
             </p>
-            <p className="mt-2 max-w-md text-sm text-ink-muted sm:text-lg md:text-xl">
-              {t.hero.lead}
+            <p className="mt-2 max-w-md font-[family-name:var(--font-display)] text-3xl leading-none tracking-wide text-duck sm:text-4xl">
+              {t.hero.headline}
+            </p>
+            <p className="mt-4 max-w-md text-sm text-ink-muted sm:text-lg">{t.hero.lead}</p>
+
+            <p className="mt-6 font-[family-name:var(--font-display)] text-6xl leading-none tracking-wide text-duck sm:text-7xl">
+              {campaign.benefitPercent}%
+            </p>
+            <p className="mt-1 max-w-xs text-sm font-black uppercase tracking-[0.12em] text-ink">
+              {t.hero.benefitCaption}
             </p>
 
-            <div className="mt-5 flex flex-wrap items-center gap-3 sm:mt-8 sm:gap-4">
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link
                 href="/participar"
                 className="fun-button whitespace-nowrap rounded-full bg-duck px-5 py-3 text-sm font-black text-bg sm:px-7 sm:py-3.5 sm:text-base"
               >
                 {t.hero.adopt} · {money.ticket()}
               </Link>
+              <Link
+                href="/merch"
+                className="whitespace-nowrap rounded-full bg-water-bright px-5 py-3 text-sm font-black text-bg shadow-[0_6px_0_#0e7c90] transition hover:brightness-110 sm:px-6 sm:py-3.5 sm:text-base"
+              >
+                {t.hero.merch}
+              </Link>
               <a
-                href="#como"
+                href="#experiencia"
                 className="rounded-full border border-line px-5 py-3 text-sm text-ink transition hover:border-ink/40 sm:px-6 sm:py-3.5 sm:text-base"
               >
-                {t.hero.how}
+                {t.hero.discover}
               </a>
             </div>
-            <p className="mt-3 text-xs font-black uppercase tracking-[0.16em] text-ink-muted">
-              {interpolate(t.hero.priceContext, { price: money.ticket() })}
-            </p>
-            <p className="mt-1 text-sm text-ink-muted">{t.hero.anywhere}</p>
+            <p className="mt-3 text-sm text-ink-muted">{t.hero.anywhere}</p>
           </div>
 
-          <div
-            className="relative animate-rise self-center"
-            style={{ animationDelay: "120ms" }}
-          >
+          <div className="relative animate-rise self-center" style={{ animationDelay: "120ms" }}>
             <div className="absolute left-1/2 top-1/2 h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full bg-duck/80 animate-ripple sm:h-48 sm:w-48 md:h-72 md:w-72" />
             <div
               className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-water-bright/30 animate-ripple sm:h-64 sm:w-64 sm:border-4 md:h-96 md:w-96"
@@ -142,34 +132,40 @@ function Hero({ stats }: { stats: PublicStats }) {
             </div>
           </div>
         </div>
-
-        <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-[0.9fr_1.1fr] md:items-stretch">
-          <div className="rotate-1 rounded-[1.5rem] border-2 border-line bg-[#13302e] p-4 text-ink shadow-[0_14px_36px_rgba(0,0,0,0.28)] sm:p-5">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <div>
-                <p className="font-[family-name:var(--font-display)] text-xl leading-none tracking-wide sm:text-2xl">
-                  {campaign.location}
-                </p>
-                <p className="mt-1 text-[11px] font-semibold text-ink-muted sm:text-xs">
-                  {t.hero.racesLine}
-                </p>
-              </div>
-              <span className="rounded-full bg-duck px-3 py-1 text-[10px] font-black text-bg sm:text-xs">
-                {t.hero.remaining}
-              </span>
-            </div>
-            <Countdown targetIso={campaign.eventDate.toISOString()} />
-            <p className="mt-3 text-[11px] font-black uppercase tracking-[0.16em] text-duck">
-              {t.hero.adoptionsOpen}
-            </p>
-          </div>
-
-          <div id="stats" className="min-w-0">
-            <StatsDashboard initial={stats} compact />
-          </div>
-        </div>
       </div>
       <div className="hero-wave pointer-events-none absolute inset-x-0 bottom-0 h-8 md:h-12" />
+    </section>
+  );
+}
+
+function Counter({ stats }: { stats: PublicStats }) {
+  const { t } = usePrefs();
+
+  return (
+    <section id="carrera" className="section-pad border-t border-line bg-bg-elevated">
+      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+        <div>
+          <h2 className="font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
+            {t.counter.kicker}
+          </h2>
+          <p className="mt-2 font-[family-name:var(--font-display)] text-2xl tracking-wide text-duck md:text-3xl">
+            {t.counter.title}
+          </p>
+          <div className="mt-6">
+            <Countdown targetIso={campaign.eventDate.toISOString()} />
+          </div>
+          <p className="mt-4 text-xs font-black uppercase tracking-[0.16em] text-duck">
+            {t.counter.open}
+          </p>
+          <Link
+            href="/participar"
+            className="mt-6 inline-flex rounded-full bg-duck px-6 py-3 text-sm font-black text-bg"
+          >
+            {t.counter.cta}
+          </Link>
+        </div>
+        <StatsDashboard initial={stats} compact />
+      </div>
     </section>
   );
 }
@@ -177,57 +173,180 @@ function Hero({ stats }: { stats: PublicStats }) {
 function QueEs() {
   const { t } = usePrefs();
   const highlights = [
-    {
-      value: t.queEs.adoptLabel,
-      label: t.queEs.adoptLabel,
-      detail: t.queEs.adoptDetail,
-    },
-    {
-      value: t.queEs.shareLabel,
-      label: t.queEs.shareLabel,
-      detail: t.queEs.shareDetail,
-    },
-    {
-      value: t.queEs.prizeLabel,
-      label: t.queEs.prizeLabel,
-      detail: t.queEs.prizeDetail,
-    },
+    { label: t.queEs.adoptLabel, detail: t.queEs.adoptDetail },
+    { label: t.queEs.shareLabel, detail: t.queEs.shareDetail },
+    { label: t.queEs.prizeLabel, detail: t.queEs.prizeDetail },
   ];
 
   return (
-    <section id="que-es" className="section-pad border-t border-line bg-bg-elevated">
+    <section id="que-es" className="section-pad border-t border-line">
       <div className="mx-auto max-w-6xl">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-end">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
-              {t.queEs.kicker}
-            </p>
-            <h2 className="mt-3 font-[family-name:var(--font-display)] text-5xl tracking-wide md:text-7xl">
-              {t.queEs.titleBefore}{" "}
-              <span className="text-duck">{t.queEs.titleAccent}</span>
-            </h2>
-          </div>
-          <div className="space-y-4 text-base leading-relaxed text-ink/85 md:text-lg">
-            <p>{t.queEs.p1}</p>
-            <p>{t.queEs.p2}</p>
-          </div>
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
+          {t.queEs.kicker}
+        </p>
+        <h2 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-5xl tracking-wide md:text-7xl">
+          {t.queEs.titleBefore} <span className="text-duck">{t.queEs.titleAccent}</span>
+        </h2>
+        <div className="mt-6 max-w-3xl space-y-4 text-base leading-relaxed text-ink/85 md:text-lg">
+          <p>{t.queEs.p1}</p>
+          <p>{t.queEs.p2}</p>
+          <p className="font-semibold text-ink">{t.queEs.p3}</p>
         </div>
-
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {highlights.map((item) => (
-            <article
-              key={item.label}
-              className="fun-card rounded-3xl border border-line bg-bg/45 p-6"
-            >
-              <h3 className="font-[family-name:var(--font-display)] text-2xl tracking-wide text-duck md:text-3xl">
-                {item.value}
+            <article key={item.label} className="fun-card rounded-3xl border border-line bg-bg-elevated p-6">
+              <h3 className="font-[family-name:var(--font-display)] text-2xl tracking-wide text-duck">
+                {item.label}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-                {item.detail}
-              </p>
+              <p className="mt-3 text-sm leading-relaxed text-ink-muted">{item.detail}</p>
             </article>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function ComoFunciona() {
+  const { t } = usePrefs();
+  const steps = [
+    { n: "01", title: t.como.s1t, body: t.como.s1b },
+    { n: "02", title: t.como.s2t, body: t.como.s2b },
+    { n: "03", title: t.como.s3t, body: t.como.s3b },
+    { n: "04", title: t.como.s4t, body: t.como.s4b },
+    { n: "05", title: t.como.s5t, body: t.como.s5b },
+  ];
+
+  return (
+    <section id="como" className="section-pad border-t border-line bg-bg-elevated">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-xs uppercase tracking-[0.25em] text-water-bright">{t.como.kicker}</p>
+        <h2 className="mt-3 font-[family-name:var(--font-display)] text-5xl tracking-wide md:text-6xl">
+          {t.como.title}
+        </h2>
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <Link href="/sponsors" className="fun-card rounded-3xl border border-line bg-bg p-6">
+            <h3 className="font-[family-name:var(--font-display)] text-3xl tracking-wide text-duck">
+              {t.como.sponsorPath}
+            </h3>
+            <p className="mt-2 text-sm text-ink-muted">{t.como.sponsorBody}</p>
+          </Link>
+          <Link href="/participar" className="fun-card rounded-3xl border border-duck/40 bg-duck/10 p-6">
+            <h3 className="font-[family-name:var(--font-display)] text-3xl tracking-wide">
+              {t.como.adoptPath}
+            </h3>
+            <p className="mt-2 text-sm text-ink-muted">{t.como.adoptBody}</p>
+          </Link>
+        </div>
+        <div className="mt-6 grid gap-4 md:grid-cols-5">
+          {steps.map((step) => (
+            <article key={step.n} className="rounded-3xl border border-line bg-bg/60 p-5">
+              <p className="font-[family-name:var(--font-display)] text-3xl text-duck/80">{step.n}</p>
+              <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-muted">{step.body}</p>
+            </article>
+          ))}
+        </div>
+        <p className="mt-10 font-[family-name:var(--font-display)] text-3xl tracking-wide md:text-4xl">
+          {t.como.close}
+        </p>
+        <Link
+          href="/participar"
+          className="mt-6 inline-flex rounded-full bg-duck px-7 py-3 text-sm font-black text-bg"
+        >
+          {t.como.cta}
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+function Cinematic() {
+  const { t } = usePrefs();
+  const lines = [t.cine.l1, t.cine.l2, t.cine.l3, t.cine.l4];
+
+  return (
+    <section className="bg-[#070b10] px-5 py-24 text-ink md:py-36">
+      <div className="mx-auto max-w-6xl">
+        {lines.map((line) => (
+          <p
+            key={line}
+            className="font-[family-name:var(--font-display)] text-5xl leading-[0.9] tracking-wide md:text-8xl"
+          >
+            {line}
+          </p>
+        ))}
+        <p className="mt-8 text-xs font-black uppercase tracking-[0.28em] text-duck">{t.cine.caption}</p>
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  const { t } = usePrefs();
+  const items = [
+    { title: t.experience.start, body: t.experience.startBody },
+    { title: t.experience.race, body: t.experience.raceBody },
+    { title: t.experience.live, body: t.experience.liveBody },
+    { title: t.experience.lights, body: t.experience.lightsBody },
+    { title: t.experience.activations, body: t.experience.activationsBody },
+    { title: t.experience.finale, body: t.experience.finaleBody },
+  ];
+
+  return (
+    <section id="experiencia" className="section-pad border-t border-line">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
+          {t.experience.kicker}
+        </p>
+        <h2 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-6xl">
+          {t.experience.title}
+        </h2>
+        <p className="mt-4 max-w-2xl text-ink/85">{t.experience.lead}</p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <article key={item.title} className="rounded-3xl border border-line bg-bg-elevated p-6">
+              <h3 className="font-[family-name:var(--font-display)] text-2xl text-duck">{item.title}</h3>
+              <p className="mt-2 text-sm text-ink-muted">{item.body}</p>
+            </article>
+          ))}
+        </div>
+        <p className="mt-10 font-[family-name:var(--font-display)] text-3xl tracking-wide md:text-4xl">
+          {t.experience.close}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function Quienes() {
+  const { t } = usePrefs();
+
+  return (
+    <section id="quienes" className="section-pad border-t border-line bg-bg-elevated">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
+          {t.quienes.kicker}
+        </p>
+        <h2 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-6xl">
+          {t.quienes.titleBefore} <span className="text-duck">{t.quienes.titleAccent}</span>
+        </h2>
+        <div className="mt-6 max-w-3xl space-y-4 text-base leading-relaxed text-ink/85 md:text-lg">
+          <p>{t.quienes.p1}</p>
+          <p>{t.quienes.p2}</p>
+          <p>{t.quienes.p3}</p>
+          <p>{t.quienes.p4}</p>
+        </div>
+        <p className="mt-8 max-w-3xl font-[family-name:var(--font-display)] text-3xl tracking-wide">
+          {t.quienes.close}
+        </p>
+        <p className="mt-4 max-w-3xl text-ink/85">{t.quienes.vision}</p>
+        <Link
+          href="/historia"
+          className="mt-8 inline-flex rounded-full bg-duck px-7 py-3 text-sm font-black text-bg"
+        >
+          {t.quienes.cta}
+        </Link>
       </div>
     </section>
   );
@@ -237,101 +356,23 @@ function Impacto() {
   const { t } = usePrefs();
 
   return (
-    <section id="beneficio" className="section-pad border-t border-line bg-bg-elevated">
-      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-        <div>
-          <p className="text-xs uppercase tracking-[0.25em] text-water-bright">
-            {t.impacto.kicker}
-          </p>
-          <h2 className="mt-3 font-[family-name:var(--font-display)] text-5xl tracking-wide md:text-6xl">
-            {t.impacto.titleBefore}
-            <span className="text-duck"> {t.impacto.titleAccent}</span>
-          </h2>
-          <p className="mt-5 max-w-md text-ink-muted">{t.impacto.lead}</p>
-          <p className="mt-4 max-w-md rounded-2xl border border-line bg-bg-elevated/70 px-4 py-3 text-sm text-ink-muted">
-            {t.impacto.prizes}
-          </p>
-          <p className="mt-3 max-w-md text-sm text-ink-muted">{t.impacto.costs}</p>
-        </div>
-        <div className="grid gap-4">
-          <article className="fun-card rounded-3xl border border-line bg-bg/40 p-6">
-            <p className="font-[family-name:var(--font-display)] text-5xl text-duck md:text-6xl">
-              {t.impacto.share}
-            </p>
-            <h3 className="mt-2 text-xl font-semibold">{t.impacto.shareTitle}</h3>
-            <p className="mt-2 text-sm text-ink-muted">{t.impacto.shareBody}</p>
-          </article>
-          <article className="fun-card rounded-3xl border border-line bg-gradient-to-br from-water/20 to-duck/10 p-6">
-            <h3 className="font-[family-name:var(--font-display)] text-3xl tracking-wide">
-              {t.impacto.goalTitle}
-            </h3>
-            <p className="mt-2 text-ink-muted">{t.impacto.goalBody}</p>
-          </article>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ComoFunciona() {
-  const { t } = usePrefs();
-  const money = useMoney();
-  const steps = [
-    {
-      n: "01",
-      title: t.como.s1t,
-      body: interpolate(t.como.s1b, { price: money.ticket() }),
-    },
-    { n: "02", title: t.como.s2t, body: t.como.s2b },
-    { n: "03", title: t.como.s3t, body: t.como.s3b },
-    { n: "04", title: t.como.s4t, body: t.como.s4b },
-  ];
-
-  return (
-    <section id="como" className="section-pad">
+    <section id="beneficio" className="section-pad border-t border-line">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-10 max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.25em] text-water-bright">
-            {t.como.kicker}
-          </p>
-          <h2 className="mt-3 font-[family-name:var(--font-display)] text-5xl tracking-wide md:text-6xl">
-            {t.como.title}
-          </h2>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {steps.map((step) => (
-            <article
-              key={step.n}
-              className="fun-card group relative overflow-hidden rounded-3xl border border-line bg-bg-soft/60 p-6"
-            >
-              <span className="absolute -right-5 -top-5 h-16 w-16 rounded-full bg-duck/10 transition group-hover:scale-150" />
-              <p className="font-[family-name:var(--font-display)] text-4xl text-duck/80">
-                {step.n}
-              </p>
-              <h3 className="mt-3 text-xl font-semibold">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                {step.body}
-              </p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Remote() {
-  const { t } = usePrefs();
-  return (
-    <section id="desde-donde-estes" className="section-pad pt-0">
-      <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-line bg-bg-elevated/80 px-6 py-10 md:px-12">
-        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
-          {t.remote.kicker}
-        </p>
-        <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
-          {t.remote.title}
+        <p className="text-xs uppercase tracking-[0.25em] text-water-bright">{t.impacto.kicker}</p>
+        <h2 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-6xl">
+          {t.impacto.titleBefore} <span className="text-duck">{t.impacto.titleAccent}</span>
         </h2>
-        <p className="mt-4 max-w-2xl text-ink-muted">{t.remote.body}</p>
+        <p className="mt-8 font-[family-name:var(--font-display)] text-7xl leading-none text-duck md:text-8xl">
+          {campaign.benefitPercent}%
+        </p>
+        <p className="mt-3 max-w-xl text-lg text-ink">{t.impacto.lead}</p>
+        <p className="mt-4 max-w-2xl text-ink-muted">{t.impacto.shareBody}</p>
+        <p className="mt-6 max-w-2xl text-sm text-ink-muted">
+          {t.impacto.note}{" "}
+          <Link href="/legal/bases" className="font-semibold text-duck underline underline-offset-4">
+            {t.faq.basesCta}
+          </Link>
+        </p>
       </div>
     </section>
   );
@@ -343,20 +384,13 @@ function Sponsors() {
   return (
     <section id="sponsors" className="section-pad border-y border-line bg-bg">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-water-bright">
-              {t.sponsors.kicker}
-            </p>
-            <h2 className="mt-3 font-[family-name:var(--font-display)] text-5xl tracking-wide">
-              {t.sponsors.title}
-            </h2>
-          </div>
-          <p className="max-w-sm text-sm text-ink-muted">{t.sponsors.intro}</p>
-        </div>
-        <p className="mb-8 max-w-3xl text-ink/85">{t.sponsors.body}</p>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {campaign.sponsors.map((sponsor, index) => (
+        <p className="text-xs uppercase tracking-[0.25em] text-water-bright">{t.sponsors.kicker}</p>
+        <h2 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-5xl tracking-wide">
+          {t.sponsors.title}
+        </h2>
+        <p className="mt-4 max-w-3xl text-ink/85">{t.sponsors.body}</p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          {campaign.sponsors.slice(0, 3).map((sponsor, index) => (
             <AwaitingSlot
               key={`${sponsor.name}-${index}`}
               title={t.fill.logo}
@@ -364,14 +398,18 @@ function Sponsors() {
             />
           ))}
         </div>
-        <div className="mt-8 text-center">
-          <Link
-            href="/sponsors"
-            className="inline-flex rounded-full bg-duck px-7 py-3 text-sm font-black text-bg"
-          >
-            {t.sponsors.cta}
-          </Link>
+        <div className="mt-10 max-w-2xl">
+          <h3 className="font-[family-name:var(--font-display)] text-3xl tracking-wide">
+            {t.sponsors.intro}
+          </h3>
+          <p className="mt-3 text-ink/85">{t.sponsors.wantBody}</p>
         </div>
+        <Link
+          href="/sponsors"
+          className="mt-6 inline-flex rounded-full bg-duck px-7 py-3 text-sm font-black text-bg"
+        >
+          {t.sponsors.cta}
+        </Link>
       </div>
     </section>
   );
@@ -383,11 +421,15 @@ function Faq() {
   return (
     <section id="faq" className="section-pad">
       <div className="mx-auto max-w-3xl">
-        <h2 className="font-[family-name:var(--font-display)] text-5xl tracking-wide">
-          {t.faq.title}
-        </h2>
+        <h2 className="font-[family-name:var(--font-display)] text-5xl tracking-wide">{t.faq.title}</h2>
         <FaqAccordion items={faqHomeItems(t)} />
-        <div className="mt-8 text-center">
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Link
+            href="/legal/bases"
+            className="inline-flex rounded-full bg-duck px-6 py-3 text-sm font-black text-bg"
+          >
+            {t.faq.basesCta}
+          </Link>
           <Link
             href="/faq"
             className="inline-flex rounded-full border border-line px-6 py-3 text-sm font-semibold text-ink transition hover:border-ink/40"
@@ -402,85 +444,25 @@ function Faq() {
 
 function FinalCta() {
   const { t } = usePrefs();
+  const money = useMoney();
+
   return (
-    <section className="section-pad pt-0">
-      <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-line bg-gradient-to-br from-water/30 via-bg-elevated to-duck/20 px-6 py-14 text-center md:px-12">
-        <h2 className="font-[family-name:var(--font-display)] text-5xl tracking-wide md:text-6xl">
+    <section className="bg-duck px-5 py-20 text-bg md:py-28">
+      <div className="mx-auto max-w-4xl text-center">
+        <h2 className="font-[family-name:var(--font-display)] text-5xl tracking-wide md:text-7xl">
           {t.finalCta.title}
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-ink-muted">{t.finalCta.body}</p>
-        <p className="mx-auto mt-3 max-w-xl text-sm font-black uppercase tracking-[0.14em] text-duck">
-          {t.finalCta.motto}
+        <p className="mt-4 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
+          {t.finalCta.question}
         </p>
+        <p className="mt-6 text-sm font-black uppercase tracking-[0.18em]">{t.finalCta.meta}</p>
         <Link
           href="/participar"
-          className="mt-8 inline-flex rounded-full bg-duck px-8 py-3.5 text-base font-semibold text-bg transition hover:bg-duck-deep"
+          className="mt-8 inline-flex rounded-full bg-bg px-8 py-3.5 text-base font-black text-duck"
         >
-          {t.finalCta.button}
+          {t.finalCta.button} · {money.ticket()}
         </Link>
-      </div>
-    </section>
-  );
-}
-
-function VideoTeaser() {
-  const { t } = usePrefs();
-  return (
-    <section id="video" className="section-pad border-t border-line pt-12 md:pt-16">
-      <div className="mx-auto max-w-6xl">
-        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
-          {t.video.kicker}
-        </p>
-        <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
-          {t.video.title}
-        </h2>
-        <AwaitingSlot
-          className="mt-8 aspect-video min-h-0 w-full"
-          tall
-          title={t.fill.video}
-          hint={t.fill.videoHint}
-        />
-      </div>
-    </section>
-  );
-}
-
-function Experience() {
-  const { t } = usePrefs();
-  return (
-    <section id="experiencia" className="section-pad border-t border-line">
-      <div className="mx-auto max-w-6xl">
-        <p className="text-xs font-black uppercase tracking-[0.25em] text-water-bright">
-          {t.experience.kicker}
-        </p>
-        <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-wide md:text-5xl">
-          {t.experience.title}
-        </h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <article className="rounded-3xl border border-line bg-bg-elevated p-6">
-            <h3 className="font-[family-name:var(--font-display)] text-2xl text-duck">
-              {t.experience.twoRaces}
-            </h3>
-          </article>
-          <article className="rounded-3xl border border-line bg-bg-elevated p-6">
-            <h3 className="font-[family-name:var(--font-display)] text-2xl text-duck">
-              {t.experience.race}
-            </h3>
-          </article>
-          <article className="rounded-3xl border border-line bg-bg-elevated p-6">
-            <h3 className="font-[family-name:var(--font-display)] text-2xl text-duck">
-              {t.experience.music}
-            </h3>
-            <AwaitingSlot className="mt-4 min-h-24" title={t.fill.artist} hint={t.fill.artistHint} />
-          </article>
-          <article className="rounded-3xl border border-line bg-bg-elevated p-6">
-            <h3 className="font-[family-name:var(--font-display)] text-2xl text-duck">
-              {t.experience.dj}
-            </h3>
-            <AwaitingSlot className="mt-4 min-h-24" title={t.fill.artist} hint={t.fill.artistHint} />
-          </article>
-          <AwaitingSlot tall title={t.fill.artist} hint={t.fill.artistHint} />
-        </div>
+        <p className="mt-6 text-sm font-semibold">{t.finalCta.body}</p>
       </div>
     </section>
   );
@@ -488,11 +470,6 @@ function Experience() {
 
 function MerchTeaser() {
   const { t } = usePrefs();
-  const items = [
-    { href: "/merch/remeras", name: t.merch.tees },
-    { href: "/merch/gorras", name: t.merch.caps },
-    { href: "/merch/stickers", name: t.merch.stickers },
-  ];
   return (
     <section id="merch" className="section-pad border-t border-line">
       <div className="mx-auto max-w-6xl">
@@ -503,24 +480,14 @@ function MerchTeaser() {
           {t.merch.title}
         </h2>
         <p className="mt-4 max-w-2xl text-ink/85">{t.merch.lead}</p>
-        <p className="mt-2 text-xs font-black uppercase tracking-[0.16em] text-duck">
-          {t.merch.limited}
-        </p>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {items.map((item) => (
-            <Link key={item.href} href={item.href} className="block">
-              <article className="fun-card h-full rounded-3xl border border-line bg-bg-elevated p-5">
-                <h3 className="font-[family-name:var(--font-display)] text-3xl text-duck">
-                  {item.name}
-                </h3>
-                <AwaitingSlot className="mt-4" title={t.fill.photo} hint={t.fill.photoHint} />
-              </article>
-            </Link>
-          ))}
-        </div>
-        <p className="mt-6 rounded-2xl border border-dashed border-duck/40 bg-duck/5 px-4 py-3 text-sm text-ink">
-          {t.merch.pickup} {t.merch.shipping}
-        </p>
+        <p className="mt-2 text-xs font-black uppercase tracking-[0.16em] text-duck">{t.merch.limited}</p>
+        <Link
+          href="/merch"
+          className="mt-8 inline-flex rounded-full bg-duck px-7 py-3 text-sm font-black text-bg"
+        >
+          {t.merch.viewDrop}
+        </Link>
+        <p className="mt-6 max-w-2xl text-sm text-ink-muted">{t.merch.independent}</p>
       </div>
     </section>
   );
@@ -545,13 +512,8 @@ function Transparency() {
         </h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {stamps.map((item) => (
-            <article
-              key={item.t}
-              className="rounded-3xl border border-line bg-bg-elevated p-6"
-            >
-              <h3 className="text-lg font-black uppercase tracking-[0.08em] text-duck">
-                {item.t}
-              </h3>
+            <article key={item.t} className="rounded-3xl border border-line bg-bg-elevated p-6">
+              <h3 className="text-lg font-black uppercase tracking-[0.08em] text-duck">{item.t}</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink/85">{item.b}</p>
             </article>
           ))}

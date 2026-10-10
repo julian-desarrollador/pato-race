@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { usePrefs } from "@/components/locale-provider";
 import { useMoney } from "@/components/use-money";
+import { campaign } from "@/lib/campaign";
 import type { PublicStats } from "@/lib/db/store";
 
 function useCountUp(target: number, duration = 1400) {
@@ -72,90 +73,49 @@ export function StatsDashboard({
     const duckX = Math.max(6, Math.min(92, progress || 4));
 
     return (
-      <div className="live-board relative overflow-hidden rounded-[1.75rem] border-[3px] border-duck bg-[#0a1f24] p-4 shadow-[8px_8px_0_#9a7400] sm:p-5">
-        <div className="pointer-events-none absolute inset-0 live-board-grid opacity-40" />
-        <div className="pointer-events-none absolute -right-10 -top-12 h-36 w-36 rounded-full bg-duck/20 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-16 left-8 h-32 w-32 rounded-full bg-water/25 blur-2xl" />
-
-        <div className="relative flex items-start justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <span className="live-pulse relative flex h-3 w-3">
-              <span className="absolute inset-0 rounded-full bg-coral animate-ping opacity-70" />
-              <span className="relative h-3 w-3 rounded-full bg-coral shadow-[0_0_12px_#ff5a45]" />
-            </span>
-            <div>
-              <p className="font-[family-name:var(--font-display)] text-xl leading-none tracking-wide text-ink sm:text-2xl">
-                {t.live.title}
-              </p>
-              <p className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-water-bright">
-                {t.live.subtitle}
-              </p>
-            </div>
-          </div>
-          <span className="-rotate-2 rounded-md bg-coral px-2.5 py-1 text-[10px] font-black uppercase tracking-wide text-white shadow-[3px_3px_0_rgba(0,0,0,0.35)]">
-            {progressShown}% {t.live.ofGoal}
-          </span>
-        </div>
-
-        <div className={`relative mt-4 ${bump ? "live-bump" : ""}`}>
-          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-ink-muted">
-            {t.live.raised}
-          </p>
-          <p className="live-amount mt-1 font-[family-name:var(--font-display)] text-[clamp(2.6rem,8vw,3.6rem)] leading-none tracking-wide text-duck">
-            {money.fromRaisedArs(raised)}
-          </p>
-        </div>
-
-        <div className="relative mt-5">
-          <div className="relative h-9 overflow-hidden rounded-full border-2 border-water-bright/40 bg-[#06141a]">
-            <div
-              className="live-wave absolute inset-y-0 left-0 overflow-hidden transition-[width] duration-1000 ease-out"
-              style={{ width: `${Math.max(progress, 3)}%` }}
-            >
-              <div className="live-wave-fill h-full w-[220%]" />
-            </div>
-            <div
-              className="absolute top-1/2 -translate-y-1/2 transition-[left] duration-1000 ease-out"
-              style={{ left: `calc(${duckX}% - 16px)` }}
-              aria-hidden
-            >
-              <span className="live-duck relative block h-7 w-7 overflow-hidden rounded-full border-2 border-duck shadow-[0_2px_0_rgba(0,0,0,0.35)]">
-                <Image
-                  src="/pato_corre.webp"
-                  alt=""
-                  fill
-                  sizes="28px"
-                  className="object-cover object-center"
-                />
-              </span>
-            </div>
-          </div>
-          <div className="mt-2 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.16em] text-ink-muted">
-            <span>{t.live.start}</span>
-            <span className="text-duck">
-              {progressShown}% {t.live.ofGoal}
-            </span>
-          </div>
-        </div>
-
-        <div className="relative mt-4 grid grid-cols-[1.1fr_0.9fr] gap-3">
-          <div className="rounded-2xl border-2 border-line bg-[#102830] px-3 py-3">
-            <p className="text-[10px] font-black uppercase tracking-[0.16em] text-water-bright">
-              {t.live.ducks}
-            </p>
-            <p className="mt-1 font-[family-name:var(--font-display)] text-4xl leading-none tracking-wide text-ink">
+      <div className={`rounded-3xl border border-line bg-[#0a1f24] p-4 sm:p-5 ${bump ? "live-bump" : ""}`}>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div>
+            <p className="font-[family-name:var(--font-display)] text-3xl leading-none tracking-wide text-ink sm:text-4xl">
               {participants.toLocaleString(locale === "en" ? "en-US" : "es-AR")}
             </p>
-          </div>
-          <div className="relative overflow-hidden rounded-2xl border-2 border-duck/50 bg-duck px-3 py-3 text-bg shadow-[4px_4px_0_#9a7400]">
-            <p className="text-[10px] font-black uppercase tracking-[0.16em] text-bg/70">
-              {t.live.ofGoal}
+            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-ink-muted">
+              {t.live.ducks}
             </p>
-            <p className="mt-1 font-[family-name:var(--font-display)] text-4xl leading-none tracking-wide">
-              {progressShown}%
+          </div>
+          <div>
+            <p className="font-[family-name:var(--font-display)] text-3xl leading-none tracking-wide text-duck sm:text-4xl">
+              {money.fromRaisedArs(raised)}
+            </p>
+            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-ink-muted">
+              {t.live.raised}
+            </p>
+          </div>
+          <div>
+            <p className="font-[family-name:var(--font-display)] text-3xl leading-none tracking-wide text-ink sm:text-4xl">
+              {campaign.benefitPercent}%
+            </p>
+            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-ink-muted">
+              {t.counter.impactCaption}
             </p>
           </div>
         </div>
+        <div className="relative mt-4 h-3 overflow-hidden rounded-full border border-water-bright/30 bg-[#06141a]">
+          <div
+            className="absolute inset-y-0 left-0 bg-duck transition-[width] duration-1000 ease-out"
+            style={{ width: `${Math.max(progress, 3)}%` }}
+          />
+          <span
+            className="absolute top-1/2 h-4 w-4 -translate-y-1/2 overflow-hidden rounded-full border border-duck bg-bg transition-[left] duration-1000"
+            style={{ left: `calc(${duckX}% - 8px)` }}
+            aria-hidden
+          >
+            <Image src="/pato_corre.webp" alt="" fill sizes="16px" className="object-cover" />
+          </span>
+        </div>
+        <p className="mt-2 text-[10px] font-black uppercase tracking-[0.16em] text-duck">
+          {progressShown}% {t.live.ofGoal}
+        </p>
       </div>
     );
   }

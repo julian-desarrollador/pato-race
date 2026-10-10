@@ -18,6 +18,7 @@ export type Messages = {
     menu: string;
     close: string;
     regret: string;
+    historia: string;
   };
   loc: {
     open: string;
@@ -40,6 +41,7 @@ export type Messages = {
     legalCol: string;
     contactCol: string;
     copyright: string;
+    tagline: string;
     organizer: string;
     people: string;
     taxId: string;
@@ -62,6 +64,8 @@ export type Messages = {
     artistHint: string;
     photo: string;
     photoHint: string;
+    moment: string;
+    momentHint: string;
     map: string;
     mapHint: string;
     legal: string;
@@ -76,6 +80,7 @@ export type Messages = {
     tagline: string;
     lead: string;
     adopt: string;
+    merch: string;
     how: string;
     duckAlt: string;
     solidary: string;
@@ -91,6 +96,17 @@ export type Messages = {
     anywhere: string;
     priceContext: string;
     adoptionsOpen: string;
+    headline: string;
+    headlineAccent: string;
+    benefitCaption: string;
+    discover: string;
+  };
+  counter: {
+    kicker: string;
+    title: string;
+    open: string;
+    impactCaption: string;
+    cta: string;
   };
   live: {
     title: string;
@@ -127,6 +143,9 @@ export type Messages = {
     pageLead: string;
     formTitle: string;
     formBody: string;
+    wantTitle: string;
+    wantBody: string;
+    tiersKicker: string;
   };
   impacto: {
     kicker: string;
@@ -141,10 +160,16 @@ export type Messages = {
     ops: string;
     goalTitle: string;
     goalBody: string;
+    note: string;
   };
   como: {
     kicker: string;
     title: string;
+    pathsTitle: string;
+    sponsorPath: string;
+    sponsorBody: string;
+    adoptPath: string;
+    adoptBody: string;
     s1t: string;
     s1b: string;
     s2t: string;
@@ -153,6 +178,46 @@ export type Messages = {
     s3b: string;
     s4t: string;
     s4b: string;
+    s5t: string;
+    s5b: string;
+    close: string;
+    cta: string;
+  };
+  cine: {
+    l1: string;
+    l2: string;
+    l3: string;
+    l4: string;
+    caption: string;
+  };
+  quienes: {
+    kicker: string;
+    titleBefore: string;
+    titleAccent: string;
+    p1: string;
+    p2: string;
+    p3: string;
+    p4: string;
+    close: string;
+    vision: string;
+    cta: string;
+  };
+  historia: {
+    kicker: string;
+    titleBefore: string;
+    titleAccent: string;
+    p1: string;
+    p2: string;
+    moments: string;
+    finaleBefore: string;
+    finaleWhen: string;
+    finaleWhere: string;
+    garrahanTitle: string;
+    garrahanWhen: string;
+    garrahanBody: string;
+    favaloroTitle: string;
+    favaloroWhen: string;
+    favaloroBody: string;
   };
   remote: {
     kicker: string;
@@ -166,10 +231,23 @@ export type Messages = {
   experience: {
     kicker: string;
     title: string;
+    lead: string;
     race: string;
+    raceBody: string;
     twoRaces: string;
     music: string;
     dj: string;
+    start: string;
+    startBody: string;
+    live: string;
+    liveBody: string;
+    lights: string;
+    lightsBody: string;
+    activations: string;
+    activationsBody: string;
+    finale: string;
+    finaleBody: string;
+    close: string;
   };
   transparency: {
     kicker: string;
@@ -196,6 +274,38 @@ export type Messages = {
     caps: string;
     stickers: string;
     coming: string;
+    originals: string;
+    dropKicker: string;
+    dropTitle: string;
+    independent: string;
+    pricePending: string;
+    add: string;
+    added: string;
+    cartLink: string;
+    cartTitle: string;
+    empty: string;
+    keepShopping: string;
+    sizeLabel: string;
+    sizeRequired: string;
+    qty: string;
+    remove: string;
+    clear: string;
+    total: string;
+    toCheckout: string;
+    checkoutTitle: string;
+    buyerName: string;
+    buyerEmail: string;
+    buyerPhone: string;
+    pay: string;
+    payDisabled: string;
+    viewDrop: string;
+    items: {
+      pato: { name: string; line: string; detail: string };
+      remera: { name: string; line: string; detail: string };
+      gorra: { name: string; line: string; detail: string };
+      tote: { name: string; line: string; detail: string };
+      stickers: { name: string; line: string; detail: string };
+    };
   };
   where: {
     kicker: string;
@@ -221,6 +331,7 @@ export type Messages = {
   faq: {
     title: string;
     seeAll: string;
+    basesCta: string;
     pageTitle: string;
     pageLead: string;
     home: {
@@ -266,6 +377,8 @@ export type Messages = {
   };
   finalCta: {
     title: string;
+    question: string;
+    meta: string;
     body: string;
     motto: string;
     button: string;
@@ -417,6 +530,8 @@ export type Messages = {
     faqDesc: string;
     sponsorsTitle: string;
     sponsorsDesc: string;
+    historiaTitle: string;
+    historiaDesc: string;
     merchTitle: string;
     merchDesc: string;
     legalTitle: string;
@@ -450,6 +565,7 @@ export const es: Messages = {
     menu: "Menú",
     close: "Cerrar",
     regret: "Botón de arrepentimiento",
+    historia: "Historia",
   },
   loc: {
     open: "Idioma y mercado",
@@ -472,6 +588,7 @@ export const es: Messages = {
     legalCol: "Legal",
     contactCol: "Contacto",
     copyright: "© 2026 Pato Race. Todos los derechos reservados.",
+    tagline: "Entretenimiento × Comunidad × Impacto.",
     organizer: "Evento producido por PATO RACE SOLIDARIO S.R.L.",
     people: "Rocío Bustamante y Luis Ortiz",
     taxId: "CUIT 30-71952790-2",
@@ -494,6 +611,8 @@ export const es: Messages = {
     artistHint: "Enviar artistas / DJ / gente de la franja.",
     photo: "Falta foto de producto",
     photoHint: "Enviar fotos de remeras, gorras y stickers.",
+    moment: "Foto pendiente",
+    momentHint: "Cuando haya fotos reales de este encuentro, se publican acá.",
     map: "Falta mapa / cómo llegar",
     mapHint: "Enviar mapa, pin o indicaciones al Dique 3.",
     legal: "Falta texto final",
@@ -505,10 +624,15 @@ export const es: Messages = {
     city: "Ciudad",
     dateTime: "Fecha y hora",
     date: "22 de noviembre 2026",
-    tagline: "La carrera solidaria de patos más grande de Argentina.",
-    lead: "Miles de patos. Una carrera sobre el agua. Una experiencia en Puerto Madero. 70% destinado a causas con impacto social.",
+    tagline: "Miles de patos. Una sola meta.",
+    lead: "Miles de patos sobre el agua. Una carrera. Una experiencia en vivo y una comunidad entera corriendo por causas que importan.",
     adopt: "Adoptá tu pato",
-    how: "Cómo participar",
+    merch: "Ver merchandising",
+    how: "Descubrí la experiencia",
+    headline: "Hacer algo grande.",
+    headlineAccent: "70%",
+    benefitCaption: "destinado a causas con impacto social.",
+    discover: "Descubrí la experiencia",
     duckAlt: "Pato corredor con casco argentino y anteojos",
     solidary: "70% A BENEFICIO",
     racesLine: "Dique 3 · Puerto Madero",
@@ -517,19 +641,26 @@ export const es: Messages = {
     countdownHours: "horas",
     countdownMin: "min",
     countdownSec: "seg",
-    time: "Apertura 19:00 · Carrera + experiencia en vivo",
+    time: "Apertura 19:00",
     quack: "¡CUAC!",
     venue: "Lugar",
-    anywhere: "Participá desde cualquier lugar del país",
+    anywhere: "Podés participar desde cualquier lugar de Argentina.",
     priceContext: "Con {price} ya sos parte de la carrera",
-    adoptionsOpen: "Las adopciones ya están abiertas",
+    adoptionsOpen: "Adopciones abiertas",
+  },
+  counter: {
+    kicker: "La carrera ya empezó.",
+    title: "Antes de llegar al agua.",
+    open: "Adopciones abiertas",
+    impactCaption: "Destinado a impacto social",
+    cta: "Sumá tu pato",
   },
   live: {
     title: "EN VIVO",
     subtitle: "Esta carrera la hacemos entre todos",
-    raised: "Recaudado",
+    raised: "Recaudados",
     start: "Salida",
-    ducks: "Participaciones adoptadas",
+    ducks: "Participaciones",
     ofGoal: "del objetivo",
     progress: "Avance",
     publicNote:
@@ -537,39 +668,43 @@ export const es: Messages = {
   },
   queEs: {
     kicker: "¿Qué es Pato Race?",
-    titleBefore: "Una carrera donde tu pato",
-    titleAccent: "corre por vos",
-    p1: "Miles de patos sobre el agua en el Dique 3, Puerto Madero: una experiencia masiva con propósito, en el muelle o a distancia.",
-    p2: "Adoptá tu pato, recibí un número único y, unas 48 horas antes de la carrera, se vincula a un pato al azar según las Bases. Un pato puede reunir múltiples participaciones. Hay dos carreras: sponsors y general. El premio crece con la carrera (2%).",
-    p3: "Tu pato corre por vos. Vos corrés por ellos.",
-    adoptLabel: "Adoptá tu pato",
-    adoptDetail: "Con tu participación ya sos parte de la carrera, estés donde estés.",
-    shareLabel: "Un pato · múltiples participaciones",
-    shareDetail: "Varias personas pueden sumarse al mismo pato. Cantidad y procedimiento, en las Bases.",
-    prizeLabel: "El premio crece con la carrera",
-    prizeDetail: "El 2% de la recaudación computable de participaciones se destina a premios, después de comisiones impositivas y bancarias. Sin monto fijo.",
+    titleBefore: "Una carrera donde",
+    titleAccent: "tu pato corre por vos.",
+    p1: "Miles de patos toman el Dique 3 de Puerto Madero en una carrera sobre el agua.",
+    p2: "Adoptás una participación, recibís un número único y, antes de la largada, tu participación se vincula al azar con uno de los patos de la carrera según las Bases.",
+    p3: "Cuando ellos tocan el agua, empieza tu carrera.",
+    adoptLabel: "Número único",
+    adoptDetail: "Cada participación queda registrada con un número único.",
+    shareLabel: "Al azar, según las Bases",
+    shareDetail: "Antes de la largada, tu participación se vincula a un pato de la carrera.",
+    prizeLabel: "En el dique o desde casa",
+    prizeDetail: "Podés vivirla en Puerto Madero o participar desde cualquier lugar del país.",
   },
   sponsors: {
-    kicker: "Sponsors",
-    title: "Marcas que hacen posible la carrera",
-    intro: "Las marcas también corren por una causa.",
-    body: "Buscamos aliados que quieran potenciar la carrera, ampliar su alcance y sumar impacto. Las alianzas se anuncian acá cuando estén confirmadas.",
+    kicker: "Marcas",
+    title: "Las marcas también corren por algo.",
+    intro: "¿Tu marca quiere entrar en carrera?",
+    body: "Pato Race conecta marcas, comunidad y causas dentro de una experiencia creada para generar participación, conversación e impacto.",
     placeholder: "Próximamente",
-    cta: "Conocé las alianzas",
-    pageTitle: "Alianzas",
-    pageLead: "Las marcas también corren por una causa. Acá van a vivir los logos y el Partner Deck.",
-    formTitle: "¿Querés sumar tu marca?",
-    formBody: "Escribinos a {email}. Cuando esté el Partner Deck, lo publicamos acá.",
+    cta: "Quiero ser parte",
+    pageTitle: "Membresías",
+    pageLead: "Cuatro niveles. Un solo objetivo: que se hable de tu marca.",
+    formTitle: "¿Tu marca quiere entrar en carrera?",
+    formBody: "Escribinos a {email}.",
+    wantTitle: "No buscamos simplemente logos.",
+    wantBody:
+      "Buscamos aliados que quieran ser parte de la experiencia. Activaciones · contenido · presencia digital · hospitality · experiencias · carrera corporativa.",
+    tiersKicker: "Paquetes de sponsorship",
   },
   impacto: {
-    kicker: "A beneficio",
-    titleBefore: "70% va a",
-    titleAccent: "causas con impacto social",
-    lead: "El 70% de lo recaudado por las participaciones se destina a beneficio social.",
+    kicker: "Nuestro impacto",
+    titleBefore: "Correr es divertido.",
+    titleAccent: "Hacerlo por alguien, mucho más.",
+    lead: "De lo recaudado por participaciones se destina a causas con impacto social.",
     share: "70%",
-    shareTitle: "A causas con impacto social",
+    shareTitle: "De lo recaudado por participaciones",
     shareBody:
-      "El 70% de lo recaudado por las participaciones se destina a causas con impacto social. Las organizaciones beneficiarias se informan por los canales oficiales.",
+      "Cada participación transforma una experiencia colectiva en recursos para organizaciones que trabajan todos los días generando impacto real.",
     prizes:
       "El fondo de premios es el 2% de la recaudación computable de participaciones, previa deducción de comisiones impositivas y bancarias.",
     costs:
@@ -577,18 +712,67 @@ export const es: Messages = {
     ops: "30% operación y premios",
     goalTitle: "Argentina corre junta",
     goalBody: "Miles de personas. Miles de patos. Una misma causa.",
+    note: "Los porcentajes y la base de cálculo se aplican conforme a las Bases y Condiciones.",
   },
   como: {
-    kicker: "Cómo participar",
-    title: "Simple, claro y con propósito",
-    s1t: "Adoptá tu pato",
-    s1b: "Comprá tu participación por {price} y ya sos parte de la carrera.",
-    s2t: "Recibí tu número único",
-    s2b: "Te enviamos un comprobante digital con tu participación.",
-    s3t: "Te asignamos un pato",
-    s3b: "Aproximadamente 48 horas antes, según las Bases, te avisamos qué pato corre por vos. La asignación es aleatoria y auditada por escribano el día del evento.",
-    s4t: "Seguí la carrera",
-    s4b: "Hay dos carreras: una de sponsors y una general. Si tu pato gana, el premio se reparte en partes iguales entre las participaciones de ese pato.",
+    kicker: "Cómo funciona",
+    title: "Dos formas de participar",
+    pathsTitle: "Dos formas de participar",
+    sponsorPath: "Sé nuestro sponsor",
+    sponsorBody: "Las membresías están en un apartado del menú.",
+    adoptPath: "Adoptá un pato",
+    adoptBody: "Sumate a la carrera con una o más participaciones.",
+    s1t: "Adoptá",
+    s1b: "Sumate a la carrera con una o más participaciones.",
+    s2t: "Recibí tu número",
+    s2b: "Cada participación queda registrada con un número único.",
+    s3t: "Descubrí tu pato",
+    s3b: "Antes de la carrera vinculamos las participaciones a los patos según las Bases.",
+    s4t: "Corré",
+    s4b: "Los patos toman el agua y empieza la carrera.",
+    s5t: "Ganá",
+    s5b: "Si tu participación está vinculada al pato ganador, el premio también corre hacia vos.",
+    close: "No comprás un pato. Entrás en la carrera.",
+    cta: "Quiero participar",
+  },
+  cine: {
+    l1: "Una ciudad.",
+    l2: "Un dique.",
+    l3: "Miles de patos.",
+    l4: "Una misma causa.",
+    caption: "Pato Race · Puerto Madero",
+  },
+  quienes: {
+    kicker: "Somos Pato Race",
+    titleBefore: "Hacemos del entretenimiento",
+    titleAccent: "una forma de ayudar.",
+    p1: "Pato Race es una empresa argentina que transforma entretenimiento en impacto social.",
+    p2: "Recaudamos fondos para fundaciones y organizaciones sociales a través de una experiencia tan simple como inesperada: una gran carrera de miles de patos de hule sobre el agua.",
+    p3: "Pero la carrera es sólo el comienzo. Creamos un evento público y gratuito que reúne a la comunidad alrededor de causas que importan, combinando música en vivo, DJs, luces, experiencias audiovisuales, activaciones de marcas y entretenimiento.",
+    p4: "Y no hace falta estar en Buenos Aires para ser parte: se puede participar desde cualquier lugar del país.",
+    close: "Entretenimiento que moviliza. Comunidad que participa. Impacto que llega más lejos.",
+    vision:
+      "Pato Race nace en Buenos Aires con una visión: crear una nueva manera de conectar personas, marcas y causas y llevarla cada vez más lejos.",
+    cta: "Conocé Pato Race",
+  },
+  historia: {
+    kicker: "Nuestra historia",
+    titleBefore: "Antes de la largada,",
+    titleAccent: "ya empezamos a correr.",
+    p1: "Pato Race no empieza el día en que miles de patos lleguen al agua. Empieza mucho antes.",
+    p2: "En cada encuentro, cada alianza y cada espacio que nos acerca a quienes trabajan todos los días por transformar realidades. Estamos construyendo una nueva forma de conectar entretenimiento, comunidad y compromiso social. Y esta es la historia de ese camino.",
+    moments: "Momentos que ya son parte de Pato Race.",
+    finaleBefore: "Y todo este camino lleva a una largada.",
+    finaleWhen: "22 de noviembre de 2026",
+    finaleWhere: "Dique 3 · Puerto Madero",
+    garrahanTitle: "Cena anual Fundación Garrahan",
+    garrahanWhen: "Septiembre 2026",
+    garrahanBody:
+      "Una noche para encontrarnos con personas, empresas y organizaciones comprometidas con una de las instituciones de salud pediátrica más importantes del país. Pato Race estuvo presente para escuchar, conectar y seguir construyendo vínculos alrededor de una convicción: cuando la comunidad se encuentra, el impacto puede multiplicarse.",
+    favaloroTitle: "Encuentro Fundación Favaloro",
+    favaloroWhen: "Septiembre 2026",
+    favaloroBody:
+      "Nos acercamos para presentar Pato Race, conocer su trabajo y explorar nuevas formas de colaboración entre organizaciones, empresas y experiencias con propósito. Porque construir impacto también significa sentarse a conversar, escuchar y crear nuevas posibilidades.",
   },
   remote: {
     kicker: "Desde cualquier lugar",
@@ -601,11 +785,24 @@ export const es: Messages = {
   },
   experience: {
     kicker: "La noche",
-    title: "Carrera + experiencia en vivo",
-    race: "Carrera sobre el agua",
+    title: "Miles de patos. Una noche imposible de repetir.",
+    lead: "El Dique 3 se transforma en escenario de una experiencia pública y gratuita que combina solidaridad, entretenimiento y espectáculo.",
+    race: "La carrera",
+    raceBody: "Seguí el recorrido y descubrí quién cruza primero.",
     twoRaces: "Dos carreras: sponsors y general",
     music: "Música",
     dj: "DJ",
+    start: "La largada",
+    startBody: "Miles de patos entrando al agua.",
+    live: "En vivo",
+    liveBody: "Música, DJs y artistas acompañando la experiencia.",
+    lights: "Luces",
+    lightsBody: "Una puesta audiovisual especialmente diseñada para transformar el Dique.",
+    activations: "Experiencias",
+    activationsBody: "Activaciones, intervenciones y propuestas de las marcas que hacen posible Pato Race.",
+    finale: "El final",
+    finaleBody: "Ganadores, celebración y el impacto conseguido entre todos.",
+    close: "Venís por la experiencia. Terminás corriendo por algo más grande.",
   },
   transparency: {
     kicker: "Confianza",
@@ -620,18 +817,71 @@ export const es: Messages = {
     s4b: "Los totales de participaciones se ven en la home.",
   },
   merch: {
-    kicker: "Merch oficial",
-    title: "Pato Race también se usa",
-    lead: "Llevate un pedacito de la carrera. Stock limitado.",
-    limited: "Merch oficial · stock limitado",
+    kicker: "Pato Race Originals",
+    title: "Llevá la carrera fuera del agua.",
+    lead: "Una colección para quienes quieren ser parte de Pato Race después de la largada.",
+    limited: "Drop 01 · Race for others",
     pickup: "Retiro en Pato Race 2026.",
-    shipping: "Envío a domicilio a confirmar. Si se implementa, los costos se van a mostrar antes de pagar.",
-    pageTitle: "Merch",
-    pageLead: "Remeras, gorras y stickers. Las fotos y la entrega se cargan cuando lleguen.",
+    shipping: "",
+    pageTitle: "Pato Race Originals",
+    pageLead: "Llevá la carrera fuera del agua.",
     tees: "Remeras",
     caps: "Gorras",
     stickers: "Stickers",
-    coming: "Producto a la venta cuando cierren stock y fotos.",
+    coming: "Precio a confirmar.",
+    originals: "Pato Race Originals",
+    dropKicker: "Drop 01",
+    dropTitle: "Race for others.",
+    independent:
+      "La compra de merch es independiente de la participación en la carrera. Retiro en el evento. No hay envío.",
+    pricePending: "Precio a confirmar",
+    add: "Agregar al carrito",
+    added: "Agregado al carrito",
+    cartLink: "Carrito ({count})",
+    cartTitle: "Carrito",
+    empty: "El carrito está vacío.",
+    keepShopping: "Volver al drop",
+    sizeLabel: "Talle",
+    sizeRequired: "Elegí un talle para agregar la remera.",
+    qty: "Cantidad",
+    remove: "Quitar",
+    clear: "Vaciar",
+    total: "Total",
+    toCheckout: "Ir al checkout",
+    checkoutTitle: "Checkout",
+    buyerName: "Nombre y apellido",
+    buyerEmail: "Email",
+    buyerPhone: "Teléfono",
+    pay: "Pagar",
+    payDisabled: "El pago se habilita cuando estén los precios.",
+    viewDrop: "Ver drop",
+    items: {
+      pato: {
+        name: "The Duck",
+        line: "Edición Buenos Aires 2026",
+        detail: "Pato oficial de colección Pato Race. Edición limitada.",
+      },
+      remera: {
+        name: "Race for Others Tee",
+        line: "Remera",
+        detail: "Frente: Pato Race. Espalda: Race for others.",
+      },
+      gorra: {
+        name: "Race Cap",
+        line: "Gorra",
+        detail: "Logo Pato Race bordado.",
+      },
+      tote: {
+        name: "Tote",
+        line: "Tote",
+        detail: "Edición Drop 01.",
+      },
+      stickers: {
+        name: "Sticker pack",
+        line: "Stickers",
+        detail: "Pack de stickers Pato Race.",
+      },
+    },
   },
   where: {
     kicker: "El lugar",
@@ -655,28 +905,29 @@ export const es: Messages = {
     regret: "Botón de arrepentimiento",
   },
   faq: {
-    title: "Preguntas frecuentes",
+    title: "Preguntas que todo el mundo hace.",
     seeAll: "Ver todas las preguntas",
-    pageTitle: "Preguntas frecuentes",
+    basesCta: "Ver Bases y Condiciones",
+    pageTitle: "Preguntas que todo el mundo hace.",
     pageLead:
       "Todo lo que necesitás saber para adoptar tu pato y ser parte de Pato Race 2026.",
     home: {
-      q1: "¿Puedo participar sin ir al Dique 3?",
-      a1: "Sí. Podés comprar tu participación online y ser parte de la carrera desde cualquier lugar. Las novedades las compartimos por los canales oficiales.",
-      q2: "¿Cómo se asigna mi pato?",
-      a2: "Cada participación tiene un número único. Unas 48 horas antes de la carrera se asigna al azar a un pato habilitado, según las Bases, y te avisamos por medios digitales. La asignación se audita con escribano el día del evento.",
-      q3: "¿Necesito estar presente para ganar?",
-      a3: "No. Si tu pato resulta ganador, el premio se gestiona según las Bases aunque no estés en el Dique 3.",
-      q4: "¿Qué incluye mi participación?",
-      a4: "Un número único y la asignación de un pato según las Bases. No incluye un pato físico.",
-      q5: "¿Cuánto es el premio?",
-      a5: "El premio crece con la carrera: el 2% de la recaudación computable de participaciones, después de comisiones impositivas y bancarias. Gana un pato por carrera y, si hay varios adoptantes, se reparte en partes iguales. El detalle está en las Bases.",
-      q6: "¿A dónde va el dinero?",
-      a6: "El 70% va a beneficio, a causas con impacto social. El 30% cubre órdenes de compra (premios, producción, organización, tecnología, seguridad, logística, impuestos y demás costos). El fondo de premios es el 2% de la recaudación computable de participaciones. La distribución se comunica de forma pública.",
-      q7: "¿Qué pasa si llueve?",
-      a7: "Puede haber cambios de fecha u horario. Tu participación sigue válida en la nueva fecha. Si una carrera se interrumpe, puede reanudarse, repetirse o reprogramarse. Ante cancelación definitiva se aplica la normativa de defensa del consumidor y se tratará de realizar en fecha posterior; el lugar podría cambiar con aviso previo.",
-      q8: "¿Puedo comprar más de una participación?",
-      a8: "Sí. Podés sumar tantas participaciones como quieras.",
+      q1: "¿Tengo que estar en Buenos Aires para participar?",
+      a1: "No. Podés participar desde cualquier lugar del país.",
+      q2: "¿Puedo adoptar más de una participación?",
+      a2: "Sí.",
+      q3: "¿Cómo sé qué pato me corresponde?",
+      a3: "Antes de la carrera las participaciones se vinculan a los patos conforme al procedimiento establecido en las Bases.",
+      q4: "¿Puedo ir al evento sin adoptar?",
+      a4: "Sí. Pato Race es un evento público y gratuito.",
+      q5: "¿Qué pasa con los patos después de la carrera?",
+      a5: "Todos son recuperados mediante el operativo previsto para el evento. No quedan patos en el agua.",
+      q6: "¿A dónde va lo recaudado?",
+      a6: "El 70% de la recaudación computable de participaciones se destina a causas con impacto social conforme a las Bases.",
+      q7: "¿Necesito estar presente para que mi pato participe?",
+      a7: "No. Estés donde estés, tu participación ya está en carrera.",
+      q8: "¿Pueden participar menores?",
+      a8: "Los titulares de participaciones con derecho a premios son personas mayores de 18 años o personas jurídicas.",
     },
     extra: {
       q1: "¿Varias personas pueden compartir un pato?",
@@ -684,7 +935,7 @@ export const es: Messages = {
       q2: "¿Qué pasa si mi pato gana y hay varias participaciones?",
       a2: "Gana un solo pato por carrera. El premio de ese pato se divide en partes iguales entre todas las participaciones válidas asociadas. Si compraste más de una, cobrás por cada una.",
       q3: "¿Me llevo el pato a casa?",
-      a3: "No. Los patos son de producción y se reutilizan. Los coleccionables, si hay, son merch aparte.",
+      a3: "No. Después de la carrera los patos se recuperan con el operativo del evento y no quedan en el agua. Los coleccionables, si hay, son merch aparte.",
       q4: "¿Pueden participar menores?",
       a4: "Los titulares de participaciones con derecho a premios son personas mayores de 18 años o personas jurídicas.",
       q5: "¿Puedo comprar merch sin participar?",
@@ -702,8 +953,10 @@ export const es: Messages = {
     },
   },
   finalCta: {
-    title: "Sumate",
-    body: "Tu pato puede ganar una carrera. Tu participación puede ayudar a mucho más.",
+    title: "Buenos Aires está lista.",
+    question: "¿Y vos? ¿Vas a correr?",
+    meta: "22 NOV · Dique 3 · Puerto Madero",
+    body: "Estés donde estés, podés ser parte.",
     motto: "Tu pato corre por vos. Vos corrés por ellos.",
     button: "Adoptá tu pato",
   },
@@ -865,8 +1118,10 @@ export const es: Messages = {
     faqTitle: "Preguntas frecuentes | Pato Race 2026",
     faqDesc:
       "Cómo participar, a dónde va el dinero, cómo se asigna tu pato y más sobre Pato Race 2026.",
-    sponsorsTitle: "Alianzas | Pato Race 2026",
-    sponsorsDesc: "Marcas y aliados de Pato Race 2026. Partner Deck cuando esté listo.",
+    sponsorsTitle: "Membresías | Pato Race 2026",
+    sponsorsDesc: "Paquetes de sponsorship de Pato Race 2026: Nido, Oleada, Corriente y Gota.",
+    historiaTitle: "Historia | Pato Race 2026",
+    historiaDesc: "Encuentros y el camino de Pato Race antes de la largada en Puerto Madero.",
     merchTitle: "Merch | Pato Race 2026",
     merchDesc: "Remeras, gorras y stickers oficiales de Pato Race.",
     legalTitle: "Legal | Pato Race 2026",
@@ -903,6 +1158,7 @@ export const en: Messages = {
     menu: "Menu",
     close: "Close",
     regret: "Right of withdrawal",
+    historia: "History",
   },
   loc: {
     open: "Language and market",
@@ -925,6 +1181,7 @@ export const en: Messages = {
     legalCol: "Legal",
     contactCol: "Contact",
     copyright: "© 2026 Pato Race. All rights reserved.",
+    tagline: "Entertainment × Community × Impact.",
     organizer: "Produced by PATO RACE SOLIDARIO S.R.L.",
     people: "Rocío Bustamante and Luis Ortiz",
     taxId: "CUIT 30-71952790-2",
@@ -947,6 +1204,8 @@ export const en: Messages = {
     artistHint: "Send artists / DJ / people for this strip.",
     photo: "Need product photo",
     photoHint: "Send photos of tees, caps, and stickers.",
+    moment: "Photo pending",
+    momentHint: "Real photos from this meeting will go here when we have them.",
     map: "Need map / directions",
     mapHint: "Send a map, pin, or how-to-get-there for Dique 3.",
     legal: "Need final copy",
@@ -958,10 +1217,15 @@ export const en: Messages = {
     city: "City",
     dateTime: "Date & time",
     date: "November 22, 2026",
-    tagline: "Argentina's biggest charity duck race.",
-    lead: "Thousands of ducks. A race on the water. An experience in Puerto Madero. 70% goes to social causes.",
+    tagline: "Thousands of ducks. One finish line.",
+    lead: "Thousands of ducks on the water. One race. A live experience and a whole community running for causes that matter.",
     adopt: "Adopt your duck",
-    how: "How to join",
+    merch: "See the merch",
+    how: "See the experience",
+    headline: "Make it big.",
+    headlineAccent: "70%",
+    benefitCaption: "goes to social impact causes.",
+    discover: "See the experience",
     duckAlt: "Racing duck in an Argentine helmet and sunglasses",
     solidary: "70% TO THE CAUSE",
     racesLine: "Dique 3 · Puerto Madero",
@@ -970,19 +1234,26 @@ export const en: Messages = {
     countdownHours: "hours",
     countdownMin: "min",
     countdownSec: "sec",
-    time: "Doors 7:00 PM · Race + live experience",
+    time: "Doors 7:00 PM",
     quack: "QUACK!",
     venue: "Venue",
-    anywhere: "Join from anywhere in the country",
+    anywhere: "You can join from anywhere in Argentina.",
     priceContext: "With {price} you're already in the race",
     adoptionsOpen: "Adoptions are open",
+  },
+  counter: {
+    kicker: "The race has already started.",
+    title: "Before it hits the water.",
+    open: "Adoptions are open",
+    impactCaption: "Goes to social impact",
+    cta: "Add your duck",
   },
   live: {
     title: "LIVE",
     subtitle: "We're building this race together",
     raised: "Raised",
     start: "Start",
-    ducks: "Entries adopted",
+    ducks: "Entries",
     ofGoal: "of the goal",
     progress: "Progress",
     publicNote:
@@ -990,39 +1261,43 @@ export const en: Messages = {
   },
   queEs: {
     kicker: "What is Pato Race?",
-    titleBefore: "A race where your duck",
-    titleAccent: "runs for you",
-    p1: "Thousands of ducks on the water at Dique 3, Puerto Madero — a massive experience with purpose, at the dock or from afar.",
-    p2: "Adopt your duck, get a unique number, and about 48 hours before the race it's randomly matched under the official rules. One duck can hold multiple entries. There are two races: sponsors and general. The prize grows with the race (2%).",
-    p3: "Your duck runs for you. You run for them.",
-    adoptLabel: "Adopt your duck",
-    adoptDetail: "With your entry you're already in the race, wherever you are.",
-    shareLabel: "One duck · multiple entries",
-    shareDetail: "Several people can join the same duck. Numbers and process are in the official rules.",
-    prizeLabel: "The prize grows with the race",
-    prizeDetail: "2% of computable entry proceeds go to prizes, after tax and bank fees. No fixed amount.",
+    titleBefore: "A race where",
+    titleAccent: "your duck runs for you.",
+    p1: "Thousands of ducks take Dique 3 in Puerto Madero for a race on the water.",
+    p2: "You adopt an entry, get a unique number, and before the start your entry is randomly linked to one of the race ducks under the official rules.",
+    p3: "When they hit the water, your race begins.",
+    adoptLabel: "A unique number",
+    adoptDetail: "Every entry is registered with its own number.",
+    shareLabel: "Random, under the rules",
+    shareDetail: "Before the start, your entry is linked to a duck in the race.",
+    prizeLabel: "At the dock or from home",
+    prizeDetail: "You can be in Puerto Madero or join from anywhere in the country.",
   },
   sponsors: {
-    kicker: "Sponsors",
-    title: "The brands behind the race",
-    intro: "Brands are racing for a cause too.",
-    body: "We're looking for partners who want to grow the race, expand its reach, and add impact. Confirmed alliances will show up here.",
+    kicker: "Brands",
+    title: "Brands run for something too.",
+    intro: "Does your brand want in the race?",
+    body: "Pato Race connects brands, community, and causes inside an experience built for participation, conversation, and impact.",
     placeholder: "Coming soon",
-    cta: "See the alliances",
-    pageTitle: "Alliances",
-    pageLead: "Brands are racing for a cause too. Logos and the Partner Deck will live here.",
-    formTitle: "Want your brand in the race?",
-    formBody: "Write to {email}. When the Partner Deck is ready, we'll publish it here.",
+    cta: "I want in",
+    pageTitle: "Memberships",
+    pageLead: "Four levels. One goal: people talk about your brand.",
+    formTitle: "Does your brand want in the race?",
+    formBody: "Write to {email}.",
+    wantTitle: "We're not just looking for logos.",
+    wantBody:
+      "We want allies inside the experience. Activations · content · digital presence · hospitality · experiences · a corporate race.",
+    tiersKicker: "Sponsorship packages",
   },
   impacto: {
-    kicker: "For a cause",
-    titleBefore: "70% goes to",
-    titleAccent: "social impact",
-    lead: "70% of entry proceeds go to social causes.",
+    kicker: "Our impact",
+    titleBefore: "Running is fun.",
+    titleAccent: "Running for someone is better.",
+    lead: "Of what entries raise goes to social impact causes.",
     share: "70%",
-    shareTitle: "To social impact causes",
+    shareTitle: "Of entry proceeds",
     shareBody:
-      "70% of entry proceeds go to social impact causes. Beneficiary organizations are shared through official channels.",
+      "Each entry turns a shared experience into resources for organizations doing real work every day.",
     prizes:
       "The prize fund is 2% of computable entry proceeds, after tax and bank fees.",
     costs:
@@ -1030,18 +1305,67 @@ export const en: Messages = {
     ops: "30% operations and prizes",
     goalTitle: "Argentina runs together",
     goalBody: "Thousands of people. Thousands of ducks. One cause.",
+    note: "Percentages and the calculation base follow the official rules.",
   },
   como: {
-    kicker: "How to join",
-    title: "Simple, clear, and with purpose",
-    s1t: "Adopt your duck",
-    s1b: "Buy your entry for {price} and you're already in the race.",
-    s2t: "Get your unique number",
-    s2b: "We send you a digital receipt with your entry.",
-    s3t: "We assign your duck",
-    s3b: "About 48 hours before the race, under the official rules, we'll tell you which duck runs for you. Assignment is random and audited by a notary on event day.",
-    s4t: "Follow the race",
-    s4b: "There are two races: one for sponsors and one general. If your duck wins, the prize is split equally among that duck's entries.",
+    kicker: "How it works",
+    title: "Two ways to take part",
+    pathsTitle: "Two ways to take part",
+    sponsorPath: "Be our sponsor",
+    sponsorBody: "Memberships live in their own menu section.",
+    adoptPath: "Adopt a duck",
+    adoptBody: "Join the race with one or more entries.",
+    s1t: "Adopt",
+    s1b: "Join the race with one or more entries.",
+    s2t: "Get your number",
+    s2b: "Each entry is registered with a unique number.",
+    s3t: "Meet your duck",
+    s3b: "Before the race we link entries to ducks under the official rules.",
+    s4t: "Run",
+    s4b: "The ducks hit the water and the race starts.",
+    s5t: "Win",
+    s5b: "If your entry is linked to the winning duck, the prize runs toward you too.",
+    close: "You are not buying a duck. You are entering the race.",
+    cta: "I want in",
+  },
+  cine: {
+    l1: "One city.",
+    l2: "One dock.",
+    l3: "Thousands of ducks.",
+    l4: "One cause.",
+    caption: "Pato Race · Puerto Madero",
+  },
+  quienes: {
+    kicker: "We are Pato Race",
+    titleBefore: "We turn entertainment",
+    titleAccent: "into a way to help.",
+    p1: "Pato Race is an Argentine company that turns entertainment into social impact.",
+    p2: "We raise funds for foundations and social organizations through something simple and unexpected: a huge race of thousands of rubber ducks on the water.",
+    p3: "But the race is only the start. We build a free public event that brings the community together around causes that matter, with live music, DJs, lights, audiovisual experiences, brand activations, and entertainment.",
+    p4: "You don't have to be in Buenos Aires to be part of it. You can join from anywhere in the country.",
+    close: "Entertainment that moves people. A community that shows up. Impact that travels further.",
+    vision:
+      "Pato Race starts in Buenos Aires with a vision: a new way to connect people, brands, and causes, and take it further every time.",
+    cta: "Meet Pato Race",
+  },
+  historia: {
+    kicker: "Our story",
+    titleBefore: "Before the start,",
+    titleAccent: "we were already running.",
+    p1: "Pato Race does not begin the day thousands of ducks hit the water. It begins long before.",
+    p2: "In every meeting, every alliance, and every room that brings us closer to people who work every day to change things. We are building a new way to connect entertainment, community, and social commitment. This is the story of that path.",
+    moments: "Moments that are already part of Pato Race.",
+    finaleBefore: "And this whole path leads to a start.",
+    finaleWhen: "November 22, 2026",
+    finaleWhere: "Dique 3 · Puerto Madero",
+    garrahanTitle: "Fundación Garrahan annual dinner",
+    garrahanWhen: "September 2026",
+    garrahanBody:
+      "A night to meet people, companies, and organizations committed to one of the country's most important pediatric health institutions. Pato Race was there to listen, connect, and keep building relationships around one conviction: when a community gets together, impact can multiply.",
+    favaloroTitle: "Meeting with Fundación Favaloro",
+    favaloroWhen: "September 2026",
+    favaloroBody:
+      "We went to introduce Pato Race, learn about their work, and explore new ways for organizations, companies, and purpose-driven experiences to collaborate. Building impact also means sitting down, listening, and opening new possibilities.",
   },
   remote: {
     kicker: "From anywhere",
@@ -1054,11 +1378,24 @@ export const en: Messages = {
   },
   experience: {
     kicker: "The night",
-    title: "Race + live experience",
-    race: "Race on the water",
+    title: "Thousands of ducks. A night you won't see twice.",
+    lead: "Dique 3 becomes the stage for a free public experience that mixes solidarity, entertainment, and spectacle.",
+    race: "The race",
+    raceBody: "Follow the course and see who crosses first.",
     twoRaces: "Two races: sponsors and general",
     music: "Music",
     dj: "DJ",
+    start: "The start",
+    startBody: "Thousands of ducks entering the water.",
+    live: "Live",
+    liveBody: "Music, DJs, and artists with the experience.",
+    lights: "Lights",
+    lightsBody: "An audiovisual show designed to transform the dock.",
+    activations: "Experiences",
+    activationsBody: "Activations and ideas from the brands that make Pato Race possible.",
+    finale: "The finish",
+    finaleBody: "Winners, celebration, and the impact we built together.",
+    close: "You come for the experience. You leave running for something bigger.",
   },
   transparency: {
     kicker: "Trust",
@@ -1073,18 +1410,71 @@ export const en: Messages = {
     s4b: "Entry totals are public on the home page.",
   },
   merch: {
-    kicker: "Official merch",
-    title: "Pato Race is also something you wear",
-    lead: "Take a piece of the race home. Limited stock.",
-    limited: "Official merch · limited stock",
+    kicker: "Pato Race Originals",
+    title: "Take the race off the water.",
+    lead: "A collection for people who want to stay in Pato Race after the start.",
+    limited: "Drop 01 · Race for others",
     pickup: "Pickup at Pato Race 2026.",
-    shipping: "Home delivery still to be confirmed. If it launches, costs will be shown before you pay.",
-    pageTitle: "Merch",
-    pageLead: "Tees, caps, and stickers. Photos and delivery land when we have them.",
+    shipping: "",
+    pageTitle: "Pato Race Originals",
+    pageLead: "Take the race off the water.",
     tees: "Tees",
     caps: "Caps",
     stickers: "Stickers",
-    coming: "On sale once stock and photos are in.",
+    coming: "Price to be confirmed.",
+    originals: "Pato Race Originals",
+    dropKicker: "Drop 01",
+    dropTitle: "Race for others.",
+    independent:
+      "Merch is separate from your race entry. Pickup at the event. No shipping.",
+    pricePending: "Price to be confirmed",
+    add: "Add to cart",
+    added: "Added to cart",
+    cartLink: "Cart ({count})",
+    cartTitle: "Cart",
+    empty: "Your cart is empty.",
+    keepShopping: "Back to the drop",
+    sizeLabel: "Size",
+    sizeRequired: "Choose a size to add the tee.",
+    qty: "Quantity",
+    remove: "Remove",
+    clear: "Clear",
+    total: "Total",
+    toCheckout: "Go to checkout",
+    checkoutTitle: "Checkout",
+    buyerName: "Full name",
+    buyerEmail: "Email",
+    buyerPhone: "Phone",
+    pay: "Pay",
+    payDisabled: "Payment turns on once prices are set.",
+    viewDrop: "See the drop",
+    items: {
+      pato: {
+        name: "The Duck",
+        line: "Buenos Aires 2026 edition",
+        detail: "Official Pato Race collection duck. Limited edition.",
+      },
+      remera: {
+        name: "Race for Others Tee",
+        line: "Tee",
+        detail: "Front: Pato Race. Back: Race for others.",
+      },
+      gorra: {
+        name: "Race Cap",
+        line: "Cap",
+        detail: "Embroidered Pato Race logo.",
+      },
+      tote: {
+        name: "Tote",
+        line: "Tote",
+        detail: "Drop 01 edition.",
+      },
+      stickers: {
+        name: "Sticker pack",
+        line: "Stickers",
+        detail: "Pato Race sticker pack.",
+      },
+    },
   },
   where: {
     kicker: "The venue",
@@ -1108,27 +1498,28 @@ export const en: Messages = {
     regret: "Right of withdrawal",
   },
   faq: {
-    title: "FAQ",
+    title: "Questions everybody asks.",
     seeAll: "See all questions",
-    pageTitle: "FAQ",
+    basesCta: "Read the official rules",
+    pageTitle: "Questions everybody asks.",
     pageLead: "Everything you need to know to adopt your duck and join Pato Race 2026.",
     home: {
-      q1: "Can I take part without going to Dique 3?",
-      a1: "Yes. You can buy your entry online and be part of the race from anywhere. We'll share updates on official channels.",
-      q2: "How is my duck assigned?",
-      a2: "Each entry has a unique number. About 48 hours before the race it is randomly assigned to an eligible duck under the official rules, and we'll tell you digitally. Assignment is audited by a notary on event day.",
-      q3: "Do I need to be there to win?",
-      a3: "No. If your duck wins, the prize is handled under the official rules even if you aren't at Dique 3.",
-      q4: "What's included in my entry?",
-      a4: "A unique number and a duck assignment under the official rules. It does not include a physical duck.",
-      q5: "How much is the prize?",
-      a5: "The prize grows with the race: 2% of computable entry proceeds, after tax and bank fees. One duck wins each race; if that duck has several entries, the prize is split equally. Details are in the official rules.",
+      q1: "Do I have to be in Buenos Aires to take part?",
+      a1: "No. You can join from anywhere in the country.",
+      q2: "Can I adopt more than one entry?",
+      a2: "Yes.",
+      q3: "How do I know which duck is mine?",
+      a3: "Before the race, entries are linked to ducks under the procedure in the official rules.",
+      q4: "Can I go to the event without adopting?",
+      a4: "Yes. Pato Race is a free public event.",
+      q5: "What happens to the ducks after the race?",
+      a5: "They are all recovered in the operation planned for the event. No ducks are left in the water.",
       q6: "Where does the money go?",
-      a6: "70% goes to social impact causes. 30% covers purchase orders (prizes, production, organization, technology, safety, logistics, taxes, and other costs). The prize fund is 2% of computable entry proceeds. The split is shared publicly.",
-      q7: "What if it rains?",
-      a7: "The date or time may change. Your entry stays valid for the new date. If a race is interrupted, it may resume, be rerun, or be rescheduled. If the event is cancelled for good, consumer-protection rules apply and the organizers will try a later date; the venue may change with prior notice.",
-      q8: "Can I buy more than one entry?",
-      a8: "Yes. You can add as many entries as you want.",
+      a6: "70% of computable entry proceeds goes to social impact causes, under the official rules.",
+      q7: "Do I need to be there for my duck to race?",
+      a7: "No. Wherever you are, your entry is already in the race.",
+      q8: "Can minors take part?",
+      a8: "Holders of prize-eligible entries must be 18 or older, or legal entities.",
     },
     extra: {
       q1: "Can several people share a duck?",
@@ -1136,7 +1527,7 @@ export const en: Messages = {
       q2: "What if my duck wins and there are multiple entries?",
       a2: "Only one duck wins each race. That duck's prize is split equally among all valid entries on it. If you bought more than one, you collect for each.",
       q3: "Do I take the duck home?",
-      a3: "No. The ducks are production pieces and get reused. Collectibles, if any, are merch sold separately.",
+      a3: "No. After the race the ducks are recovered in the event operation and none are left in the water. Collectibles, if any, are merch sold separately.",
       q4: "Can minors take part?",
       a4: "Holders of prize-eligible entries must be 18 or older, or legal entities.",
       q5: "Can I buy merch without entering?",
@@ -1154,8 +1545,10 @@ export const en: Messages = {
     },
   },
   finalCta: {
-    title: "Join in",
-    body: "Your duck can win a race. Your entry can help far more.",
+    title: "Buenos Aires is ready.",
+    question: "Are you? Are you going to run?",
+    meta: "22 NOV · Dique 3 · Puerto Madero",
+    body: "Wherever you are, you can be part of it.",
     motto: "Your duck runs for you. You run for them.",
     button: "Adopt your duck",
   },
@@ -1317,8 +1710,10 @@ export const en: Messages = {
     faqTitle: "FAQ | Pato Race 2026",
     faqDesc:
       "How to join, where the money goes, how your duck is assigned, and more about Pato Race 2026.",
-    sponsorsTitle: "Alliances | Pato Race 2026",
-    sponsorsDesc: "Pato Race 2026 brands and partners. Partner Deck when it's ready.",
+    sponsorsTitle: "Memberships | Pato Race 2026",
+    sponsorsDesc: "Pato Race 2026 sponsorship packages: Nido, Oleada, Corriente, and Gota.",
+    historiaTitle: "History | Pato Race 2026",
+    historiaDesc: "Meetings and the path of Pato Race before the start in Puerto Madero.",
     merchTitle: "Merch | Pato Race 2026",
     merchDesc: "Official Pato Race tees, caps, and stickers.",
     legalTitle: "Legal | Pato Race 2026",

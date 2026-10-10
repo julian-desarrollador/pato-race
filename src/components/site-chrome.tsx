@@ -5,12 +5,42 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useState, type ReactNode } from "react";
 import { LocalizationMenu } from "@/components/localization-menu";
+import { useMerchCart } from "@/components/merch-cart";
+import { MerchCartDrawer } from "@/components/merch-page";
 import { usePrefs } from "@/components/locale-provider";
 import { useMoney } from "@/components/use-money";
 import { readSession } from "@/components/profile-access";
 import { campaign } from "@/lib/campaign";
+import { interpolate } from "@/lib/i18n/messages";
 
 type NavItem = { href: string; label: string };
+
+function HeaderCart({ onOpen }: { onOpen: () => void }) {
+  const { t } = usePrefs();
+  const { count, cartOpen, openCart } = useMerchCart();
+
+  return (
+    <button
+      type="button"
+      aria-label={interpolate(t.merch.cartLink, { count })}
+      aria-expanded={cartOpen}
+      aria-haspopup="dialog"
+      onClick={() => {
+        onOpen();
+        openCart();
+      }}
+      className="relative inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line text-ink transition hover:border-ink/40"
+    >
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 8h12l-1 12H7L6 8z" />
+        <path strokeLinecap="round" d="M9 8V7a3 3 0 0 1 6 0v1" />
+      </svg>
+      <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-duck px-1 text-[10px] font-black text-bg">
+        {count}
+      </span>
+    </button>
+  );
+}
 
 function useNavItems(loggedIn: boolean) {
   const { t } = usePrefs();
@@ -20,6 +50,7 @@ function useNavItems(loggedIn: boolean) {
       { href: "/#que-es", label: t.nav.event },
       { href: "/#como", label: t.nav.how },
       { href: "/#beneficio", label: t.nav.benefit },
+      { href: "/historia", label: t.nav.historia },
       { href: "/sponsors", label: t.nav.sponsors },
       { href: "/merch", label: t.nav.merch },
       { href: "/faq", label: t.nav.questions },
@@ -63,6 +94,7 @@ export function SiteHeader() {
   }, [open]);
 
   return (
+    <>
     <header className="absolute inset-x-0 top-0 z-20">
       <div className="mx-auto flex max-w-6xl flex-nowrap items-center justify-between gap-3 px-5 py-4 md:px-8">
         <Link href="/" className="group flex shrink-0 flex-nowrap items-center gap-2.5">
@@ -119,6 +151,7 @@ export function SiteHeader() {
           >
             {loggedIn ? t.nav.account : t.nav.loginShort}
           </Link>
+          <HeaderCart onOpen={() => setOpen(false)} />
           <Link
             href="/participar"
             className="inline-flex h-12 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-water-bright px-5 text-center text-sm font-black text-bg transition hover:brightness-110 sm:px-6 sm:text-base"
@@ -196,6 +229,8 @@ export function SiteHeader() {
         </div>
       ) : null}
     </header>
+    <MerchCartDrawer />
+    </>
   );
 }
 
@@ -279,6 +314,7 @@ export function SiteFooter() {
             <p className="font-[family-name:var(--font-display)] text-xl leading-none tracking-wide text-ink">
               PATO RACE {year}
             </p>
+            <p className="mt-2">{t.footer.tagline}</p>
             <p className="mt-2">{t.footer.event}</p>
             <p className="mt-2">{t.footer.organizer}</p>
             <p className="mt-2 text-ink">{t.footer.people}</p>
@@ -290,6 +326,11 @@ export function SiteFooter() {
           </FooterAccordion>
           <FooterAccordion title={t.footer.infoCol}>
             <ul className="space-y-2 text-ink">
+              <li>
+                <Link href="/historia" className="hover:text-duck">
+                  {t.nav.historia}
+                </Link>
+              </li>
               <li>
                 <Link href="/#que-es" className="hover:text-duck">
                   {t.nav.event}
@@ -307,7 +348,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link href="/sponsors" className="hover:text-duck">
-                  {t.nav.sponsors}
+                  {t.sponsors.kicker}
                 </Link>
               </li>
               <li>

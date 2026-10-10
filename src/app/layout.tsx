@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import { LocaleProvider } from "@/components/locale-provider";
+import { MerchCartProvider } from "@/components/merch-cart";
 import {
   CURRENCY_COOKIE,
   LOCALE_COOKIE,
@@ -48,7 +49,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-bg text-ink">
         <LocaleProvider initialLocale={locale} initialCurrency={currency}>
-          {children}
+          <MerchCartProvider>{children}</MerchCartProvider>
         </LocaleProvider>
       </body>
     </html>

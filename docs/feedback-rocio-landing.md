@@ -338,6 +338,8 @@ Fases 0–7 armadas. Bases + T&C + cambios/devoluciones publicados. Precio **$10
 
 **Bloqueado por material / decisión de Rocío:** logos sponsors, Partner Deck, video teaser, fotos merch, mapa/cómo llegar, nombres de artistas, USD internacional vs ARS, fecha exacta de apertura de ventas (~20/09), horario definitivo de la fiesta, y si se promete “seguir en vivo”.
 
+**Fase 1 de contenido (06/10/2026):** home reordenada (hero, contador, qué es, cómo funciona, bloque tipográfico, la noche, quiénes somos, impacto 70%, marcas, FAQ, cierre). Fecha **22/11/2026** y precio **$10.000** sin cambios. Membresías en `/sponsors`: Nido USD 20.000, Oleada USD 10.000, Corriente USD 4.000, Gota USD 2.000. Historia en `/historia` con la cena Garrahan y el encuentro Favaloro (vinculación, no beneficiario). No se publica el desglose 70/2/28, ni “100% reciclado”, ni se vuelven a nominar beneficiarios en el porcentaje. Mapa, bandadas, corporate, shop con carrito y mail de confirmación quedan afuera.
+
 **Beneficiarios (18/09/2026):** la web pública y las Bases art. 3 comunican solo **70% a beneficio**, sin Garrahan/Gardel/Tandil ni 60/5/5, hasta nuevo aviso.
 
-**Tienda (comercial):** opcional +ARS 90.000 según propuesta; no desarrollar hasta ok + 50% inicial. Andreani = ampliación aparte.
+**Tienda (10/10/2026):** Drop 01 publicado en `/merch` (pato, remera con talles, gorra, tote, stickers). Carrito en el navegador y checkout visible, sin cobro: el botón de pagar queda deshabilitado mientras el precio sea null. Mercado Pago sigue solo para participaciones. Retiro en el evento. Sin Andreani, sin mail y sin stock numérico.
