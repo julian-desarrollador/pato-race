@@ -23,9 +23,20 @@ const body = DM_Sans({
   variable: "--font-body",
 });
 
+function metadataBaseUrl() {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  if (explicit && !explicit.includes("localhost")) return explicit;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return explicit || "http://localhost:6632";
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const { locale, t } = await getServerPrefs();
   return {
+    metadataBase: new URL(metadataBaseUrl()),
     title: t.meta.homeTitle,
     description: t.meta.homeDesc,
     openGraph: {
@@ -33,6 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: t.meta.ogDesc,
       locale: locale === "en" ? "en_US" : "es_AR",
       type: "website",
+      images: [{ url: "/og.jpg", width: 1200, height: 1200, alt: "Pato Race 2026" }],
     },
   };
 }
