@@ -7,9 +7,11 @@ import type { Locale } from "@/lib/i18n/config";
 export function LocalizationMenu({
   align = "right",
   compactOnMobile = false,
+  iconOnly = false,
 }: {
   align?: "left" | "right";
   compactOnMobile?: boolean;
+  iconOnly?: boolean;
 }) {
   const { t, locale, setLocale } = usePrefs();
   const [open, setOpen] = useState(false);
@@ -99,17 +101,19 @@ export function LocalizationMenu({
         aria-controls={menuId}
         aria-label={t.loc.language}
         onClick={() => setOpen((value) => !value)}
-        className={`inline-flex items-center justify-center gap-1.5 rounded-full border border-line bg-bg/40 font-semibold leading-tight text-ink transition hover:border-ink/40 ${
-          compactOnMobile
-            ? "h-12 w-12 px-0 md:h-auto md:w-auto md:max-w-none md:px-3 md:py-2 md:text-xs"
-            : "max-w-[11.5rem] px-3 py-2 text-left text-[11px] sm:max-w-none sm:text-xs"
+        className={`inline-flex items-center justify-center gap-1.5 rounded-full border border-white/15 bg-white/5 font-semibold leading-tight text-white transition hover:border-cyan-300/50 ${
+          iconOnly
+            ? "h-10 w-10 px-0"
+            : compactOnMobile
+              ? "h-12 w-12 px-0 md:h-auto md:w-auto md:max-w-none md:px-3 md:py-2 md:text-xs"
+              : "max-w-[11.5rem] px-3 py-2 text-left text-[11px] sm:max-w-none sm:text-xs"
         }`}
       >
         <GlobeIcon />
         <span
           className={`min-w-0 truncate ${
-            compactOnMobile ? "hidden md:inline" : ""
-          }`}
+            iconOnly || compactOnMobile ? "hidden" : ""
+          } ${compactOnMobile && !iconOnly ? "md:inline" : ""}`}
         >
           {langName}
         </span>

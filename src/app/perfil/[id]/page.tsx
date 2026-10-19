@@ -73,7 +73,7 @@ export default async function ProfilePage({
     <>
       <ProfileRemember id={participant.id} />
       <SiteHeader />
-      <main className="water-mesh flex-1 pt-24 print:bg-white print:pt-0">
+      <main className="water-mesh flex-1 pt-32 print:bg-white print:pt-0">
         {/* Hero perfil */}
         <section className="relative overflow-hidden border-b border-line print:hidden">
           <div className="pointer-events-none absolute inset-0 opacity-40">

@@ -15,7 +15,7 @@ export default function MerchCartPage() {
   return (
     <>
       <SiteHeader />
-      <main className="water-mesh flex-1 pt-24">
+      <main className="water-mesh flex-1 pt-32">
         <MerchCartView />
       </main>
       <SiteFooter />

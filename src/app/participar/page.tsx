@@ -21,7 +21,7 @@ export default async function ParticiparPage({
   return (
     <>
       <SiteHeader />
-      <main className="water-mesh flex-1 pt-24">
+      <main className="water-mesh flex-1 pt-32">
         <ParticipateView status={status} />
       </main>
       <SiteFooter />

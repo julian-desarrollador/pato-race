@@ -54,23 +54,38 @@ function Hero() {
 
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-[#040e15]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,90,110,0.35),transparent_58%)]" />
-      <div className="pointer-events-none absolute -right-16 top-0 h-[34rem] w-[34rem] rounded-full bg-cyan-400/15 blur-[130px]" />
-      <div className="pointer-events-none absolute -left-20 top-1/3 h-[26rem] w-[26rem] rounded-full bg-[#ffc800]/10 blur-[140px]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#021018] via-[#063044]/50 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-16 h-px bg-cyan-300/25" />
+      <Image
+        src="/hero/noche-dique.jpg"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-[center_42%]"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#040e15]/88 via-[#040e15]/55 to-[#040e15]/10" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-bg via-bg/70 to-transparent" />
 
-      <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-5 pb-28 pt-28 md:px-8 md:pt-32">
-        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="animate-rise text-center lg:col-span-7 lg:text-left">
-            <p className="flex items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-300 sm:text-sm lg:justify-start">
+      <div className="pointer-events-none absolute bottom-[16%] right-[8%] z-[1] w-8 opacity-90 sm:bottom-[18%] sm:right-[22%] sm:w-10">
+        <Image src="/foto_pato2.webp" alt="" width={48} height={48} className="h-auto w-full" />
+      </div>
+      <div className="pointer-events-none absolute bottom-[12%] right-[18%] z-[1] w-6 opacity-80 sm:bottom-[14%] sm:right-[32%] sm:w-7">
+        <Image src="/foto_pato2.webp" alt="" width={36} height={36} className="h-auto w-full" />
+      </div>
+      <div className="pointer-events-none absolute bottom-[20%] right-[3%] z-[1] hidden w-7 opacity-75 sm:block">
+        <Image src="/foto_pato2.webp" alt="" width={36} height={36} className="h-auto w-full" />
+      </div>
+
+      <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-5 pb-28 pt-36 md:px-8 lg:justify-center">
+        <div className="grid items-end gap-2 lg:grid-cols-12 lg:items-center lg:gap-6">
+          <div className="relative z-10 text-center lg:col-span-7 lg:text-left">
+            <p className="flex items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-200 sm:text-sm lg:justify-start">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#ffc800]" />
               {t.hero.kicker}
             </p>
-            <h1 className="mt-4 font-[family-name:var(--font-display)] text-[clamp(3rem,7vw,6.5rem)] leading-[0.84] text-white drop-shadow-[0_12px_30px_rgba(0,0,0,0.65)]">
+            <h1 className="mt-4 font-[family-name:var(--font-display)] text-[clamp(3rem,7vw,6.5rem)] leading-[0.84] text-white drop-shadow-[0_12px_30px_rgba(0,0,0,0.75)]">
               PATO RACE <span className="text-[#ffc800]">{campaign.year}</span>
             </h1>
-            <p className="mt-3 text-3xl font-light tracking-tight text-slate-200 sm:text-5xl">
+            <p className="mt-3 text-3xl font-light tracking-tight text-slate-100 drop-shadow-[0_8px_18px_rgba(0,0,0,0.7)] sm:text-5xl">
               {t.hero.nightTitle}
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
@@ -89,22 +104,28 @@ function Hero() {
             </div>
           </div>
 
-          <div className="relative animate-rise lg:col-span-5" style={{ animationDelay: "120ms" }}>
-            <div className="pointer-events-none absolute inset-8 rounded-full bg-cyan-400/20 blur-3xl" />
-            <div className="relative mx-auto w-full max-w-[280px] animate-float-duck sm:max-w-[380px]">
-              <div className="relative aspect-square overflow-hidden rounded-[42%] border border-cyan-300/50 bg-[#071018] shadow-[0_0_48px_rgba(0,242,254,0.4),0_28px_60px_rgba(0,0,0,0.65)]">
-                <Image
-                  src="/foto_pato2.webp"
-                  alt={t.hero.duckAlt}
-                  fill
-                  priority
-                  sizes="(max-width: 640px) 70vw, 380px"
-                  className="object-cover"
-                />
+          <div className="relative z-10 lg:col-span-5">
+            <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[460px] lg:max-w-none">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-[12%] top-[72%] h-24 origin-top scale-y-[-0.28] opacity-35 blur-[1px] [mask-image:linear-gradient(to_bottom,black,transparent)]"
+              >
+                <Image src="/foto_pato2.webp" alt="" fill sizes="460px" className="object-contain" />
               </div>
+              <div className="pointer-events-none absolute bottom-[6%] left-1/2 h-4 w-[78%] -translate-x-1/2 rounded-[100%] border border-cyan-200/50 shadow-[0_0_18px_rgba(34,211,238,0.45)]" />
+              <div className="pointer-events-none absolute bottom-[3%] left-1/2 h-7 w-[92%] -translate-x-1/2 rounded-[100%] border border-cyan-200/20" />
+              <Image
+                src="/foto_pato2.webp"
+                alt={t.hero.duckAlt}
+                width={720}
+                height={720}
+                priority
+                sizes="(max-width: 1024px) 80vw, 460px"
+                className="relative z-10 h-auto w-full [filter:drop-shadow(0_0_14px_rgba(34,211,238,0.9))_drop-shadow(0_18px_24px_rgba(0,0,0,0.45))]"
+              />
               <Link
                 href="/participar"
-                className="absolute -right-1 top-[38%] z-10 max-w-[11rem] rounded-full bg-[#ffc800] px-4 py-2 text-center text-xs font-black text-black shadow-[0_0_24px_rgba(255,200,0,0.55)] sm:-right-6 sm:max-w-none sm:px-5 sm:text-sm"
+                className="absolute right-0 top-[22%] z-20 max-w-[11rem] rounded-full bg-[#ffc800] px-4 py-2 text-center text-xs font-black text-black shadow-[0_0_24px_rgba(255,200,0,0.55)] sm:right-[-4%] sm:max-w-none sm:px-5 sm:text-sm"
               >
                 {adoptLabel}
               </Link>
@@ -112,12 +133,12 @@ function Hero() {
           </div>
         </div>
 
-        <div className="mx-auto mt-12 flex w-full max-w-4xl flex-col items-center justify-between gap-3 rounded-3xl border border-cyan-400/40 bg-[#071924]/80 px-4 py-3 shadow-[0_0_30px_rgba(0,242,254,0.15)] backdrop-blur sm:flex-row sm:rounded-full sm:px-2">
-          <p className="px-4 font-mono text-xs font-bold uppercase tracking-wider text-cyan-200 sm:text-sm">
+        <div className="relative z-10 mx-auto mt-6 flex w-full max-w-4xl flex-col items-center justify-between gap-3 rounded-3xl border border-cyan-300/40 bg-[#071924]/75 px-4 py-3 shadow-[0_0_30px_rgba(0,242,254,0.18)] backdrop-blur sm:mt-8 sm:flex-row sm:rounded-full sm:px-2">
+          <p className="px-4 font-mono text-xs font-bold uppercase tracking-wider text-cyan-100 sm:text-sm">
             {heroDateBar(t.hero.time)}
           </p>
-          <span className="hidden h-8 w-1 rounded-full bg-cyan-400 shadow-[0_0_15px_#22d3ee] sm:block" />
-          <p className="px-4 font-mono text-xs font-bold uppercase tracking-wider text-slate-200 sm:text-sm">
+          <span className="hidden h-8 w-1 rounded-full bg-cyan-300 shadow-[0_0_15px_#67e8f9] sm:block" />
+          <p className="px-4 font-mono text-xs font-bold uppercase tracking-wider text-slate-100 sm:text-sm">
             {campaign.location.toLocaleUpperCase("es-AR")}
           </p>
         </div>

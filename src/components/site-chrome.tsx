@@ -29,7 +29,7 @@ function HeaderCart({ onOpen }: { onOpen: () => void }) {
         onOpen();
         openCart();
       }}
-      className="relative inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line text-ink transition hover:border-ink/40"
+      className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition hover:border-cyan-300/50"
     >
       <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.75">
         <path strokeLinecap="round" strokeLinejoin="round" d="M6 8h12l-1 12H7L6 8z" />
@@ -45,15 +45,21 @@ function HeaderCart({ onOpen }: { onOpen: () => void }) {
 function useNavItems(loggedIn: boolean) {
   const { t } = usePrefs();
   return {
-    // Desktop omits Contacto to leave room for Botón de arrepentimiento.
+    capsule: [
+      { href: "/#que-es", label: t.nav.event },
+      { href: "/#experiencia", label: t.nav.prizes },
+      { href: "/#como", label: t.nav.how },
+      { href: "/#faq", label: t.nav.questions },
+    ] satisfies NavItem[],
     primary: [
       { href: "/#que-es", label: t.nav.event },
+      { href: "/#experiencia", label: t.nav.prizes },
       { href: "/#como", label: t.nav.how },
+      { href: "/#faq", label: t.nav.questions },
       { href: "/#beneficio", label: t.nav.benefit },
       { href: "/historia", label: t.nav.historia },
       { href: "/sponsors", label: t.nav.sponsors },
       { href: "/merch", label: t.nav.merch },
-      { href: "/faq", label: t.nav.questions },
     ] satisfies NavItem[],
     contact: {
       href: "/#contacto",
@@ -95,43 +101,34 @@ export function SiteHeader() {
 
   return (
     <>
-    <header className="absolute inset-x-0 top-0 z-20">
-      <div className="mx-auto flex max-w-6xl flex-nowrap items-center justify-between gap-3 px-5 py-4 md:px-8">
-        <Link href="/" className="group flex shrink-0 flex-nowrap items-center gap-2.5">
-          <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full border-2 border-duck shadow-[0_0_0_3px_rgba(245,197,24,0.22)] transition group-hover:scale-105">
+    <header className="absolute inset-x-0 top-0 z-20 px-3 pt-3 md:px-6">
+      <div className="mx-auto flex max-w-6xl flex-nowrap items-center justify-between gap-2 rounded-full border border-cyan-300/25 bg-[#07141c]/80 px-2.5 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:gap-3 sm:px-4">
+        <Link href="/" className="group flex shrink-0 flex-nowrap items-center gap-2">
+          <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-cyan-300/40 shadow-[0_0_12px_rgba(34,211,238,0.35)]">
             <Image
               src="/foto_pato2.webp"
               alt="Pato Race"
               fill
-              sizes="36px"
+              sizes="32px"
               className="object-cover object-center"
               priority
             />
           </span>
-          <span className="shrink-0 whitespace-nowrap font-[family-name:var(--font-display)] text-2xl leading-none tracking-normal text-ink sm:text-[1.75rem]">
+          <span className="shrink-0 whitespace-nowrap font-[family-name:var(--font-display)] text-xl leading-none tracking-normal text-white sm:text-2xl">
             PATO&nbsp;RACE
           </span>
         </Link>
-        <nav className="hidden items-center gap-5 text-sm text-ink-muted xl:flex xl:gap-5">
-          {nav.primary.map((item) => (
-            <Link key={item.href} href={item.href} className="transition hover:text-ink">
+        <nav className="hidden items-center gap-5 text-xs font-semibold uppercase tracking-widest text-slate-200 lg:flex">
+          {nav.capsule.map((item) => (
+            <Link key={item.href} href={item.href} className="transition hover:text-[#ffc800]">
               {item.label}
             </Link>
           ))}
-          <Link href={nav.account.href} className="transition hover:text-ink">
-            {nav.account.label}
-          </Link>
-          <Link
-            href="/legal/arrepentimiento"
-            className="whitespace-nowrap text-xs text-ink-muted/80 underline decoration-ink-muted/30 underline-offset-4 transition hover:text-ink"
-          >
-            {t.nav.regret}
-          </Link>
         </nav>
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <button
             type="button"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-line text-ink xl:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white lg:hidden"
             aria-expanded={open}
             aria-controls={menuId}
             aria-label={t.nav.menu}
@@ -139,32 +136,42 @@ export function SiteHeader() {
           >
             <span className="sr-only">{t.nav.menu}</span>
             <span aria-hidden className="flex flex-col gap-1.5">
-              <span className="block h-0.5 w-5 bg-ink" />
-              <span className="block h-0.5 w-5 bg-ink" />
-              <span className="block h-0.5 w-5 bg-ink" />
+              <span className="block h-0.5 w-4 bg-white" />
+              <span className="block h-0.5 w-4 bg-white" />
+              <span className="block h-0.5 w-4 bg-white" />
             </span>
           </button>
-          <LocalizationMenu align="right" compactOnMobile />
+          <LocalizationMenu align="right" iconOnly />
           <Link
             href={nav.account.href}
-            className="hidden rounded-full border border-line px-3 py-2 text-sm font-semibold text-ink transition hover:border-ink/40 md:inline-flex xl:hidden"
+            aria-label={nav.account.label}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white transition hover:border-cyan-300/50"
           >
-            {loggedIn ? t.nav.account : t.nav.loginShort}
+            <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.75">
+              <circle cx="12" cy="8" r="3.25" />
+              <path strokeLinecap="round" d="M5 19.5c1.4-3 3.8-4.5 7-4.5s5.6 1.5 7 4.5" />
+            </svg>
           </Link>
           <HeaderCart onOpen={() => setOpen(false)} />
           <Link
             href="/participar"
-            className="inline-flex h-12 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-water-bright px-5 text-center text-sm font-black text-bg transition hover:brightness-110 sm:px-6 sm:text-base"
+            className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-[#ffc800] px-3 text-center text-xs font-black text-black shadow-[0_0_18px_rgba(255,200,0,0.4)] transition hover:bg-[#ffd533] sm:px-4 sm:text-sm"
           >
             {t.nav.adoptLine1} {t.nav.adoptLine2}
           </Link>
         </div>
       </div>
+      <Link
+        href="/legal/arrepentimiento"
+        className="mx-auto mt-2 block w-fit text-center text-[11px] font-semibold text-white underline decoration-white/50 underline-offset-4 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
+      >
+        {t.nav.regret}
+      </Link>
 
       {open ? (
         <div
           id={menuId}
-          className="fixed inset-0 z-50 flex flex-col bg-bg-elevated xl:hidden"
+          className="fixed inset-0 z-50 flex flex-col bg-[#07141c] lg:hidden"
           role="dialog"
           aria-modal="true"
           aria-label={t.nav.menu}
@@ -242,7 +249,7 @@ export function StickyAdoptBar() {
   if (pathname === "/participar") return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-duck/40 bg-bg-elevated/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur xl:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-duck/40 bg-bg-elevated/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
       <Link
         href="/participar"
         className="flex h-12 w-full items-center justify-center rounded-full bg-duck text-sm font-black text-bg"

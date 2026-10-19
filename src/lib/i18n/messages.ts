@@ -12,6 +12,7 @@ export type Messages = {
     adoptLine1: string;
     adoptLine2: string;
     event: string;
+    prizes: string;
     merch: string;
     questions: string;
     contact: string;
@@ -561,9 +562,10 @@ export const es: Messages = {
     loginShort: "Ingresar",
     adoptLine1: "Adoptá",
     adoptLine2: "tu pato",
-    event: "Evento",
+    event: "El evento",
+    prizes: "Premios",
     merch: "Merch",
-    questions: "Preguntas",
+    questions: "FAQs",
     contact: "Contacto",
     menu: "Menú",
     close: "Cerrar",
@@ -1158,8 +1160,9 @@ export const en: Messages = {
     adoptLine1: "Adopt",
     adoptLine2: "your duck",
     event: "The event",
+    prizes: "Prizes",
     merch: "Merch",
-    questions: "FAQ",
+    questions: "FAQs",
     contact: "Contact",
     menu: "Menu",
     close: "Close",

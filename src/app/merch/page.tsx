@@ -16,7 +16,7 @@ export default function MerchPage() {
     <>
       <SiteHeader />
       <main className="flex-1 bg-[#f3f1ec] text-[#142028]">
-        <div className="h-24 bg-bg" aria-hidden />
+        <div className="h-32 bg-bg" aria-hidden />
         <MerchIndexView />
       </main>
       <SiteFooter />
