@@ -34,106 +34,94 @@ export function LandingPage({ stats }: { stats: PublicStats }) {
   );
 }
 
+function heroDateBar(time: string) {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "America/Argentina/Buenos_Aires",
+  }).formatToParts(campaign.eventDate);
+  const day = parts.find((part) => part.type === "day")?.value ?? "";
+  const month = (parts.find((part) => part.type === "month")?.value ?? "").replace(".", "").toUpperCase();
+  const year = parts.find((part) => part.type === "year")?.value ?? String(campaign.year);
+  return `${day} ${month} ${year} · ${time.toUpperCase()}`;
+}
+
 function Hero() {
   const { t } = usePrefs();
   const money = useMoney();
+  const adoptLabel = `${t.hero.adopt} · ${money.ticket()}`;
 
   return (
-    <section className="relative min-h-[100svh] overflow-hidden hero-party">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-60"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
-        }}
-      />
-      <div className="pointer-events-none absolute -left-20 top-28 h-52 w-52 rounded-full bg-coral/25 blur-3xl" />
-      <div className="pointer-events-none absolute -right-20 top-20 h-72 w-72 rounded-full bg-duck/25 blur-3xl" />
+    <section className="relative min-h-[100svh] overflow-hidden bg-[#040e15]">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,90,110,0.35),transparent_58%)]" />
+      <div className="pointer-events-none absolute -right-16 top-0 h-[34rem] w-[34rem] rounded-full bg-cyan-400/15 blur-[130px]" />
+      <div className="pointer-events-none absolute -left-20 top-1/3 h-[26rem] w-[26rem] rounded-full bg-[#ffc800]/10 blur-[140px]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#021018] via-[#063044]/50 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-16 h-px bg-cyan-300/25" />
 
-      <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-5 pb-32 pt-24 md:px-8 md:pb-36 md:pt-28 xl:pb-24">
-        <div className="grid grid-cols-[1.15fr_0.85fr] items-center gap-3 sm:gap-6 md:gap-10">
-          <div className="animate-rise min-w-0">
-            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-water-bright sm:text-xs">
-              {campaign.city} · {campaign.location}
+      <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-5 pb-28 pt-28 md:px-8 md:pt-32">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-8">
+          <div className="animate-rise text-center lg:col-span-7 lg:text-left">
+            <p className="flex items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-300 sm:text-sm lg:justify-start">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#ffc800]" />
+              {t.hero.kicker}
             </p>
-            <p className="mt-2 font-[family-name:var(--font-display)] text-2xl tracking-wide text-duck sm:text-3xl">
-              {campaign.year}
-            </p>
-
-            <h1 className="hero-title mt-3 font-[family-name:var(--font-display)] text-[clamp(3.4rem,12vw,9.5rem)] leading-[0.78] tracking-wide text-ink">
-              PATO
-              <br />
-              <span className="relative inline-block text-duck">
-                RACE
-                <span className="absolute -right-10 -top-3 rotate-12 rounded-full bg-foam px-2.5 py-1 font-[family-name:var(--font-body)] text-[10px] font-black tracking-normal text-bg [text-shadow:none] sm:-right-14 sm:text-xs md:-right-20 md:text-sm">
-                  {t.hero.quack}
-                </span>
-              </span>
+            <h1 className="mt-4 font-[family-name:var(--font-display)] text-[clamp(3rem,7vw,6.5rem)] leading-[0.84] text-white drop-shadow-[0_12px_30px_rgba(0,0,0,0.65)]">
+              PATO RACE <span className="text-[#ffc800]">{campaign.year}</span>
             </h1>
-
-            <p className="mt-4 max-w-md font-[family-name:var(--font-display)] text-3xl leading-none tracking-wide text-ink sm:text-4xl">
-              {t.hero.tagline}
+            <p className="mt-3 text-3xl font-light tracking-tight text-slate-200 sm:text-5xl">
+              {t.hero.nightTitle}
             </p>
-            <p className="mt-2 max-w-md font-[family-name:var(--font-display)] text-3xl leading-none tracking-wide text-duck sm:text-4xl">
-              {t.hero.headline}
-            </p>
-            <p className="mt-4 max-w-md text-sm text-ink-muted sm:text-lg">{t.hero.lead}</p>
-
-            <p className="mt-6 font-[family-name:var(--font-display)] text-6xl leading-none tracking-wide text-duck sm:text-7xl">
-              {campaign.benefitPercent}%
-            </p>
-            <p className="mt-1 max-w-xs text-sm font-black uppercase tracking-[0.12em] text-ink">
-              {t.hero.benefitCaption}
-            </p>
-
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
               <Link
                 href="/participar"
-                className="fun-button whitespace-nowrap rounded-full bg-duck px-5 py-3 text-sm font-black text-bg sm:px-7 sm:py-3.5 sm:text-base"
+                className="inline-flex w-full items-center justify-center rounded-full bg-[#ffc800] px-8 py-4 text-sm font-black uppercase tracking-wide text-black shadow-[0_0_35px_rgba(255,200,0,0.45)] transition hover:bg-[#ffd533] sm:w-auto"
               >
-                {t.hero.adopt} · {money.ticket()}
-              </Link>
-              <Link
-                href="/merch"
-                className="whitespace-nowrap rounded-full bg-water-bright px-5 py-3 text-sm font-black text-bg shadow-[0_6px_0_#0e7c90] transition hover:brightness-110 sm:px-6 sm:py-3.5 sm:text-base"
-              >
-                {t.hero.merch}
+                {adoptLabel}
               </Link>
               <a
-                href="#experiencia"
-                className="rounded-full border border-line px-5 py-3 text-sm text-ink transition hover:border-ink/40 sm:px-6 sm:py-3.5 sm:text-base"
+                href="#que-es"
+                className="inline-flex w-full items-center justify-center rounded-full border border-cyan-300/50 bg-cyan-950/40 px-7 py-4 text-sm font-bold uppercase tracking-wide text-cyan-100 backdrop-blur transition hover:bg-cyan-900/50 sm:w-auto"
               >
-                {t.hero.discover}
+                {t.hero.learnMore}
               </a>
             </div>
-            <p className="mt-3 text-sm text-ink-muted">{t.hero.anywhere}</p>
           </div>
 
-          <div className="relative animate-rise self-center" style={{ animationDelay: "120ms" }}>
-            <div className="absolute left-1/2 top-1/2 h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full bg-duck/80 animate-ripple sm:h-48 sm:w-48 md:h-72 md:w-72" />
-            <div
-              className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-water-bright/30 animate-ripple sm:h-64 sm:w-64 sm:border-4 md:h-96 md:w-96"
-              style={{ animationDelay: "1s" }}
-            />
-            <div className="relative mx-auto w-full max-w-[160px] animate-float-duck sm:max-w-[260px] md:max-w-[400px]">
-              <div className="relative aspect-square overflow-hidden rounded-[42%_58%_45%_55%/55%_42%_58%_45%] border-[4px] border-duck bg-[#15120d] shadow-[0_20px_50px_rgba(0,0,0,0.45)] sm:border-[5px] md:border-[6px]">
+          <div className="relative animate-rise lg:col-span-5" style={{ animationDelay: "120ms" }}>
+            <div className="pointer-events-none absolute inset-8 rounded-full bg-cyan-400/20 blur-3xl" />
+            <div className="relative mx-auto w-full max-w-[280px] animate-float-duck sm:max-w-[380px]">
+              <div className="relative aspect-square overflow-hidden rounded-[42%] border border-cyan-300/50 bg-[#071018] shadow-[0_0_48px_rgba(0,242,254,0.4),0_28px_60px_rgba(0,0,0,0.65)]">
                 <Image
                   src="/foto_pato2.webp"
                   alt={t.hero.duckAlt}
                   fill
                   priority
-                  sizes="(max-width: 640px) 45vw, (max-width: 1024px) 35vw, 400px"
+                  sizes="(max-width: 640px) 70vw, 380px"
                   className="object-cover"
                 />
               </div>
-              <span className="absolute -right-1 bottom-4 rotate-6 rounded-full bg-water-bright px-2 py-1 text-[9px] font-black text-bg shadow-xl sm:-right-3 sm:bottom-8 sm:px-3 sm:py-1.5 sm:text-xs md:bottom-10 md:px-4 md:py-2 md:text-sm">
-                {t.hero.solidary}
-              </span>
+              <Link
+                href="/participar"
+                className="absolute -right-1 top-[38%] z-10 max-w-[11rem] rounded-full bg-[#ffc800] px-4 py-2 text-center text-xs font-black text-black shadow-[0_0_24px_rgba(255,200,0,0.55)] sm:-right-6 sm:max-w-none sm:px-5 sm:text-sm"
+              >
+                {adoptLabel}
+              </Link>
             </div>
           </div>
         </div>
+
+        <div className="mx-auto mt-12 flex w-full max-w-4xl flex-col items-center justify-between gap-3 rounded-3xl border border-cyan-400/40 bg-[#071924]/80 px-4 py-3 shadow-[0_0_30px_rgba(0,242,254,0.15)] backdrop-blur sm:flex-row sm:rounded-full sm:px-2">
+          <p className="px-4 font-mono text-xs font-bold uppercase tracking-wider text-cyan-200 sm:text-sm">
+            {heroDateBar(t.hero.time)}
+          </p>
+          <span className="hidden h-8 w-1 rounded-full bg-cyan-400 shadow-[0_0_15px_#22d3ee] sm:block" />
+          <p className="px-4 font-mono text-xs font-bold uppercase tracking-wider text-slate-200 sm:text-sm">
+            {campaign.location.toLocaleUpperCase("es-AR")}
+          </p>
+        </div>
       </div>
-      <div className="hero-wave pointer-events-none absolute inset-x-0 bottom-0 h-8 md:h-12" />
     </section>
   );
 }

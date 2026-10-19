@@ -100,6 +100,9 @@ export type Messages = {
     headlineAccent: string;
     benefitCaption: string;
     discover: string;
+    kicker: string;
+    nightTitle: string;
+    learnMore: string;
   };
   counter: {
     kicker: string;
@@ -647,6 +650,9 @@ export const es: Messages = {
     anywhere: "Podés participar desde cualquier lugar de Argentina.",
     priceContext: "Con {price} ya sos parte de la carrera",
     adoptionsOpen: "Adopciones abiertas",
+    kicker: "El evento más esperado de Buenos Aires",
+    nightTitle: "Noche en el Dique",
+    learnMore: "Saber más",
   },
   counter: {
     kicker: "La carrera ya empezó.",
@@ -1240,6 +1246,9 @@ export const en: Messages = {
     anywhere: "You can join from anywhere in Argentina.",
     priceContext: "With {price} you're already in the race",
     adoptionsOpen: "Adoptions are open",
+    kicker: "The most anticipated event in Buenos Aires",
+    nightTitle: "Night at the Dique",
+    learnMore: "Learn more",
   },
   counter: {
     kicker: "The race has already started.",
