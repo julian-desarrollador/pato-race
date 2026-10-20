@@ -459,6 +459,7 @@ export type Messages = {
     seeTicketLink: string;
     adoptAnother: string;
     guestName: string;
+    regretPrompt: string;
   };
   errors: {
     connection: string;
@@ -1045,6 +1046,7 @@ export const es: Messages = {
     seeTicketLink: "Ver ticket →",
     adoptAnother: "Adoptar otro pato",
     guestName: "Participante",
+    regretPrompt: "¿Te arrepentiste de una compra?",
   },
   errors: {
     connection: "Error de conexión. Intentá de nuevo.",
@@ -1641,6 +1643,7 @@ export const en: Messages = {
     seeTicketLink: "View ticket →",
     adoptAnother: "Adopt another duck",
     guestName: "Racer",
+    regretPrompt: "Changed your mind about a purchase?",
   },
   errors: {
     connection: "Connection error. Please try again.",

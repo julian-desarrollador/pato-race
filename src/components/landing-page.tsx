@@ -90,6 +90,7 @@ function Hero() {
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
               <Link
+                id="hero-adopt"
                 href="/participar"
                 className="inline-flex w-full items-center justify-center rounded-full bg-[#ffc800] px-8 py-4 text-sm font-black uppercase tracking-wide text-black shadow-[0_0_35px_rgba(255,200,0,0.45)] transition hover:bg-[#ffd533] sm:w-auto"
               >
@@ -106,26 +107,48 @@ function Hero() {
 
           <div className="relative z-10 lg:col-span-5">
             <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[460px] lg:max-w-none">
+              <svg aria-hidden className="pointer-events-none absolute h-0 w-0">
+                <filter id="hero-water" x="-10%" y="-20%" width="120%" height="140%">
+                  <feTurbulence type="turbulence" baseFrequency="0.006 0.035" numOctaves="2" seed="2" result="noise" />
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="0.4" result="soft" />
+                  <feDisplacementMap in="soft" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" />
+                </filter>
+              </svg>
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-x-[12%] top-[72%] h-24 origin-top scale-y-[-0.28] opacity-35 blur-[1px] [mask-image:linear-gradient(to_bottom,black,transparent)]"
-              >
-                <Image src="/foto_pato2.webp" alt="" fill sizes="460px" className="object-contain" />
-              </div>
-              <div className="pointer-events-none absolute bottom-[6%] left-1/2 h-4 w-[78%] -translate-x-1/2 rounded-[100%] border border-cyan-200/50 shadow-[0_0_18px_rgba(34,211,238,0.45)]" />
-              <div className="pointer-events-none absolute bottom-[3%] left-1/2 h-7 w-[92%] -translate-x-1/2 rounded-[100%] border border-cyan-200/20" />
-              <Image
-                src="/foto_pato2.webp"
-                alt={t.hero.duckAlt}
-                width={720}
-                height={720}
-                priority
-                sizes="(max-width: 1024px) 80vw, 460px"
-                className="relative z-10 h-auto w-full [filter:drop-shadow(0_0_14px_rgba(34,211,238,0.9))_drop-shadow(0_18px_24px_rgba(0,0,0,0.45))]"
+                className="pointer-events-none absolute top-[86%] left-1/2 z-[1] h-4 w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-[100%] bg-black/35 blur-md"
               />
+              <div aria-hidden className="hero-ripple z-[2] right-[18%] left-[18%]" style={{ animationDelay: "0s" }} />
+              <div aria-hidden className="hero-ripple z-[2] right-[12%] left-[12%]" style={{ animationDelay: "0.9s" }} />
+              <div aria-hidden className="hero-ripple z-[2] right-[6%] left-[6%]" style={{ animationDelay: "1.8s" }} />
+              <div className="hero-duck-bob relative z-10">
+                <div aria-hidden className="hero-reflect-clip pointer-events-none absolute inset-x-[2%] top-[72%] z-[4] h-[32%] overflow-hidden">
+                  <div className="hero-duck-reflect absolute inset-x-0 -top-[225%] h-[313%] origin-[50%_72%] scale-y-[-1]">
+                    <Image src="/foto_pato2.webp" alt="" fill sizes="460px" className="object-contain" />
+                  </div>
+                </div>
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute top-[82%] left-1/2 z-[3] h-20 w-[76%] -translate-x-1/2 rounded-[100%] bg-[radial-gradient(ellipse_at_center,rgba(255,200,0,0.32),transparent_70%)] blur-lg"
+                />
+                <div className="hero-duck-mask relative z-10">
+                  <Image
+                    src="/foto_pato2.webp"
+                    alt={t.hero.duckAlt}
+                    width={720}
+                    height={720}
+                    priority
+                    sizes="(max-width: 1024px) 80vw, 460px"
+                    className="relative z-10 h-auto w-full [filter:drop-shadow(0_0_14px_rgba(34,211,238,0.9))_drop-shadow(0_18px_24px_rgba(0,0,0,0.45))]"
+                  />
+                </div>
+              </div>
+              <div aria-hidden className="pointer-events-none absolute inset-x-[14%] top-[84%] z-[3] h-10">
+                <div className="h-10 bg-gradient-to-b from-[#0c3d45]/35 to-transparent blur-[3px]" />
+              </div>
               <Link
                 href="/participar"
-                className="absolute right-0 top-[22%] z-20 max-w-[11rem] rounded-full bg-[#ffc800] px-4 py-2 text-center text-xs font-black text-black shadow-[0_0_24px_rgba(255,200,0,0.55)] sm:right-[-4%] sm:max-w-none sm:px-5 sm:text-sm"
+                className="absolute left-[64%] top-[38%] z-20 whitespace-nowrap rounded-full bg-[#ffc800] px-2.5 py-1.5 text-[11px] font-black text-black shadow-[0_0_28px_rgba(255,200,0,0.75)] sm:left-[74%] sm:top-[36%] sm:px-3 lg:left-[64%] lg:top-[34%] min-[1280px]:!left-[82%] min-[1440px]:!left-[84%] min-[1440px]:!px-5 min-[1440px]:!py-2.5 min-[1440px]:!text-sm"
               >
                 {adoptLabel}
               </Link>

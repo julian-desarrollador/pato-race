@@ -161,12 +161,6 @@ export function SiteHeader() {
           </Link>
         </div>
       </div>
-      <Link
-        href="/legal/arrepentimiento"
-        className="mx-auto mt-2 block w-fit text-center text-[11px] font-semibold text-white underline decoration-white/50 underline-offset-4 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
-      >
-        {t.nav.regret}
-      </Link>
 
       {open ? (
         <div
@@ -245,8 +239,33 @@ export function StickyAdoptBar() {
   const pathname = usePathname();
   const { t } = usePrefs();
   const money = useMoney();
+  const [visible, setVisible] = useState(pathname !== "/");
 
-  if (pathname === "/participar") return null;
+  useEffect(() => {
+    if (pathname === "/participar") return;
+    if (pathname !== "/") {
+      setVisible(true);
+      return;
+    }
+
+    setVisible(false);
+    const target = document.getElementById("hero-adopt");
+    if (!target) {
+      setVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setVisible(!entry.isIntersecting);
+      },
+      { threshold: 0.4 },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  if (pathname === "/participar" || !visible) return null;
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-30 border-t border-duck/40 bg-bg-elevated/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
@@ -255,12 +274,6 @@ export function StickyAdoptBar() {
         className="flex h-12 w-full items-center justify-center rounded-full bg-duck text-sm font-black text-bg"
       >
         {t.sticky.adopt} · {money.ticket()}
-      </Link>
-      <Link
-        href="/legal/arrepentimiento"
-        className="mt-2 block text-center text-[11px] text-ink-muted underline decoration-ink-muted/30 underline-offset-2 transition hover:text-ink"
-      >
-        {t.nav.regret}
       </Link>
     </div>
   );

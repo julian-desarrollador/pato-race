@@ -115,6 +115,55 @@ body {
   animation: ripple 2.8s ease-out infinite;
 }
 
+.hero-duck-mask {
+  -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 90%);
+  mask-image: linear-gradient(to bottom, #000 74%, transparent 90%);
+}
+
+.hero-reflect-clip {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.72) 38%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.72) 38%, transparent 100%);
+}
+
+.hero-duck-reflect {
+  opacity: 0.5;
+  filter: url("#hero-water");
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 36%, #000 58%, #000 74%, transparent 88%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 36%, #000 58%, #000 74%, transparent 88%);
+}
+
+.hero-ripple {
+  position: absolute;
+  top: 90%;
+  height: 1.6rem;
+  margin-top: -0.8rem;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(34, 211, 238, 0.22) 76%, transparent 100%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+@keyframes hero-duck-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-duck-bob {
+    transform-origin: 50% 83%;
+    animation: hero-duck-bob 4s ease-in-out infinite;
+  }
+
+  .hero-ripple {
+    animation: ripple 2.8s ease-out infinite;
+  }
+}
+
 .animate-rise {
   animation: rise-in 0.7s ease-out both;
 }

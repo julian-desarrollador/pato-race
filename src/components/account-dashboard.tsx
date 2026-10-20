@@ -157,6 +157,13 @@ export function AccountDashboard() {
           </div>
         </aside>
       </div>
+
+      <p className="mt-8 text-center text-sm text-ink-muted">
+        {t.perfil.regretPrompt}{" "}
+        <Link href="/legal/arrepentimiento" className="font-medium text-ink transition hover:text-duck">
+          {t.nav.regret}
+        </Link>
+      </p>
     </div>
   );
 }
