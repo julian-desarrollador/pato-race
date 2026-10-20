@@ -175,7 +175,7 @@ export function SiteHeader() {
           <HeaderCart onOpen={() => setOpen(false)} />
           <Link
             href="/participar"
-            className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-[#ffc800] px-3 text-center text-xs font-black text-black shadow-[0_0_18px_rgba(255,200,0,0.4)] transition hover:bg-[#ffd533] sm:px-4 sm:text-sm"
+            className="hidden h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-[#ffc800] px-3 text-center text-xs font-black text-black shadow-[0_0_18px_rgba(255,200,0,0.4)] transition hover:bg-[#ffd533] sm:px-4 sm:text-sm lg:inline-flex"
           >
             {t.nav.adoptLine1} {t.nav.adoptLine2}
           </Link>
