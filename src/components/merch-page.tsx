@@ -45,7 +45,7 @@ function PriceLabel({ slug, className = "" }: { slug: MerchSlug; className?: str
 
 function CatalogCard({ product }: { product: MerchProduct }) {
   const { t } = usePrefs();
-  const { addItem, openCart } = useMerchCart();
+  const { addItem, showFlash } = useMerchCart();
   const copy = t.merch.items[product.slug];
   const [size, setSize] = useState<MerchSize | "">("");
   const [notice, setNotice] = useState<string | null>(null);
@@ -53,8 +53,12 @@ function CatalogCard({ product }: { product: MerchProduct }) {
   function onAdd() {
     const chosen = product.sizes ? size || null : null;
     const ok = addItem(product.slug, chosen, 1);
-    setNotice(ok ? t.merch.added : t.merch.sizeRequired);
-    if (ok) openCart();
+    if (ok) {
+      setNotice(null);
+      showFlash(t.merch.added);
+      return;
+    }
+    setNotice(t.merch.sizeRequired);
   }
 
   return (
@@ -126,7 +130,7 @@ export function MerchIndexView() {
 
 export function MerchProductView({ slug }: { slug: MerchSlug }) {
   const { t } = usePrefs();
-  const { addItem, openCart } = useMerchCart();
+  const { addItem, showFlash } = useMerchCart();
   const product = getMerchProduct(slug);
   const copy = t.merch.items[slug];
   const [size, setSize] = useState<MerchSize | "">("");
@@ -138,8 +142,12 @@ export function MerchProductView({ slug }: { slug: MerchSlug }) {
   function onAdd() {
     const chosen = product?.sizes ? (size || null) : null;
     const ok = addItem(slug, chosen, qty);
-    setNotice(ok ? t.merch.added : t.merch.sizeRequired);
-    if (ok) openCart();
+    if (ok) {
+      setNotice(null);
+      showFlash(t.merch.added);
+      return;
+    }
+    setNotice(t.merch.sizeRequired);
   }
 
   return (

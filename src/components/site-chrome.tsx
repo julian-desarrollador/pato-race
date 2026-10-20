@@ -20,25 +20,45 @@ function HeaderCart({ onOpen }: { onOpen: () => void }) {
   const { count, cartOpen, openCart } = useMerchCart();
 
   return (
-    <button
-      type="button"
-      aria-label={interpolate(t.merch.cartLink, { count })}
-      aria-expanded={cartOpen}
-      aria-haspopup="dialog"
-      onClick={() => {
-        onOpen();
-        openCart();
-      }}
-      className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition hover:border-cyan-300/50"
+    <div className="relative">
+      <button
+        type="button"
+        aria-label={interpolate(t.merch.cartLink, { count })}
+        aria-expanded={cartOpen}
+        aria-haspopup="dialog"
+        onClick={() => {
+          onOpen();
+          openCart();
+        }}
+        className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition hover:border-cyan-300/50"
+      >
+        <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.75">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 8h12l-1 12H7L6 8z" />
+          <path strokeLinecap="round" d="M9 8V7a3 3 0 0 1 6 0v1" />
+        </svg>
+        <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-duck px-1 text-[10px] font-black text-bg">
+          {count}
+        </span>
+      </button>
+    </div>
+  );
+}
+
+function CartFlash() {
+  const { flash } = useMerchCart();
+  if (!flash) return null;
+  return (
+    <p
+      role="status"
+      className="fixed top-20 right-4 z-40 flex items-center gap-2.5 rounded-2xl border border-white/10 bg-[#07141c]/95 px-4 py-3 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(0,0,0,0.45)] backdrop-blur md:right-8"
     >
-      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.75">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 8h12l-1 12H7L6 8z" />
-        <path strokeLinecap="round" d="M9 8V7a3 3 0 0 1 6 0v1" />
-      </svg>
-      <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-duck px-1 text-[10px] font-black text-bg">
-        {count}
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#ffc800] text-[#142028]">
+        <svg aria-hidden viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.25">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3.5 8.5 6.5 11.5 12.5 4.5" />
+        </svg>
       </span>
-    </button>
+      {flash}
+    </p>
   );
 }
 
@@ -230,6 +250,7 @@ export function SiteHeader() {
         </div>
       ) : null}
     </header>
+    <CartFlash />
     <MerchCartDrawer />
     </>
   );

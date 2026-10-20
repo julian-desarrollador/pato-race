@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -34,6 +35,8 @@ type MerchCartValue = {
   openCart: () => void;
   closeCart: () => void;
   addItem: (slug: MerchSlug, size: MerchSize | null, qty: number) => boolean;
+  flash: string | null;
+  showFlash: (message: string) => void;
   setQty: (slug: MerchSlug, size: MerchSize | null, qty: number) => void;
   removeLine: (slug: MerchSlug, size: MerchSize | null) => void;
   clear: () => void;
@@ -77,8 +80,22 @@ export function MerchCartProvider({ children }: { children: React.ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [ready, setReady] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const [flash, setFlash] = useState<string | null>(null);
+  const flashTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openCart = useCallback(() => setCartOpen(true), []);
   const closeCart = useCallback(() => setCartOpen(false), []);
+
+  const showFlash = useCallback((message: string) => {
+    setFlash(message);
+    if (flashTimer.current) clearTimeout(flashTimer.current);
+    flashTimer.current = setTimeout(() => setFlash(null), 3000);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (flashTimer.current) clearTimeout(flashTimer.current);
+    };
+  }, []);
 
   useEffect(() => {
     setLines(readStored());
@@ -134,11 +151,13 @@ export function MerchCartProvider({ children }: { children: React.ReactNode }) {
       openCart,
       closeCart,
       addItem,
+      flash,
+      showFlash,
       setQty,
       removeLine,
       clear,
     }),
-    [lines, cartOpen, openCart, closeCart, addItem, setQty, removeLine, clear],
+    [lines, cartOpen, openCart, closeCart, addItem, flash, showFlash, setQty, removeLine, clear],
   );
 
   return <MerchCartContext.Provider value={value}>{children}</MerchCartContext.Provider>;

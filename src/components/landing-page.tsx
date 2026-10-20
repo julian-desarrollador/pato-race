@@ -78,17 +78,17 @@ function Hero() {
       <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-5 pb-28 pt-36 md:px-8 lg:justify-center">
         <div className="grid items-end gap-2 lg:grid-cols-12 lg:items-center lg:gap-6">
           <div className="relative z-10 text-center lg:col-span-7 lg:text-left">
-            <p className="flex items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-200 sm:text-sm lg:justify-start">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#ffc800]" />
+            <p className="flex items-center justify-center gap-2.5 font-[family-name:var(--font-body)] text-base font-semibold uppercase tracking-[0.08em] text-white subpixel-antialiased lg:justify-start sm:text-lg">
+              <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-[#ffc800]" />
               {t.hero.kicker}
             </p>
-            <h1 className="mt-4 font-[family-name:var(--font-display)] text-[clamp(3rem,7vw,6.5rem)] leading-[0.84] text-white drop-shadow-[0_12px_30px_rgba(0,0,0,0.75)]">
+            <h1 className="mt-1 font-[family-name:var(--font-hero)] text-[clamp(3.4rem,7.2vw,7.25rem)] font-extrabold italic leading-[0.82] tracking-[-0.03em] text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.55)]">
               PATO RACE <span className="text-[#ffc800]">{campaign.year}</span>
             </h1>
-            <p className="mt-3 text-3xl font-light tracking-tight text-slate-100 drop-shadow-[0_8px_18px_rgba(0,0,0,0.7)] sm:text-5xl">
+            <p className="mt-1 font-[family-name:var(--font-hero)] text-[clamp(2.05rem,4.1vw,4rem)] font-medium italic leading-none tracking-tight text-white drop-shadow-[0_3px_8px_rgba(0,0,0,0.5)]">
               {t.hero.nightTitle}
             </p>
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
               <Link
                 id="hero-adopt"
                 href="/participar"
@@ -96,9 +96,15 @@ function Hero() {
               >
                 {adoptLabel}
               </Link>
+              <Link
+                href="/merch"
+                className="inline-flex w-full items-center justify-center rounded-full bg-[#38bdf8] px-7 py-4 text-sm font-bold uppercase tracking-wide text-black transition hover:bg-[#7dd3fc] sm:w-auto"
+              >
+                {t.hero.merch}
+              </Link>
               <a
                 href="#que-es"
-                className="inline-flex w-full items-center justify-center rounded-full border border-cyan-300/50 bg-cyan-950/40 px-7 py-4 text-sm font-bold uppercase tracking-wide text-cyan-100 backdrop-blur transition hover:bg-cyan-900/50 sm:w-auto"
+                className="text-sm font-bold uppercase tracking-wide text-cyan-100 underline-offset-4 transition hover:underline sm:inline-flex sm:w-auto sm:items-center sm:justify-center sm:rounded-full sm:border sm:border-cyan-300/50 sm:bg-cyan-950/40 sm:px-7 sm:py-4 sm:text-sm sm:no-underline sm:backdrop-blur sm:hover:bg-cyan-900/50 sm:hover:no-underline"
               >
                 {t.hero.learnMore}
               </a>
@@ -156,14 +162,24 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative z-10 mx-auto mt-6 flex w-full max-w-4xl flex-col items-center justify-between gap-3 rounded-3xl border border-cyan-300/40 bg-[#071924]/75 px-4 py-3 shadow-[0_0_30px_rgba(0,242,254,0.18)] backdrop-blur sm:mt-8 sm:flex-row sm:rounded-full sm:px-2">
-          <p className="px-4 font-mono text-xs font-bold uppercase tracking-wider text-cyan-100 sm:text-sm">
-            {heroDateBar(t.hero.time)}
-          </p>
-          <span className="hidden h-8 w-1 rounded-full bg-cyan-300 shadow-[0_0_15px_#67e8f9] sm:block" />
-          <p className="px-4 font-mono text-xs font-bold uppercase tracking-wider text-slate-100 sm:text-sm">
-            {campaign.location.toLocaleUpperCase("es-AR")}
-          </p>
+        <div className="relative left-1/2 z-10 mt-6 flex w-screen -translate-x-1/2 items-center px-1.5 sm:mt-8 sm:px-8">
+          <div aria-hidden className="flex min-w-3 flex-1 items-center">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300 shadow-[0_0_8px_#67e8f9]" />
+            <span className="h-px min-w-2 flex-1 bg-cyan-300/80 shadow-[0_0_8px_rgba(103,232,249,0.85)]" />
+          </div>
+          <div className="flex shrink-0 items-center rounded-full border border-cyan-300/55 bg-[#041018]/75 shadow-[0_0_24px_rgba(34,211,238,0.28)] backdrop-blur">
+            <p className="whitespace-nowrap px-1.5 py-2 font-mono text-xs font-semibold uppercase tracking-normal text-cyan-200 sm:px-5 sm:py-2.5 sm:text-base sm:tracking-[0.12em]">
+              {heroDateBar(t.hero.time)}
+            </p>
+            <span className="h-6 w-1 shrink-0 rounded-full bg-cyan-300 shadow-[0_0_12px_#67e8f9]" />
+            <p className="whitespace-nowrap px-1.5 py-2 font-mono text-xs font-semibold uppercase tracking-normal text-cyan-200 sm:px-5 sm:py-2.5 sm:text-base sm:tracking-[0.12em]">
+              {campaign.location.toLocaleUpperCase("es-AR")}
+            </p>
+          </div>
+          <div aria-hidden className="flex min-w-3 flex-1 items-center">
+            <span className="h-px min-w-2 flex-1 bg-cyan-300/80 shadow-[0_0_8px_rgba(103,232,249,0.85)]" />
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300 shadow-[0_0_8px_#67e8f9]" />
+          </div>
         </div>
       </div>
     </section>

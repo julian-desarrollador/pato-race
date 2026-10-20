@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { Bebas_Neue, DM_Sans } from "next/font/google";
+import { Barlow_Condensed, Bebas_Neue, DM_Sans } from "next/font/google";
 import { LocaleProvider } from "@/components/locale-provider";
 import { MerchCartProvider } from "@/components/merch-cart";
 import {
@@ -21,6 +21,13 @@ const display = Bebas_Neue({
 const body = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
+});
+
+const hero = Barlow_Condensed({
+  weight: ["300", "500", "800"],
+  style: "italic",
+  subsets: ["latin"],
+  variable: "--font-hero",
 });
 
 function metadataBaseUrl() {
@@ -57,7 +64,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={locale}
-      className={`${display.variable} ${body.variable} h-full antialiased`}
+      className={`${display.variable} ${body.variable} ${hero.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-ink">
         <LocaleProvider initialLocale={locale} initialCurrency={currency}>
