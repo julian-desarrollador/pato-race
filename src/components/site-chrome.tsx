@@ -93,6 +93,8 @@ function useNavItems(loggedIn: boolean) {
 }
 
 export function SiteHeader() {
+  const pathname = usePathname();
+  const onMerch = pathname === "/merch" || pathname.startsWith("/merch/");
   const [loggedIn, setLoggedIn] = useState(false);
   const [open, setOpen] = useState(false);
   const { t } = usePrefs();
@@ -173,12 +175,14 @@ export function SiteHeader() {
             </svg>
           </Link>
           <HeaderCart onOpen={() => setOpen(false)} />
-          <Link
-            href="/participar"
-            className="hidden h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-[#ffc800] px-3 text-center text-xs font-black text-black shadow-[0_0_18px_rgba(255,200,0,0.4)] transition hover:bg-[#ffd533] sm:px-4 sm:text-sm lg:inline-flex"
-          >
-            {t.nav.adoptLine1} {t.nav.adoptLine2}
-          </Link>
+          {onMerch ? null : (
+            <Link
+              href="/participar"
+              className="hidden h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-[#ffc800] px-3 text-center text-xs font-black text-black shadow-[0_0_18px_rgba(255,200,0,0.4)] transition hover:bg-[#ffd533] sm:px-4 sm:text-sm lg:inline-flex"
+            >
+              {t.nav.adoptLine1} {t.nav.adoptLine2}
+            </Link>
+          )}
         </div>
       </div>
 
@@ -260,10 +264,11 @@ export function StickyAdoptBar() {
   const pathname = usePathname();
   const { t } = usePrefs();
   const money = useMoney();
-  const [visible, setVisible] = useState(pathname !== "/");
+  const onMerch = pathname === "/merch" || pathname.startsWith("/merch/");
+  const [visible, setVisible] = useState(pathname !== "/" && pathname !== "/participar" && !onMerch);
 
   useEffect(() => {
-    if (pathname === "/participar") return;
+    if (pathname === "/participar" || pathname === "/merch" || pathname.startsWith("/merch/")) return;
     if (pathname !== "/") {
       setVisible(true);
       return;
@@ -286,7 +291,7 @@ export function StickyAdoptBar() {
     return () => observer.disconnect();
   }, [pathname]);
 
-  if (pathname === "/participar" || !visible) return null;
+  if (pathname === "/participar" || pathname === "/merch" || pathname.startsWith("/merch/") || !visible) return null;
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-30 border-t border-duck/40 bg-bg-elevated/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
