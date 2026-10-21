@@ -78,8 +78,8 @@ function Hero() {
       <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-5 pb-28 pt-36 md:px-8 lg:justify-center">
         <div className="grid items-end gap-2 lg:grid-cols-12 lg:items-center lg:gap-6">
           <div className="relative z-10 text-center lg:col-span-7 lg:text-left">
-            <p className="flex items-center justify-center gap-2.5 font-[family-name:var(--font-body)] text-base font-semibold uppercase tracking-[0.08em] text-white subpixel-antialiased lg:justify-start sm:text-lg">
-              <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-[#ffc800]" />
+            <p className="flex items-start justify-center gap-2.5 font-[family-name:var(--font-body)] text-base font-semibold uppercase tracking-[0.08em] text-white subpixel-antialiased lg:justify-start sm:text-lg">
+              <span className="mt-[0.55em] inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-[#ffc800]" />
               {t.hero.kicker}
             </p>
             <h1 className="mt-1 font-[family-name:var(--font-hero)] text-[clamp(3.4rem,7.2vw,7.25rem)] font-extrabold italic leading-[0.82] tracking-[-0.03em] text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.55)]">
